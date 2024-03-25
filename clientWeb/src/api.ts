@@ -50,8 +50,6 @@ export async function remove_author(authorID: number) {
         const msg = await res.text();
         throw new Error(msg);
     }
-    const author = await res.json();
-    return author;
 }
 
 export async function get_author(authorID: number): Promise<Author> {
