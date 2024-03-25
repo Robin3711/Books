@@ -1,8 +1,9 @@
 const apiBasename = 'http://localhost:3000';
-
+1
 interface getAuthorsParams {
     page?: number;
     pageSize?: number;
+    lastname?: string;
 }
 
 export async function get_authors(params: getAuthorsParams): Promise<{ authors: Author[], totalCount: number }> {
@@ -12,13 +13,13 @@ export async function get_authors(params: getAuthorsParams): Promise<{ authors: 
     const take = params.pageSize;
     const skip = (params.page - 1) * take;
 
-    const res = await fetch(`${apiBasename}/authors?take=${take}&skip=${skip}`);
+    const res = await fetch(`${apiBasename}/authors?take=${take}&skip=${skip}&lastname=${params.lastname || ''}`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);
     }
 
-    const totalCount = parseInt(res.headers.get('X-Total-Count') || '0', 10); 
+    const totalCount = parseInt(res.headers.get('X-Total-Count') || '0', 10);
 
     const authors = await res.json();
 
@@ -50,8 +51,6 @@ export async function remove_author(authorID: number) {
         const msg = await res.text();
         throw new Error(msg);
     }
-    const author = await res.json();
-    return author;
 }
 
 export async function get_author(authorID: number): Promise<Author> {
