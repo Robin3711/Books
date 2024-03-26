@@ -1,10 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { get_author } from "../api";
 
 export function Author() {
-    const [author, setAuthor] = useState<Author>(); 
-
+    const [author, setAuthor] = useState<Author | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>("");
     const { authorID } = useParams();
 
     useEffect(() => {
@@ -20,14 +20,19 @@ export function Author() {
         try {
             const authorData = await get_author(id);
             setAuthor(authorData);
-        } catch (error) {
-            console.error("Error loading author:", error);
+        } catch (error : any) {
+            setErrorMessage(error.message);
+            return;
+            
         }
+        setErrorMessage("");
     }
 
     return (
         <div>
             &nbsp; {author?.firstname} {author?.lastname} 
+            {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
         </div>
+        
     );
 }

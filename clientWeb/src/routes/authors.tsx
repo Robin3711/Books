@@ -5,7 +5,7 @@ import { Pagination } from '../utils/pagination';
 
 export function Authors() {
     const [authors, setAuthors] = useState<Author[]>([]);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalAuthors, setTotalAuthors] = useState(1);
     const [lastname, setLastname] = useState("");
@@ -41,7 +41,7 @@ export function Authors() {
             setErrorMessage(error.message);
             return;
         }
-        setErrorMessage(null);
+        setErrorMessage("");
     }
 
     async function handleRemove(authorID: number) {
@@ -52,7 +52,7 @@ export function Authors() {
             setErrorMessage(error.message);
             return;
         }
-        setErrorMessage(null);
+        setErrorMessage("");
     }
 
     async function handleFilter(e: FormEvent<HTMLFormElement>) {
@@ -78,12 +78,12 @@ export function Authors() {
                 <ul>
                     {authors.map((author) => (
                         <li>
+                            <NavLink to={author.id.toString()}>{author.firstname} {author.lastname} </NavLink>
                             <button className="small danger" onClick={() => handleRemove(author.id)}>X</button>
-                            &nbsp; <NavLink to={author.id.toString()}>{author.firstname} {author.lastname} </NavLink>
                         </li>
                     ))}
                 </ul>
-                {errorMessage && <p className="danger">{errorMessage}</p>}
+                {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
             </div>
             <div id="info">
                 <Outlet />
