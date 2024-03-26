@@ -13,14 +13,14 @@ export function Pagination(params: PaginationParams) {
                     if (params.page > 1)
                     params.onPageChange(params.page - 1);
                 }            
-            } >&lt;-</button>
+            } disabled = { params.page == 1}>&lt;-</button>
             <span>Page {params.page}</span>
             <button onClick={
                 () => {
                     if (params.page < params.total / params.pageSize)
                     params.onPageChange(params.page + 1);
                 }
-            }>-&gt;</button>
+            } disabled = {params.page === Math.ceil(params.total / params.pageSize)}>-&gt;</button>
         </div>
     )
 }

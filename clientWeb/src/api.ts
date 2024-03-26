@@ -19,7 +19,7 @@ export async function get_authors(params: getAuthorsParams): Promise<{ authors: 
         throw new Error(msg);
     }
 
-    const totalCount = parseInt(res.headers.get('X-Total-Count') || '0', 10);
+    const totalCount = parseInt(res.headers.get('X-Total-Count') || '0', params.pageSize);
 
     const authors = await res.json();
 
@@ -61,4 +61,23 @@ export async function get_author(authorID: number): Promise<Author> {
     }
     const author = await res.json();
     return author;
+}
+export async function get_book_from_author(authorID: number): Promise<{ books: Book[]}> {
+    const res = await fetch(`${apiBasename}/authors/${authorID}/books`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const books = await res.json();
+
+    return { books};
+}
+export async function remove_Book(bookID:number) {
+    const res = await fetch(`${apiBasename}/books/${bookID}`, {
+        method: "DELETE",
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
 }
