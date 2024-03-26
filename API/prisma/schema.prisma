@@ -24,6 +24,8 @@ model Book {
   author           Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId         Int
   tags             Tag[]
+  comments         Comment[]
+  ratings Rating[]
 }
 
 model Tag {
@@ -31,3 +33,24 @@ model Tag {
   name  String @unique
   books Book[]
 }
+
+model Comment {
+  id      Int     @id @default(autoincrement())
+  text    String
+  book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId  Int
+  author String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rating {
+  id      Int    @id @default(autoincrement())
+  rating  Int
+  book    Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId  Int
+  author  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

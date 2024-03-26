@@ -12,7 +12,7 @@ export function Authors() {
     const [pageSize, setPageSize] = useState(10);
 
     useEffect(() => { loadAuthors(); }, [currentPage, lastname]);
-    useEffect(() => { setCurrentPage(1); }, [lastname]);
+    useEffect(() => { setCurrentPage(1); }, [lastname]);    
 
     async function addAuthor(AuthorCreationData: AuthorCreationData) {
         await add_author(AuthorCreationData);
