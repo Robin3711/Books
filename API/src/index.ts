@@ -6,6 +6,8 @@ import cors from 'cors';
 import * as author from './requestHandlers/author';
 import * as book from './requestHandlers/book';
 import * as tag from './requestHandlers/tag';
+import * as comment from './requestHandlers/comment';
+import * as rating from './requestHandlers/rating';
 
 const app = express();
 const port = 3000;
@@ -40,6 +42,16 @@ app.patch('/tags/:tag_id', tag.update_one);
 app.delete('/tags/:tag_id', tag.delete_one);
 app.post('/books/:book_id/tags/:tag_id', tag.add_one_to_book);
 app.delete('/books/:book_id/tags/:tag_id', tag.remove_one_from_book);
+
+app.get('/books/:book_id/comments', comment.get_all_of_book);
+app.post('/books/:book_id/comments', comment.create_one);
+app.patch('/comments/:comment_id', comment.update_one);
+app.delete('/comments/:comment_id', comment.delete_one);
+
+app.get('/books/:book_id/ratings', rating.get_all_of_book);
+app.post('/books/:book_id/ratings', rating.create_one);
+app.patch('/ratings/:rating_id', rating.update_one);
+app.delete('/ratings/:rating_id', rating.delete_one);
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof StructError) {
