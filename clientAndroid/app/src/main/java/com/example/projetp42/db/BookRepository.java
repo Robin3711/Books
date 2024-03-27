@@ -64,6 +64,6 @@ public class BookRepository {
 
             books.add(new Book(author, title, tags));
         }
-
+        return books;
     }
 }
