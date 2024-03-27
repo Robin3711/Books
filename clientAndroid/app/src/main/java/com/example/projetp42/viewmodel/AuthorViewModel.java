@@ -1,4 +1,4 @@
-package com.example.projetp42.view.author;
+package com.example.projetp42.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

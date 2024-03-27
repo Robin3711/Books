@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.projetp42.databinding.FragmentHomeBinding;
+import com.example.projetp42.viewmodel.BookViewModel;
 
 public class BookFragment extends Fragment {
 
