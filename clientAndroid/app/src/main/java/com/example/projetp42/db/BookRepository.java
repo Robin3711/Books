@@ -27,7 +27,7 @@ public class BookRepository {
         this.bookViewModel = bookViewModel;
     }
 
-    public void findBooks(Context context) throws IOException, JSONException {
+    public ArrayList<Book> findBooks(Context context) throws IOException, JSONException {
         InputStream inputStream = context.getResources().openRawResource(R.raw.data);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
@@ -37,6 +37,7 @@ public class BookRepository {
             sb.append( '\n' );
         }
         JSONArray json = new JSONArray(sb.toString());
+        return JsonToBooks(json);
     }
 
     public void findBooks(BookData bookData) {
@@ -49,7 +50,7 @@ public class BookRepository {
         private String tag;
     }
 
-    private List<Book> JsonToBooks(JSONArray json) throws JSONException {
+    private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
             JSONObject bookJson = json.getJSONObject(i);

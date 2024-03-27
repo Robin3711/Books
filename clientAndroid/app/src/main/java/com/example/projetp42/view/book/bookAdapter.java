@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
+
     public List<String> listBook = new ArrayList<String>(){
         {
             add("aaaa");
