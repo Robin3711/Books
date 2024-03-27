@@ -1,5 +1,6 @@
 package com.example.projetp42.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
@@ -18,6 +19,15 @@ public class Book {
         this.tags = tags;
         this.comments = comments;
         this.ratings = ratings;
+    }
+
+    public Book(String title, String author, List<String> tags){
+        this.title = title;
+        this.author = new Author(0,author,author,null);
+        this.tags = new ArrayList<Tag>();
+        for (String tag : tags) {
+            this.tags.add(new Tag(0,tag,null));
+        }
     }
 
     public int getId() {
