@@ -50,7 +50,7 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
                 loadBooks(id);
             }
         }
-    }, []);
+    }, [books]);
     async function loadBooks(id: number) {
         try{
             const res = await get_book_from_author(id);
