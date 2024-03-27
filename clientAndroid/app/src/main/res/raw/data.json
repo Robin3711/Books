@@ -1,0 +1,459 @@
+{
+  "tags": [
+    { "name": "Novel" },
+    { "name": "Essay" },
+    { "name": "Short Story" },
+    { "name": "Theater" },
+    { "name": "Historical" },
+    { "name": "Biography" },
+    { "name": "Poetry" },
+    { "name": "Mystery" },
+    { "name": "Polar" },
+    { "name": "Drama" },
+    { "name": "Action" },
+    { "name": "Comedy" },
+    { "name": "Tragedy" },
+    { "name": "Adventure" },
+    { "name": "Fantasy" },
+    { "name": "Science-Fiction" },
+    { "name": "Thriller" },
+    { "name": "Horror" },
+    { "name": "Romance" },
+    { "name": "Children" },
+    { "name": "Comics" },
+    { "name": "Manga" },
+    { "name": "Cooking" },
+    { "name": "Travel" },
+    { "name": "Art" },
+    { "name": "Religion" },
+    { "name": "Science" },
+    { "name": "Computer" },
+    { "name": "Business" },
+    { "name": "Sport" },
+    { "name": "Music" }
+  ],
+  "authors": [
+    {
+      "firstname": "William",
+      "lastname": "Shakespeare",
+      "books": [
+        {
+          "title": "Romeo and Juliet",
+          "publication_year": 1597,
+          "tags": ["Drama", "Romance", "Tragedy"]
+        },
+        {
+          "title": "Hamlet",
+          "publication_year": 1603,
+          "tags": ["Drama", "Tragedy"]
+        }
+      ]
+    },
+    {
+      "firstname": "Charles",
+      "lastname": "Dickens",
+      "books": [
+        {
+          "title": "Oliver Twist",
+          "publication_year": 1837,
+          "tags": ["Novel", "Historical", "Adventure"]
+        },
+        {
+          "title": "Great Expectations",
+          "publication_year": 1861,
+          "tags": ["Novel", "Historical", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "J. R. R.",
+      "lastname": "Tolkien",
+      "books": [
+        {
+          "title": "The Hobbit",
+          "publication_year": 1937,
+          "tags": ["Novel", "Adventure", "Fantasy"]
+        },
+        {
+          "title": "The Lord of the Rings",
+          "publication_year": 1954,
+          "tags": ["Novel", "Adventure", "Fantasy"]
+        }
+      ]
+    },
+    {
+      "firstname": "Antoine de",
+      "lastname": "Saint-Exupéry",
+      "books": [
+        {
+          "title": "Le Petit Prince",
+          "publication_year": 1943,
+          "tags": ["Novel", "Short Story", "Adventure", "Fantasy"]
+        }
+      ]
+    },
+    {
+      "firstname": "Jules",
+      "lastname": "Verne",
+      "books": [
+        {
+          "title": "Vingt mille lieues sous les mers",
+          "publication_year": 1870,
+          "tags": ["Novel", "Adventure", "Science-Fiction"]
+        },
+        {
+          "title": "Le Tour du monde en quatre-vingts jours",
+          "publication_year": 1873,
+          "tags": ["Novel", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Agatha",
+      "lastname": "Christie"
+    },
+    {
+      "firstname": "Stephen",
+      "lastname": "King",
+      "books": [
+        {
+          "title": "It",
+          "publication_year": 1986,
+          "tags": ["Novel", "Horror"]
+        },
+        {
+          "title": "The Shining",
+          "publication_year": 1977,
+          "tags": ["Novel", "Horror"]
+        }
+      ]
+    },
+    {
+      "firstname": "J. K.",
+      "lastname": "Rowling",
+      "books": [
+        {
+          "title": "Harry Potter and the Philosopher's Stone",
+          "publication_year": 1997,
+          "tags": ["Novel", "Adventure", "Fantasy"]
+        }
+      ]
+    },
+    {
+      "firstname": "George R. R.",
+      "lastname": "Martin",
+      "books": [
+        {
+          "title": "A Game of Thrones",
+          "publication_year": 1996,
+          "tags": ["Novel", "Adventure", "Fantasy"]
+        }
+      ]
+    },
+    {
+      "firstname": "Victor",
+      "lastname": "Hugo",
+      "books": [
+        {
+          "title": "Les Misérables",
+          "publication_year": 1862,
+          "tags": ["Novel", "Historical", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Alexandre",
+      "lastname": "Dumas",
+      "books": [
+        {
+          "title": "Les Trois Mousquetaires",
+          "publication_year": 1844,
+          "tags": ["Novel", "Historical", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Arthur",
+      "lastname": "Conan Doyle",
+      "books": [
+        {
+          "title": "A Study in Scarlet",
+          "publication_year": 1887,
+          "tags": ["Novel", "Mystery"]
+        },
+        {
+          "title": "The Hound of the Baskervilles",
+          "publication_year": 1902,
+          "tags": ["Novel", "Mystery"]
+        }
+      ]
+    },
+    {
+      "firstname": "Oscar",
+      "lastname": "Wilde",
+      "books": [
+        {
+          "title": "The Picture of Dorian Gray",
+          "publication_year": 1890,
+          "tags": ["Novel", "Mystery"]
+        }
+      ]
+    },
+    {
+      "firstname": "Jane",
+      "lastname": "Austen",
+      "books": [
+        {
+          "title": "Pride and Prejudice",
+          "publication_year": 1813,
+          "tags": ["Novel", "Romance"]
+        }
+      ]
+    },
+    {
+      "firstname": "Mark",
+      "lastname": "Twain",
+      "books": [
+        {
+          "title": "The Adventures of Tom Sawyer",
+          "publication_year": 1876,
+          "tags": ["Novel", "Adventure"]
+        },
+        {
+          "title": "Adventures of Huckleberry Finn",
+          "publication_year": 1884,
+          "tags": ["Novel", "Adventure"]
+        }
+        ]
+    },
+    {
+      "firstname": "Ernest",
+      "lastname": "Hemingway"
+    },
+    {
+      "firstname": "F. Scott",
+      "lastname": "Fitzgerald"
+    },
+    {
+      "firstname": "H. G.",
+      "lastname": "Wells",
+      "books": [
+        {
+          "title": "The War of the Worlds",
+          "publication_year": 1898,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        },
+        {
+          "title": "The Time Machine",
+          "publication_year": 1895,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Mary",
+      "lastname": "Shelley",
+      "books": [
+        {
+          "title": "Frankenstein",
+          "publication_year": 1818,
+          "tags": ["Novel", "Horror"]
+        }
+      ]
+    },
+    {
+      "firstname": "Edgar Allan",
+      "lastname": "Poe"
+    },
+    {
+      "firstname": "Honoré de",
+      "lastname": "Balzac",
+      "books": [
+        {
+          "title": "Le Père Goriot",
+          "publication_year": 1835,
+          "tags": ["Novel", "Historical"]
+        }
+      ]
+    },
+    {
+      "firstname": "Gustave",
+      "lastname": "Flaubert"
+    },
+    {
+      "firstname": "Marcel",
+      "lastname": "Proust"
+    },
+    {
+      "firstname": "Franz",
+      "lastname": "Kafka",
+      "books": [
+        {
+          "title": "The Metamorphosis",
+          "publication_year": 1915,
+          "tags": ["Novel", "Short Story", "Mystery"]
+        }
+      ]
+    },
+    {
+      "firstname": "Fiodor",
+      "lastname": "Dostoïevski"
+    },
+    {
+      "firstname": "Léon",
+      "lastname": "Tolstoï"
+    },
+    {
+      "firstname": "Miguel de",
+      "lastname": "Cervantès"
+    },
+    {
+      "firstname": "Isaac",
+      "lastname": "Asimov",
+      "books": [
+        {
+          "title": "Foundation",
+          "publication_year": 1951,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        },
+        {
+          "title": "I, Robot",
+          "publication_year": 1950,
+          "tags": ["Short Story", "Science-Fiction", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "George",
+      "lastname": "Orwell",
+      "books": [
+        {
+          "title": "1984",
+          "publication_year": 1949,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        },
+        {
+          "title": "Animal Farm",
+          "publication_year": 1945,
+          "tags": ["Novel", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Lewis",
+      "lastname": "Carroll",
+      "books": [
+        {
+          "title": "Alice's Adventures in Wonderland",
+          "publication_year": 1865,
+          "tags": ["Novel", "Adventure", "Fantasy"]
+        }
+      ]
+    },
+    {
+      "firstname": "Roald",
+      "lastname": "Dahl",
+      "books": [
+        {
+          "title": "Charlie and the Chocolate Factory",
+          "publication_year": 1964,
+          "tags": ["Novel", "Adventure", "Children"]
+        }
+      ]
+    },
+    {
+      "firstname": "H. P.",
+      "lastname": "Lovecraft",
+      "books": [
+        {
+          "title": "The Call of Cthulhu",
+          "publication_year": 1928,
+          "tags": ["Short Story", "Horror"]
+        }
+      ]
+    },
+    {
+      "firstname": "Rudyard",
+      "lastname": "Kipling"
+    },
+    {
+      "firstname": "Robert Louis",
+      "lastname": "Stevenson"
+    },
+    {
+      "firstname": "Ian",
+      "lastname": "Fleming"
+    },
+    {
+      "firstname": "Arthur C.",
+      "lastname": "Clarke",
+      "books": [
+        {
+          "title": "2001: A Space Odyssey",
+          "publication_year": 1968,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Ray",
+      "lastname": "Bradbury"
+    },
+    {
+      "firstname": "Frank",
+      "lastname": "Herbert",
+      "books": [
+        {
+          "title": "Dune",
+          "publication_year": 1965,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Dan",
+      "lastname": "Simmons",
+      "books": [
+        {
+          "title": "Hyperion",
+          "publication_year": 1989,
+          "tags": ["Novel", "Science-Fiction", "Adventure"]
+        }
+      ]
+    },
+    {
+      "firstname": "Douglas",
+      "lastname": "Adams",
+      "books": [
+        {
+          "title": "The Hitchhiker's Guide to the Galaxy",
+          "publication_year": 1979,
+          "tags": ["Novel", "Science-Fiction", "Adventure", "Comedy"]
+        }
+      ]
+    },
+    {
+      "firstname": "Albert",
+      "lastname": "Camus"
+    },
+    {
+      "firstname": "Emile",
+      "lastname": "Zola",
+      "books": [
+        {
+          "title": "Germinal",
+          "publication_year": 1885,
+          "tags": ["Novel", "Historical"]
+        }
+      ]
+    },
+    {
+      "firstname": "Charles",
+      "lastname": "Baudelaire"
+    },
+    {
+      "firstname": "Guy de",
+      "lastname": "Maupassant"
+    }
+  ]
+}
