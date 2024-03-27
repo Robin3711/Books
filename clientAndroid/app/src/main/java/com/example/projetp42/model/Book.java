@@ -1,6 +1,4 @@
-package com.example.projetp42.ui.model;
-
-import com.example.projetp42.R;
+package com.example.projetp42.model;
 
 import java.util.List;
 

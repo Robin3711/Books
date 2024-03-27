@@ -1,6 +1,5 @@
-package com.example.projetp42.ui.model;
+package com.example.projetp42.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tag {

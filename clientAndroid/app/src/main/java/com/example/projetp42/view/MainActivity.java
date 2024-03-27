@@ -1,7 +1,8 @@
-package com.example.projetp42;
+package com.example.projetp42.view;
 
 import android.os.Bundle;
 
+import com.example.projetp42.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
