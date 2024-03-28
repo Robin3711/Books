@@ -17,7 +17,13 @@ import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentHomeBinding;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.db.VolleyRequestQueue;
+import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.BooksViewModel;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class BookFragment extends Fragment {
 
@@ -27,24 +33,30 @@ public class BookFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
+        ArrayList<Book> test = new ArrayList<>();
+        test.add(new Book("La chaussette puant", "Samuel", new ArrayList<String>()));
+        test.add(new Book("Saint bernad", "Robinette", new ArrayList<String>()));
+        test.add(new Book("A la montagne", "Jean", new ArrayList<String>()));
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         BookRepository bookRepository = new BookRepository(bookViewModel);
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
-        try {
-            bookViewModel.loadBook(bookRepository.findBooks(this.getContext()));
+        /*try {
+            test = bookRepository.findBooks(this.getContext());
+            bookViewModel.loadBook(test);
         }
         catch (Exception e){
 
-        }
+        }*/
+
+        bookViewModel.loadBook(test);
+
         bookViewModel.getBooks().observe(getViewLifecycleOwner(),book -> {
             bookAdapter bookAdapter = new bookAdapter(book);
             recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
             recyclerView.setAdapter(bookAdapter);
         });
-        Toast.makeText(this.getContext(), bookViewModel.getBooks().getValue().size(), Toast.LENGTH_LONG).show();
 
         return root;
     }
