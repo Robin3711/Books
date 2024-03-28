@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
+import com.example.projetp42.model.Book;
 
 import org.json.JSONArray;
 
@@ -16,15 +17,10 @@ import java.util.List;
 
 public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
 
-    public List<String> listBook = new ArrayList<String>(){
-        {
-            add("aaaa");
-            add("bbbb");
-            add("cccc");
-            add("dddd");
-            add("eeee");
-        }
-    };
+    public List<Book> books;
+    public bookAdapter(List<Book> listBook){
+        this.books = listBook;
+    }
     @NonNull
     @Override
     public bookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,7 +34,7 @@ public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
     public void onBindViewHolder(@NonNull bookViewHolder holder, int position) {
         String title = "Error";
         try {
-            title = listBook.get(position);
+            title = books.get(position).getTitle();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -47,6 +43,6 @@ public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
 
     @Override
     public int getItemCount() {
-        return listBook.size();
+        return books.size();
     }
 }

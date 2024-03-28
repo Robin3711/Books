@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.projetp42.R;
 import com.example.projetp42.model.Book;
-import com.example.projetp42.viewmodel.BookViewModel;
+import com.example.projetp42.viewmodel.BooksViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,9 +21,9 @@ public class BookRepository {
 
     private static final String BASE_URL = "";
 
-    private BookViewModel bookViewModel;
+    private BooksViewModel bookViewModel;
 
-    public BookRepository(BookViewModel bookViewModel) {
+    public BookRepository(BooksViewModel bookViewModel) {
         this.bookViewModel = bookViewModel;
     }
 
