@@ -3,6 +3,7 @@ package com.example.projetp42.db;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.BooksViewModel;
@@ -28,12 +29,11 @@ public class BookRepository {
     public void findBooks(Context context, BooksViewModel booksViewModel) {
         String url = BASE_URL + "books";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(url,
                 response -> {
                     try {
-                        String array = response.toString(); 
-                        JSONArray jsonArray = new JSONArray(array);
-                        booksViewModel.loadBook(JsonToBooks(jsonArray));
+                        ArrayList<Book> books = JsonToBooks(response);
+                        booksViewModel.loadBook(books);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -70,14 +70,13 @@ public class BookRepository {
 
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
-       // json = json.getJSONArray(0).getJSONArray(0);
-        /*for (int i = 0; i < json.length(); i++) {
+        for (int i = 0; i < json.length(); i++) {
             JSONObject bookJson = json.getJSONObject(i);
             int id = bookJson.getInt("id");
             String title = bookJson.getString("title");
 
             books.add(new Book(id, title));
-        }*/
+        }
         return books;
     }
 
