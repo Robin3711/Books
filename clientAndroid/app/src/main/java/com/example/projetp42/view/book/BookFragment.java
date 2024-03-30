@@ -34,9 +34,9 @@ public class BookFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         ArrayList<Book> test = new ArrayList<>();
-        test.add(new Book("La chaussette puant", "Samuel", new ArrayList<String>()));
-        test.add(new Book("Saint bernad", "Robinette", new ArrayList<String>()));
-        test.add(new Book("A la montagne", "Jean", new ArrayList<String>()));
+        test.add(new Book("b", "a", new ArrayList<String>()));
+        test.add(new Book("b", "a", new ArrayList<String>()));
+        test.add(new Book("b", "a", new ArrayList<String>()));
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
