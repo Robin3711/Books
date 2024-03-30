@@ -43,6 +43,8 @@ public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
 
     @Override
     public int getItemCount() {
+        if (books == null)
+            return 0;
         return books.size();
     }
 }

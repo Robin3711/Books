@@ -21,6 +21,12 @@ public class Book {
         this.ratings = ratings;
     }
 
+    public Book(int id, String title)
+    {
+        this.id = id;
+        this.title = title;
+    }
+
     public Book(String title, String author, List<String> tags){
         this.title = title;
         this.author = new Author(0,author,author,null);
@@ -58,3 +64,4 @@ public class Book {
         return title;
     }
 }
+

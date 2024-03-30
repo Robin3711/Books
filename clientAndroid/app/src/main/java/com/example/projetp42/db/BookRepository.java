@@ -1,8 +1,9 @@
 package com.example.projetp42.db;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.example.projetp42.R;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.BooksViewModel;
 
@@ -10,35 +11,52 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BookRepository {
 
-    private static final String BASE_URL = "";
+    private static final String BASE_URL = "http://192.168.122.1:3000/";
 
-    private BooksViewModel bookViewModel;
+    public BookRepository() {
 
-    public BookRepository(BooksViewModel bookViewModel) {
-        this.bookViewModel = bookViewModel;
     }
 
-    public ArrayList<Book> findBooks(Context context) throws IOException, JSONException {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.data);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while((line = reader.readLine()) != null ) {
-            sb.append( line );
-            sb.append( '\n' );
-        }
-        JSONArray json = new JSONArray(sb.toString());
-        return JsonToBooks(json);
+    public void findBooks(Context context, BooksViewModel booksViewModel) {
+        String url = BASE_URL + "books";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
+                response -> {
+                    try {
+                        String array = response.toString(); 
+                        JSONArray jsonArray = new JSONArray(array);
+                        booksViewModel.loadBook(JsonToBooks(jsonArray));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Log.e("findBooks", "Error fetching books", error);
+
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String errorResponse = new String(error.networkResponse.data, "UTF-8");
+                            Log.e("findBooks", "Error response: " + errorResponse);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    ArrayList<Book> books = new ArrayList<>();
+                    books.add(new Book("Error", "Error", new ArrayList<>()));
+                    booksViewModel.loadBook(books);
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
+
 
     public void findBooks(BookData bookData) {
 
@@ -52,19 +70,16 @@ public class BookRepository {
 
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
-        for (int i = 0; i < json.length(); i++) {
+       // json = json.getJSONArray(0).getJSONArray(0);
+        /*for (int i = 0; i < json.length(); i++) {
             JSONObject bookJson = json.getJSONObject(i);
-            String author = bookJson.getString("author");
+            int id = bookJson.getInt("id");
             String title = bookJson.getString("title");
-            JSONArray tagsJson = bookJson.getJSONArray("tags");
 
-            List<String> tags = new ArrayList<>();
-            for (int j = 0; j < tagsJson.length(); j++) {
-                tags.add(tagsJson.getString(j));
-            }
-
-            books.add(new Book(author, title, tags));
-        }
+            books.add(new Book(id, title));
+        }*/
         return books;
     }
+
+
 }

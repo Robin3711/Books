@@ -1,6 +1,7 @@
 package com.example.projetp42.view.book;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,22 +35,22 @@ public class BooksFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
-        BookRepository bookRepository = new BookRepository(bookViewModel);
+        BookRepository bookRepository = new BookRepository();
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
-        /*try {
-            test = bookRepository.findBooks(this.getContext());
-            bookViewModel.loadBook(test);
+        try {
+            bookRepository.findBooks(this.getContext(), bookViewModel);
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
 
-        }*/
-
-        bookViewModel.loadBook(test);
+        if(bookViewModel.getBooks().getValue() == null){
+            bookViewModel.loadBook(test);
+        }
 
         bookViewModel.getBooks().observe(getViewLifecycleOwner(),book -> {
-            bookAdapter bookAdapter = new bookAdapter(book);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-            recyclerView.setAdapter(bookAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(new bookAdapter(book));
         });
 
         return root;
