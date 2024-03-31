@@ -26,46 +26,53 @@ public class BookRepository {
 
     }
 
-    public void findBooks(Context context, BooksViewModel booksViewModel) {
+    public void findBooks(Context context, BooksViewModel booksViewModel,BookData bookData) {
         String url = BASE_URL + "books";
+
+        if(bookData != null){
+            url += "?";
+            if(bookData.title != null){
+                url += "title=" + bookData.title;
+            }
+            if(bookData.author != null){
+                if (bookData.title != null){
+                    url += "&";
+                }
+                url += "author=" + bookData.author;
+            }
+        }
 
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(url,
                 response -> {
                     try {
                         ArrayList<Book> books = JsonToBooks(response);
+                        if(books.size() == 0){
+                            books.add(new Book("No books found for those filters", "Error", new ArrayList<>()));
+                        }
                         booksViewModel.loadBook(books);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
                 error -> {
-                    Log.e("findBooks", "Error fetching books", error);
-
-                    if (error.networkResponse != null && error.networkResponse.data != null) {
-                        try {
-                            String errorResponse = new String(error.networkResponse.data, "UTF-8");
-                            Log.e("findBooks", "Error response: " + errorResponse);
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                    }
                     ArrayList<Book> books = new ArrayList<>();
-                    books.add(new Book("Error", "Error", new ArrayList<>()));
+                    books.add(new Book(error.getMessage(), "Error", new ArrayList<>()));
                     booksViewModel.loadBook(books);
                 });
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
 
-
-    public void findBooks(BookData bookData) {
-
-    }
-
-    class BookData {
+    public static class BookData {
         private String title;
         private String author;
         private String tag;
+
+        public BookData(String title, String author, String tag) {
+            this.title = title;
+            this.author = author;
+            this.tag = tag;
+        }
     }
 
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {

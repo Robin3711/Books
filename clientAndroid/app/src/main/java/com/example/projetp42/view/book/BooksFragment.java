@@ -38,7 +38,8 @@ public class BooksFragment extends Fragment {
         BookRepository bookRepository = new BookRepository();
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
         try {
-            bookRepository.findBooks(this.getContext(), bookViewModel);
+            BookRepository.BookData bookData = new BookRepository.BookData(null,"togrfvbgf",null);
+            bookRepository.findBooks(this.getContext(), bookViewModel,bookData);
         }
         catch (Exception e){
             e.printStackTrace();

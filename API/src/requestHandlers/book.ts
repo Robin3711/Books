@@ -6,15 +6,28 @@ import { assert } from 'superstruct';
 import { BookCreationData, BookUpdateData } from '../validation/book';
 
 export async function get_all(req: Request, res: Response) {
-  const { title, include, skip, take } = req.query;
+  const { title, author, include, skip, take } = req.query;
   const filter: Prisma.BookWhereInput = {};
+
+
   if (title) {
     filter.title = { contains: String(title) };
   }
+
+  if (author) {
+    filter.author = {
+      OR: [
+        { firstname: { contains: String(author) } },
+        { lastname: { contains: String(author) } }
+      ]
+    };
+  }
+
   const assoc: Prisma.BookInclude = {};
   if (include === 'author') {
     assoc.author = { select: { id: true, firstname: true, lastname: true } };
   }
+
   const books = await prisma.book.findMany({
     where: filter,
     include: assoc,
@@ -22,10 +35,13 @@ export async function get_all(req: Request, res: Response) {
     skip: skip ? Number(skip) : undefined,
     take: take ? Number(take) : undefined
   });
+
   const bookCount = await prisma.book.count({ where: filter });
+
   res.header('X-Total-Count', String(bookCount));
   res.json(books);
 };
+
 
 export async function get_one(req: Request, res: Response) {
   const book = await prisma.book.findUnique({
