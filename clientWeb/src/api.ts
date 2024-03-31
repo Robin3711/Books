@@ -73,7 +73,7 @@ export async function get_book_from_author(authorID: number): Promise<{ books: B
 
     return { books};
 }
-export async function remove_Book(bookID:number) {
+export async function remove_book(bookID:number) {
     const res = await fetch(`${apiBasename}/books/${bookID}`, {
         method: "DELETE",
     });

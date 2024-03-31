@@ -12,21 +12,30 @@ export function Authors() {
     const[firstname, setFirstname] = useState("");
     const [pageSize, setPageSize] = useState(10);
 
+    // loading 
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => { loadAuthors(); }, [currentPage, lastname,firstname]);
     useEffect(() => { setCurrentPage(1); }, [lastname, firstname]);    
 
     async function addAuthor(AuthorCreationData: AuthorCreationData) {
+        setIsLoading(true);
         await add_author(AuthorCreationData);
+        setIsLoading(false);
         loadAuthors();
     }
 
     async function removeAuthor(authorID: number) {
+        setIsLoading(true);
         await remove_author(authorID);
+        setIsLoading(false);
         loadAuthors();
     }   
 
     async function loadAuthors() {
-        const res = await get_authors({ page: currentPage, pageSize: pageSize, lastname, firstname});
+        setIsLoading(true);
+        const res = await get_authors({ page: currentPage, pageSize: pageSize, lastname, firstname });
+        setIsLoading(false);
         setAuthors(res.authors);
         setTotalAuthors(res.totalCount);
     }
@@ -36,7 +45,7 @@ export function Authors() {
         const form = e.currentTarget;
         const firstname = form.firstname.value;
         const lastname = form.lastname.value;
-        try {
+        try {       // try catch ici mais pas dans get ?
             await addAuthor({ firstname, lastname });
         }
         catch (error : any) {
@@ -80,14 +89,14 @@ export function Authors() {
                     <input type="text" name="lastname" defaultValue={"nom de famille"} />
                     <button type="submit">Ajouter</button>
                 </form>
-                <ul>
+                {!isLoading ? ( <ul>
                     {authors.map((author) => (
                         <li key={author.id}>
                             <NavLink to={author.id.toString()}>{author.firstname} {author.lastname} </NavLink>
                             <button className="small danger" onClick={() => handleRemove(author.id)}>X</button>
                         </li>
                     ))}
-                </ul>
+                </ul>) : (<p>Chargement...</p>)}
                 {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
             </div>
             <div id="info">

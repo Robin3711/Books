@@ -1,11 +1,14 @@
 import { useNavigate, useParams , NavLink} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { get_author , get_book_from_author , remove_Book} from "../api";
+import { get_author , get_book_from_author , remove_book} from "../api";
+
 
 export function Author() {
     const [author, setAuthor] = useState<Author | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const { authorID } = useParams();
+
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (authorID) {
@@ -18,7 +21,9 @@ export function Author() {
 
     async function loadAuthor(id: number) {
         try {
+            setIsLoading(true);
             const authorData = await get_author(id);
+            setIsLoading(false);
             setAuthor(authorData);
         } catch (error : any) {
             setErrorMessage(error.message);
@@ -30,7 +35,7 @@ export function Author() {
 
     return (<>
         <div>
-            &nbsp; {author?.firstname} {author?.lastname} 
+            {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{author?.firstname} {author?.lastname}</h1>}
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
         </div>
         <AuthorBooks authorId={authorID}/>
@@ -43,6 +48,7 @@ interface AuthorBooksProps{
 function AuthorBooks({ authorId } : AuthorBooksProps){
     const [books, setBooks] = useState<Book[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         if (authorId) {
             const id = parseInt(authorId);
@@ -52,8 +58,10 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
         }
     }, [books]);
     async function loadBooks(id: number) {
-        try{
+        try {
+            setIsLoading(true);
             const res = await get_book_from_author(id);
+            setIsLoading(false);
             setBooks(res.books);
             setErrorMessage("");
         }
@@ -65,7 +73,9 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
     }
     async function handleRemove(bookID: number) {
         try {
-            await remove_Book(bookID);
+            setIsLoading(true);
+            await remove_book(bookID);
+            setIsLoading(false);
         }
         catch (error : any) {
             setErrorMessage(error.message);
@@ -77,6 +87,7 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
         <div>
             <h2>Books</h2>
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+            {!isLoading ? (
             <ul>
                     {books.map((book) => (
                         <li>
@@ -84,7 +95,7 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
                             <button className="small danger" onClick={() => handleRemove(book.id)}>X</button>
                         </li>
                     ))}
-                </ul>
+                </ul>) : (<p>Chargement...</p>)}
         </div>
     </>;
 }
