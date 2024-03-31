@@ -7,6 +7,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.BooksViewModel;
+import com.example.projetp42.viewmodel.BookViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,21 +27,40 @@ public class BookRepository {
 
     }
 
-    public void findBooks(Context context, BooksViewModel booksViewModel,BookData bookData) {
+    public void findBooks(Context context, BooksViewModel booksViewModel,BookData bookData, String order) {
         String url = BASE_URL + "books";
+
+        boolean firstParam = true;
 
         if(bookData != null){
             url += "?";
             if(bookData.title != null){
                 url += "title=" + bookData.title;
+                firstParam = false;
             }
             if(bookData.author != null){
-                if (bookData.title != null){
+                if (!firstParam){
                     url += "&";
                 }
+                firstParam = false;
                 url += "author=" + bookData.author;
             }
+            if (bookData.tag != null) {
+                if(!firstParam) {
+                    url += "&";
+                }
+                firstParam = false;
+                url += "tag=" + bookData.tag;
+            }
         }
+        if(order != null){
+            if(!firstParam){
+                url += "&";
+            }
+                url += "order=" + order;
+        }
+
+        Log.d("URL", url);
 
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(url,
                 response -> {
@@ -49,7 +69,7 @@ public class BookRepository {
                         if(books.size() == 0){
                             books.add(new Book("No books found for those filters", "Error", new ArrayList<>()));
                         }
-                        booksViewModel.loadBook(books);
+                        booksViewModel.loadBooks(books);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -57,7 +77,7 @@ public class BookRepository {
                 error -> {
                     ArrayList<Book> books = new ArrayList<>();
                     books.add(new Book(error.getMessage(), "Error", new ArrayList<>()));
-                    booksViewModel.loadBook(books);
+                    booksViewModel.loadBooks(books);
                 });
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
@@ -75,6 +95,26 @@ public class BookRepository {
         }
     }
 
+    public void findBookById(Context context, BookViewModel bookViewModel, int id) {
+        String url = BASE_URL + "books/" + id;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
+                response -> {
+                    try {
+                        Book book = JsonToBook(response);
+                        bookViewModel.loadBook(book);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Book book = new Book(error.getMessage(), "Error", new ArrayList<>());
+                    bookViewModel.loadBook(book);
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
@@ -87,5 +127,13 @@ public class BookRepository {
         return books;
     }
 
-
+    private Book JsonToBook(JSONObject json) throws JSONException {
+    return new Book(json.getInt("id"),
+            json.getInt("authorID"),
+            json.getInt("publication_year"),
+            json.getString("title"),
+            new ArrayList<>(),
+            new ArrayList<>(),
+            new ArrayList<>());
+    }
 }

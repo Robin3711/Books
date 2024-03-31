@@ -25,28 +25,18 @@ public class BooksFragment extends Fragment {
     private FragmentHomeBinding binding;
     private BooksViewModel bookViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
-        ArrayList<Book> test = new ArrayList<>();
-        test.add(new Book("b", "a", new ArrayList<String>()));
-        test.add(new Book("b", "a", new ArrayList<String>()));
-        test.add(new Book("b", "a", new ArrayList<String>()));
+    public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         BookRepository bookRepository = new BookRepository();
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
         try {
-            BookRepository.BookData bookData = new BookRepository.BookData(null,"togrfvbgf",null);
-            bookRepository.findBooks(this.getContext(), bookViewModel,bookData);
+            BookRepository.BookData bookData = new BookRepository.BookData(null,null,null);
+            bookRepository.findBooks(this.getContext(), bookViewModel,bookData,"publication_year");
         }
         catch (Exception e){
             e.printStackTrace();
-        }
-
-        if(bookViewModel.getBooks().getValue() == null){
-            bookViewModel.loadBook(test);
         }
 
         bookViewModel.getBooks().observe(getViewLifecycleOwner(),book -> {

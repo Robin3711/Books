@@ -12,19 +12,19 @@ import com.example.projetp42.model.Book;
 
 import java.util.List;
 
-public class BooksViewModel extends AndroidViewModel {
+public class BookViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<List<Book>> books;
+    private final MutableLiveData<Book> book;
 
-    public BooksViewModel(Application context) {
+    public BookViewModel(Application context) {
         super(context);
-        books = new MutableLiveData<>();
+        book = new MutableLiveData<>();
     }
 
-    public LiveData<List<Book>> getBooks() {
-        return books;
+    public LiveData<Book> getBook() {
+        return book;
     }
-    public void loadBooks(List<Book> books){
-        this.books.setValue(books);
+    public void loadBook(Book book){
+        this.book.setValue(book);
     }
 }

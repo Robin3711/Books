@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Book {
     public int id;
-    public Author author;
+    public int authorID;
     public int publication_year;
     public String title;
     public List<Tag> tags;
     public List<Comment> comments;
     public List<Rating> ratings;
-    public Book(int id, Author author, int publication_year, String title, List<Tag> tags, List<Comment> comments, List<Rating> ratings){
+    public Book(int id, int authorID, int publication_year, String title, List<Tag> tags, List<Comment> comments, List<Rating> ratings){
         this.id = id;
-        this.author = author;
+        this.authorID = authorID;
         this.publication_year = publication_year;
         this.title = title;
         this.tags = tags;
@@ -29,7 +29,7 @@ public class Book {
 
     public Book(String title, String author, List<String> tags){
         this.title = title;
-        this.author = new Author(0,author,author,null);
+        this.authorID = 0;
         this.tags = new ArrayList<Tag>();
         for (String tag : tags) {
             this.tags.add(new Tag(0,tag,null));
@@ -40,8 +40,8 @@ public class Book {
         return id;
     }
 
-    public Author getAuthor() {
-        return author;
+    public int getAuthorID() {
+        return authorID;
     }
 
     public int getPublication_year() {

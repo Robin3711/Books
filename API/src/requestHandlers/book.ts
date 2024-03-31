@@ -6,9 +6,14 @@ import { assert } from 'superstruct';
 import { BookCreationData, BookUpdateData } from '../validation/book';
 
 export async function get_all(req: Request, res: Response) {
-  const { title, author, include, skip, take } = req.query;
+  const { title, author,tag, include, skip, take, order } = req.query;
   const filter: Prisma.BookWhereInput = {};
 
+  let orderBy: { [key: string]: 'asc' | 'desc' } = { title: 'asc' };
+
+  if (order && (order === 'title' || order === 'rating' || order === 'publication_year')) {   // rating order dont work yet
+    orderBy = { [order]: 'asc' }; 
+  }
 
   if (title) {
     filter.title = { contains: String(title) };
@@ -23,6 +28,14 @@ export async function get_all(req: Request, res: Response) {
     };
   }
 
+  if (tag) {
+    filter.tags = {
+      some: {
+        name: { contains: String(tag) }
+      }
+    };
+  }
+
   const assoc: Prisma.BookInclude = {};
   if (include === 'author') {
     assoc.author = { select: { id: true, firstname: true, lastname: true } };
@@ -31,7 +44,7 @@ export async function get_all(req: Request, res: Response) {
   const books = await prisma.book.findMany({
     where: filter,
     include: assoc,
-    orderBy: { title: 'asc' },
+    orderBy: orderBy,
     skip: skip ? Number(skip) : undefined,
     take: take ? Number(take) : undefined
   });
