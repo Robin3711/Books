@@ -12,7 +12,7 @@ export function Authors() {
     const[firstname, setFirstname] = useState("");
     const [pageSize, setPageSize] = useState(10);
 
-    useEffect(() => { loadAuthors(); }, [currentPage, lastname, firstname]);
+    useEffect(() => { loadAuthors(); }, [currentPage, lastname,firstname]);
     useEffect(() => { setCurrentPage(1); }, [lastname, firstname]);    
 
     async function addAuthor(AuthorCreationData: AuthorCreationData) {
@@ -23,7 +23,7 @@ export function Authors() {
     async function removeAuthor(authorID: number) {
         await remove_author(authorID);
         loadAuthors();
-    }
+    }   
 
     async function loadAuthors() {
         const res = await get_authors({ page: currentPage, pageSize: pageSize, lastname, firstname});
@@ -70,8 +70,8 @@ export function Authors() {
         <div id="container">
             <div id="sidebar">
                 <form onSubmit={handleFilter}>
-                    <input type="text" name="lastname" defaultValue={"nom de famille"} />
-                    <input type="text" name="firstname" defaultValue={"prénom"} />
+                    <input type="text" name="lastname" defaultValue={""} />
+                    <input type="text" name="firstname" defaultValue={""} />
                     <button type="submit">Filtrer</button>
                 </form>
                 <Pagination page={currentPage} pageSize={pageSize} total={totalAuthors} onPageChange={setCurrentPage} /> 
@@ -82,7 +82,7 @@ export function Authors() {
                 </form>
                 <ul>
                     {authors.map((author) => (
-                        <li>
+                        <li key={author.id}>
                             <NavLink to={author.id.toString()}>{author.firstname} {author.lastname} </NavLink>
                             <button className="small danger" onClick={() => handleRemove(author.id)}>X</button>
                         </li>

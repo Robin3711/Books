@@ -9,10 +9,10 @@ export async function get_all(req: Request, res: Response) {
   assert(req.query, AuthorGetAllQuery);
   const { lastname,firstname, hasBooks, include, skip, take } = req.query;
   const filter: Prisma.AuthorWhereInput = {};
-  if (lastname) {
+  if (lastname && lastname !== "") {  
     filter.lastname = { contains: String(lastname) };
   }
-  if (firstname) {
+  if (firstname && firstname !== "") {
     filter.firstname = { contains: String(firstname) };
   }
   if (hasBooks === 'true') {

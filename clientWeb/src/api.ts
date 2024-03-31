@@ -14,7 +14,7 @@ export async function get_authors(params: getAuthorsParams): Promise<{ authors: 
     const take = params.pageSize;
     const skip = (params.page - 1) * take;
 
-    const res = await fetch(`${apiBasename}/authors?take=${take}&skip=${skip}&lastname=${params.lastname || ''} &firstname=${params.firstname || ''}`);
+    const res = await fetch(`${apiBasename}/authors?take=${take}&skip=${skip}&lastname=${params.lastname || ''}&firstname=${params.firstname || ''}`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);
