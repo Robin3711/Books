@@ -13,6 +13,7 @@ export const AuthorUpdateData = object({
 
 export const AuthorGetAllQuery = object({
   lastname: optional(string()),
+  firstname: optional(string()),
   hasBooks: optional(refine(string(), 'true', (value) => value === 'true')),
   include: optional(refine(string(), 'include', (value) => value === 'books')),
   skip: optional(refine(string(), 'int', (value) => isInt(value))),

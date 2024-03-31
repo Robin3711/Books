@@ -9,10 +9,11 @@ export function Authors() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalAuthors, setTotalAuthors] = useState(1);
     const [lastname, setLastname] = useState("");
+    const[firstname, setFirstname] = useState("");
     const [pageSize, setPageSize] = useState(10);
 
-    useEffect(() => { loadAuthors(); }, [currentPage, lastname]);
-    useEffect(() => { setCurrentPage(1); }, [lastname]);    
+    useEffect(() => { loadAuthors(); }, [currentPage, lastname, firstname]);
+    useEffect(() => { setCurrentPage(1); }, [lastname, firstname]);    
 
     async function addAuthor(AuthorCreationData: AuthorCreationData) {
         await add_author(AuthorCreationData);
@@ -25,7 +26,7 @@ export function Authors() {
     }
 
     async function loadAuthors() {
-        const res = await get_authors({ page: currentPage, pageSize: pageSize, lastname});
+        const res = await get_authors({ page: currentPage, pageSize: pageSize, lastname, firstname});
         setAuthors(res.authors);
         setTotalAuthors(res.totalCount);
     }
@@ -60,7 +61,9 @@ export function Authors() {
         e.preventDefault();
         const form = e.currentTarget;
         const lastname = form.lastname.value;
+        const firstname = form.firstname.value;
         setLastname(lastname);
+        setFirstname(firstname);
     }
 
     return (    
@@ -68,6 +71,7 @@ export function Authors() {
             <div id="sidebar">
                 <form onSubmit={handleFilter}>
                     <input type="text" name="lastname" defaultValue={"nom de famille"} />
+                    <input type="text" name="firstname" defaultValue={"prénom"} />
                     <button type="submit">Filtrer</button>
                 </form>
                 <Pagination page={currentPage} pageSize={pageSize} total={totalAuthors} onPageChange={setCurrentPage} /> 
