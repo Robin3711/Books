@@ -10,6 +10,7 @@ import com.example.projetp42.R;
 
 public class bookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView title;
+    Integer id;
     ItemClickListener clickListener;
     public bookViewHolder(@NonNull View itemView, ItemClickListener clickListener) {
         super(itemView);
@@ -23,8 +24,12 @@ public class bookViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         return title;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public void onClick(View v) {
-        if (clickListener != null) clickListener.onClick(v, getAdapterPosition());
+        if (clickListener != null) clickListener.onClick(v, id);
     }
 }

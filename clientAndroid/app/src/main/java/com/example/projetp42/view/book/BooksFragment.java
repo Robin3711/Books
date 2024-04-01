@@ -54,7 +54,8 @@ public class BooksFragment extends Fragment implements ItemClickListener{
     }
 
     @Override
-    public void onClick(View view, int position) {
-        // Cliker sur un lien arrive bien ici juste position est la position dans le recyclerView pas l'id il faut changer ca
+    public void onClick(View view, int id) {
+        // Cliker sur un lien arrive ici et id = book.id
+        
     }
 }

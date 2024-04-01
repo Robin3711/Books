@@ -31,12 +31,15 @@ public class BookAdapter extends RecyclerView.Adapter<bookViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull bookViewHolder holder, int position) {
         String title = "Error";
+        Integer id = -1;
         try {
             title = books.get(position).getTitle();
+            id = books.get(position).getId();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         holder.getTitle().setText(title);
+        holder.setId(id);
     }
 
     @Override
