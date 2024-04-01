@@ -10,15 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projetp42.R;
 import com.example.projetp42.model.Book;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
+public class BookAdapter extends RecyclerView.Adapter<bookViewHolder>{
 
     public List<Book> books;
-    public bookAdapter(List<Book> listBook){
+    private ItemClickListener clickListener;
+    public BookAdapter(List<Book> listBook){
         this.books = listBook;
     }
     @NonNull
@@ -27,7 +25,7 @@ public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.book_view_holder, parent, false);
 
-        return new bookViewHolder(view);
+        return new bookViewHolder(view,clickListener);
     }
 
     @Override
@@ -46,5 +44,8 @@ public class bookAdapter extends RecyclerView.Adapter<bookViewHolder>{
         if (books == null)
             return 0;
         return books.size();
+    }
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.clickListener = itemClickListener;
     }
 }

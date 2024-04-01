@@ -1,10 +1,10 @@
 package com.example.projetp42.view.book;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,12 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentHomeBinding;
 import com.example.projetp42.db.BookRepository;
-import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.BooksViewModel;
 
-import java.util.ArrayList;
-
-public class BooksFragment extends Fragment {
+public class BooksFragment extends Fragment implements ItemClickListener{
 
     private FragmentHomeBinding binding;
     private BooksViewModel bookViewModel;
@@ -41,7 +38,9 @@ public class BooksFragment extends Fragment {
 
         bookViewModel.getBooks().observe(getViewLifecycleOwner(),book -> {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(new bookAdapter(book));
+                BookAdapter bookAdapter = new BookAdapter(book);
+                bookAdapter.setClickListener(this);
+                recyclerView.setAdapter(bookAdapter);
         });
 
         return root;
@@ -52,5 +51,10 @@ public class BooksFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        // Cliker sur un lien arrive bien ici juste position est la position dans le recyclerView pas l'id il faut changer ca
     }
 }

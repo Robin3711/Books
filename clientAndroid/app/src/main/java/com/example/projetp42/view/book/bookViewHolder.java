@@ -8,14 +8,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
 
-public class bookViewHolder extends RecyclerView.ViewHolder{
+public class bookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView title;
-    public bookViewHolder(@NonNull View itemView) {
+    ItemClickListener clickListener;
+    public bookViewHolder(@NonNull View itemView, ItemClickListener clickListener) {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.title);
+        this.clickListener = clickListener;
+        itemView.setTag(itemView);
+        itemView.setOnClickListener(this);
     }
 
     public TextView getTitle() {
         return title;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (clickListener != null) clickListener.onClick(v, getAdapterPosition());
     }
 }
