@@ -56,7 +56,7 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
                 loadBooks(id);
             }
         }
-    }, [books]);
+    }, [authorId]);
     async function loadBooks(id: number) {
         try {
             
