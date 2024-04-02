@@ -21,8 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class BookRepository {
 
-    //private static final String BASE_URL = "http://192.168.122.1:3000/";
-    private static final String BASE_URL = "http://192.168.1.125:3000/";// URL Arnaud
+    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    //private static final String BASE_URL = "http://192.168.1.125:3000/";// URL Arnaud
 
 
     public BookRepository() {

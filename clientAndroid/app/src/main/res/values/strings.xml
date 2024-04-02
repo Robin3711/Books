@@ -10,4 +10,8 @@
     <string name="title" />
     <string name="author" />
     <string name="ajouter_un_livre">ajouter un livre</string>
+    <string name="titre">titre</string>
+    <string name="auteur">auteur</string>
+    <string name="tag">tag</string>
+    <string name="filtrer">filtrer</string>
 </resources>
