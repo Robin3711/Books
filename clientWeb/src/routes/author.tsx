@@ -21,9 +21,9 @@ export function Author() {
 
     async function loadAuthor(id: number) {
         try {
-            setIsLoading(true);
+            
             const authorData = await get_author(id);
-            setIsLoading(false);
+            
             setAuthor(authorData);
         } catch (error : any) {
             setErrorMessage(error.message);
@@ -59,9 +59,9 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
     }, [books]);
     async function loadBooks(id: number) {
         try {
-            setIsLoading(true);
+            
             const res = await get_book_from_author(id);
-            setIsLoading(false);
+            
             setBooks(res.books);
             setErrorMessage("");
         }
@@ -73,9 +73,9 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
     }
     async function handleRemove(bookID: number) {
         try {
-            setIsLoading(true);
+            
             await remove_book(bookID);
-            setIsLoading(false);
+            
         }
         catch (error : any) {
             setErrorMessage(error.message);
