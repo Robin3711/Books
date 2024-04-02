@@ -22,7 +22,6 @@ public class BookInfoFragment extends Fragment {
     TextView title;
     TextView author;
     TextView publication_year;
-    FloatingActionButton fab;
     private int id;
     private BookViewModel bookViewModel;
     public BookInfoFragment() {}
@@ -33,7 +32,6 @@ public class BookInfoFragment extends Fragment {
         title = getActivity().findViewById(R.id.info_title);
         author = getActivity().findViewById(R.id.info_author);
         publication_year = getActivity().findViewById(R.id.info_publication_year);
-        fab = getActivity().findViewById(R.id.add_book_button);
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         id = prefs.getInt("id", -1);
 
