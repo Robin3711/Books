@@ -47,6 +47,7 @@ interface bookAuthorProps{
 }
 function BookAuthor({ bookID } : bookAuthorProps){
     const [book, setbook] = useState<Book>();
+    const [author, setAuthor] = useState<Author>();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
@@ -61,8 +62,10 @@ function BookAuthor({ bookID } : bookAuthorProps){
         try {
             setIsLoading(true);
             const res = await get_book(id);
+            //const res_author = await get_author(res.authorID);
             setIsLoading(false);
             setbook(res);
+            //setAuthor(res_author);
             setErrorMessage("");
         }
         catch(error : any){
@@ -76,6 +79,7 @@ function BookAuthor({ bookID } : bookAuthorProps){
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
             {!isLoading ? (<>
                 <h2>{book?.publication_year}</h2>
+                <label>Author:{author?.firstname} {author?.lastname}</label>
                 </>
             ) : (<p>Chargement...</p>)}
         </div>

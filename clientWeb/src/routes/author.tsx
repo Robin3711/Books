@@ -91,7 +91,7 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
             <ul>
                     {books.map((book) => (
                         <li>
-                            <NavLink to={book.id.toString()}>{book.title}</NavLink>
+                            <NavLink to={"/books/"+book.id.toString()}>{book.title}</NavLink>
                             <button className="small danger" onClick={() => handleRemove(book.id)}>X</button>
                         </li>
                     ))}
