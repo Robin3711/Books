@@ -82,7 +82,7 @@ public class BooksFragment extends Fragment implements ItemClickListener{
             public void onClick(View v) {
                 BookRepository.BookData bookData = new BookRepository.BookData(titleEditText.getText().toString(),authorEditText.getText().toString(),tagEditText.getText().toString());
                 BookRepository bookRepository = new BookRepository();
-                bookRepository.findBooks(getContext(),bookViewModel,bookData,orderSpinner.getSelectedItem().toString());
+                bookRepository.findBooks(getContext(),booksViewModel,bookData,orderSpinner.getSelectedItem().toString());
             }
         });
     }
