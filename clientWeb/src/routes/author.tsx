@@ -1,15 +1,18 @@
-import { useNavigate, useParams , NavLink} from "react-router-dom";
+import { useNavigate, useParams, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { get_author , get_book_from_author , remove_book, update_author} from "../api";
+import { get_author, get_book_from_author, remove_book, update_author } from "../api";
+import { EditableText } from '../utils/editableText';
 
 
 export function Author() {
-    const [author, setAuthor] = useState<Author | null>(null);
-    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [author, setAuthor] = useState<Author | null>(null);  // author
     const { authorID } = useParams();
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState<string>("");   // error message
 
+    const [isLoading, setIsLoading] = useState(true); // loading
+
+    // useEffect
     useEffect(() => {
         if (authorID) {
             const id = parseInt(authorID);
@@ -19,47 +22,81 @@ export function Author() {
         }
     }, [authorID]);
 
+    // <-- api functions -->
     async function loadAuthor(id: number) {
         try {
-            
+            setIsLoading(true);
             const authorData = await get_author(id);
-            
+            setIsLoading(false);
             setAuthor(authorData);
-        } catch (error : any) {
+        } catch (error: any) {
             setErrorMessage(error.message);
             return;
-            
+
         }
         setErrorMessage("");
     }
 
+    // update author
     async function updateAuthor(authorID: number, authorUpdateData: AuthorUpdateData) {
         try {
-            
+            setIsLoading(true);
             await update_author(authorID, authorUpdateData);
-        } catch (error : any) {
+            setIsLoading(false);
+        } catch (error: any) {
             setErrorMessage(error.message);
             return;
         }
         setErrorMessage("");
     }
+
+// <-- handler functions -->
+    async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const firstname = form.firstname.value;
+        const lastname = form.lastname.value;
+        if (authorID !== undefined)
+        {
+            await updateAuthor(parseInt(authorID), { firstname, lastname });
+            loadAuthor(parseInt(authorID));
+        }
+    }       
 
     return (<>
         <div>
             {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{author?.firstname} {author?.lastname}</h1>}
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+            <p>modifier l'auteur</p>
+            <EditableText value={author?.firstname.toString()} onUpdate={updateAuthor} />
         </div>
-        <AuthorBooks authorId={authorID}/>
-        </>
+        <AuthorBooks authorId={authorID} />
+    </>
     );
 }
-interface AuthorBooksProps{
-    authorId : string | undefined
+
+/*
+<form onSubmit={handleUpdate}>
+                <label htmlFor="firstname">Firstname</label> &nbsp;
+                <input type="text" name="firstname" defaultValue={author?.firstname.toString()} /> <br />
+                <label htmlFor="lastname">Lastname</label> &nbsp;
+                <input type="text" name="lastname" defaultValue={author?.lastname.toString()} /> <br /> <br />
+                <button>Update</button>
+            </form>
+*/
+
+interface AuthorBooksProps {
+    authorId: string | undefined
 }
-function AuthorBooks({ authorId } : AuthorBooksProps){
+
+
+function AuthorBooks({ authorId }: AuthorBooksProps) {
     const [books, setBooks] = useState<Book[]>([]);
+
     const [errorMessage, setErrorMessage] = useState<string>("");
+
     const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         if (authorId) {
             const id = parseInt(authorId);
@@ -67,38 +104,41 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
                 loadBooks(id);
             }
         }
-    }, [books]);
+    }, [authorId]);
+
+    // <-- api functions -->
     async function loadBooks(id: number) {
         try {
-            
+            setIsLoading(true);
             const res = await get_book_from_author(id);
-            
+            setIsLoading(false);
             setBooks(res.books);
-            setErrorMessage("");
         }
-        catch(error : any){
-            setErrorMessage(error.message);
-            return;
-        }
-        
-    }
-    async function handleRemove(bookID: number) {
-        try {
-            
-            await remove_book(bookID);
-        }
-        catch (error : any) {
+        catch (error: any) {
             setErrorMessage(error.message);
             return;
         }
         setErrorMessage("");
     }
-    return<>
+
+    // <-- handler functions -->
+    async function handleRemove(bookID: number) {
+        try {
+
+            await remove_book(bookID);
+        }
+        catch (error: any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+    return <>
         <div>
             <h2>Books</h2>
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
             {!isLoading ? (
-            <ul>
+                <ul>
                     {books.map((book) => (
                         <li>
                             <NavLink to={book.id.toString()}>{book.title}</NavLink>

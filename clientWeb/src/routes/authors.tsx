@@ -1,7 +1,10 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, redirect } from 'react-router-dom';
 import { add_author, get_authors, remove_author } from '../api';
 import { FormEvent, useEffect, useState } from 'react';
 import { Pagination } from '../utils/pagination';
+import { useNavigate } from "react-router-dom";
+import { EditableText } from '../utils/editableText';
+
 
 export function Authors() {
     const [authors, setAuthors] = useState<Author[]>([]);   // list of authors
@@ -68,23 +71,20 @@ export function Authors() {
 
     //  <-- handler functions -->
 
+    const navigate = useNavigate(); // navigation
+
     async function handleAdd(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const form = e.currentTarget;
         const firstname = form.firstname.value;
         const lastname = form.lastname.value;
         await addAuthor({ firstname, lastname });
+        // naviguate to the new author ?
     }
 
     async function handleRemove(authorID: number) {
-        try {
             await removeAuthor(authorID);
-        }
-        catch (error: any) {
-            setErrorMessage(error.message);
-            return;
-        }
-        setErrorMessage("");
+            navigate("/authors");
     }
 
     async function handleFilter(e: FormEvent<HTMLFormElement>) {
