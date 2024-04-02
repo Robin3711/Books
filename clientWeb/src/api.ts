@@ -147,3 +147,19 @@ export async function get_book(bookID: number): Promise<Book> {
     const book = await res.json();
     return book;
 }
+
+export async function update_book(bookID: number, bookUpdateData: BookUpdateData) {
+    const res = await fetch(`${apiBasename}/books/${bookID}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookUpdateData),
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const book = await res.json();
+    return book;
+}

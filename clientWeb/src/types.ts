@@ -29,3 +29,14 @@ interface AuthorUpdateData {
     firstname?: String;
     lastname?: String;
 }
+
+interface BookCreationData {
+    title: String;
+    publication_year: number;
+    authorID: number;
+}
+
+interface BookUpdateData {
+    title?: String;
+    publication_year?: number;
+}

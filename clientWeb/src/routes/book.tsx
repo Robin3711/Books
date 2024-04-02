@@ -1,6 +1,7 @@
 import { useNavigate, useParams , NavLink} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { get_book , get_author , remove_book} from "../api";
+import { get_book , get_author , remove_book, update_book} from "../api";
+import { EditableText } from "../utils/editableText";
 
 
 export function Book() {
@@ -33,10 +34,28 @@ export function Book() {
         setErrorMessage("");
     }
 
+    async function updateTitle(value: string) {
+        if (bookID !== undefined) {
+            await update_book(parseInt(bookID), { title: value });
+            loadBook(parseInt(bookID));
+        }
+    }
+
+    async function updatePublicationDate(value: string) {
+        if (bookID !== undefined) {
+            await update_book(parseInt(bookID), { publication_year: Number(value) });
+            loadBook(parseInt(bookID));
+        }
+    }
+        
+
     return (<>
         <div>
             {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{book?.title}</h1>}
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+            <p>modifier le livre</p>
+            <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />  
+            <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
         </div>
         <BookAuthor bookID={bookID} />
         </>
