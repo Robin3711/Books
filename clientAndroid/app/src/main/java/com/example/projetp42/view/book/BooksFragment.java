@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,23 +22,23 @@ import com.example.projetp42.viewmodel.BooksViewModel;
 public class BooksFragment extends Fragment implements ItemClickListener{
 
     private FragmentHomeBinding binding;
-    private BooksViewModel bookViewModel;
+    private BooksViewModel booksViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
+        booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         BookRepository bookRepository = new BookRepository();
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
         try {
             BookRepository.BookData bookData = new BookRepository.BookData(null,null,null);
-            bookRepository.findBooks(this.getContext(), bookViewModel,bookData,"publication_year");
+            bookRepository.findBooks(this.getContext(), booksViewModel,bookData,"publication_year");
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        bookViewModel.getBooks().observe(getViewLifecycleOwner(),book -> {
+        booksViewModel.getBooks().observe(getViewLifecycleOwner(), book -> {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 BookAdapter bookAdapter = new BookAdapter(book);
                 bookAdapter.setClickListener(this);
