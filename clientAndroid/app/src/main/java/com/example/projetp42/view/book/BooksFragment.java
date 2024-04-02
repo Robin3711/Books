@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class BooksFragment extends Fragment implements ItemClickListener{
 
     private FragmentHomeBinding binding;
-    private BooksViewModel bookViewModel;
+    private BooksViewModel booksViewModel;
 
     private EditText titleEditText;
     private EditText authorEditText;
@@ -44,18 +44,18 @@ public class BooksFragment extends Fragment implements ItemClickListener{
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
+        booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         BookRepository bookRepository = new BookRepository();
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
         try {
             BookRepository.BookData bookData = new BookRepository.BookData(null,null,null);
-            bookRepository.findBooks(this.getContext(), bookViewModel,bookData,"publication_year");
+            bookRepository.findBooks(this.getContext(), booksViewModel,bookData,"publication_year");
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        bookViewModel.getBooks().observe(getViewLifecycleOwner(),book -> {
+        booksViewModel.getBooks().observe(getViewLifecycleOwner(), book -> {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 BookAdapter bookAdapter = new BookAdapter(book);
                 bookAdapter.setClickListener(this);
