@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -25,7 +28,13 @@ public class BooksFragment extends Fragment implements ItemClickListener{
     private FragmentHomeBinding binding;
     private BooksViewModel bookViewModel;
 
+    private EditText titleEditText;
+    private EditText authorEditText;
+    private EditText tagEditText;
+    private Button filterButton;
+
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
@@ -49,6 +58,23 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        filterButton = binding.filterButton;
+        titleEditText = binding.filterTitleEditText;
+        authorEditText = binding.filterAuthorEditText;
+        tagEditText = binding.filterTagEditText;
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BookRepository.BookData bookData = new BookRepository.BookData(titleEditText.getText().toString(),authorEditText.getText().toString(),tagEditText.getText().toString());
+                BookRepository bookRepository = new BookRepository();
+                bookRepository.findBooks(getContext(),bookViewModel,bookData,"title");
+            }
+        });
+    }
 
     @Override
     public void onDestroyView() {
