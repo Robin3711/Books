@@ -24,3 +24,8 @@ interface AuthorCreationData {
     firstname: String;
     lastname: String;
 }
+
+interface AuthorUpdateData {
+    firstname?: String;
+    lastname?: String;
+}

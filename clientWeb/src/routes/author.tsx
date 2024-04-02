@@ -1,6 +1,6 @@
 import { useNavigate, useParams , NavLink} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { get_author , get_book_from_author , remove_book} from "../api";
+import { get_author , get_book_from_author , remove_book, update_author} from "../api";
 
 
 export function Author() {
@@ -33,6 +33,17 @@ export function Author() {
         setErrorMessage("");
     }
 
+    async function updateAuthor(authorID: number, authorUpdateData: AuthorUpdateData) {
+        try {
+            
+            await update_author(authorID, authorUpdateData);
+        } catch (error : any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+
     return (<>
         <div>
             {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{author?.firstname} {author?.lastname}</h1>}
@@ -56,7 +67,7 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
                 loadBooks(id);
             }
         }
-    }, [authorId]);
+    }, [books]);
     async function loadBooks(id: number) {
         try {
             
@@ -75,7 +86,6 @@ function AuthorBooks({ authorId } : AuthorBooksProps){
         try {
             
             await remove_book(bookID);
-            
         }
         catch (error : any) {
             setErrorMessage(error.message);

@@ -63,6 +63,23 @@ export async function get_author(authorID: number): Promise<Author> {
     const author = await res.json();
     return author;
 }
+
+export async function update_author(authorID: number, authorUpdateData: AuthorUpdateData) {
+    const res = await fetch(`${apiBasename}/authors/${authorID}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(authorUpdateData),
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const author = await res.json();
+    return author;
+}
+
 export async function get_book_from_author(authorID: number): Promise<{ books: Book[]}> {
     const res = await fetch(`${apiBasename}/authors/${authorID}/books`);
     if (!res.ok) {
@@ -82,7 +99,7 @@ export async function remove_book(bookID:number) {
         throw new Error(msg);
     }
 }
-export async function add_book(authorCreationData: AuthorCreationData) { ///AAAAAA
+export async function add_book(authorCreationData: AuthorCreationData) { 
     const res = await fetch(`${apiBasename}/authors/`, {
         method: "POST",
         headers: {
