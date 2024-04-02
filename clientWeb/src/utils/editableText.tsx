@@ -14,6 +14,7 @@ export function EditableText(props: { value: string, onUpdate: (value: string) =
         try {
             setUpdating(true);
             await props.onUpdate(value);
+            setEditing(false);
         }
         catch (error) {
             setUpdating(false);

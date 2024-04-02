@@ -63,12 +63,27 @@ export function Author() {
         }
     }       
 
+    async function updateFirstname(value: string) {
+        if (authorID !== undefined) {
+            await updateAuthor(parseInt(authorID), { firstname : value});
+            loadAuthor(parseInt(authorID));
+        }
+    }       
+
+    async function updateLastname(value: string) {
+        if (authorID !== undefined) {
+            await updateAuthor(parseInt(authorID), { lastname: value });
+            loadAuthor(parseInt(authorID));
+        }
+    }
+
     return (<>
         <div>
             {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{author?.firstname} {author?.lastname}</h1>}
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
             <p>modifier l'auteur</p>
-            <EditableText value={author?.firstname.toString()} onUpdate={updateAuthor} />
+            <EditableText value={author?.firstname.toString() ?? ""} onUpdate={updateFirstname} />
+            <EditableText value={author?.lastname.toString() ?? ""} onUpdate={updateLastname} />
         </div>
         <AuthorBooks authorId={authorID} />
     </>

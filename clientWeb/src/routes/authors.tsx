@@ -3,7 +3,7 @@ import { add_author, get_authors, remove_author } from '../api';
 import { FormEvent, useEffect, useState } from 'react';
 import { Pagination } from '../utils/pagination';
 import { useNavigate } from "react-router-dom";
-import { EditableText } from '../utils/editableText';
+
 
 
 export function Authors() {
