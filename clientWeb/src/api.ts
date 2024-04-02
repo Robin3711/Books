@@ -97,3 +97,36 @@ export async function add_book(authorCreationData: AuthorCreationData) { ///AAAA
     const author = await res.json();
     return author;
 }
+interface getAuthorsParams {
+    page?: number;
+    pageSize?: number;
+    title?: string;
+}
+export async function get_books(params: getAuthorsParams): Promise<{ books: Book[], totalCount: number }> {
+    params.page = params.page || 1;
+    params.pageSize = params.pageSize || 10;
+
+    const take = params.pageSize;
+    const skip = (params.page - 1) * take;
+
+    const res = await fetch(`${apiBasename}/books?take=${take}&skip=${skip}&title=${params.title || ''}`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+
+    const totalCount = parseInt(res.headers.get('X-Total-Count') || '0', params.pageSize);
+
+    const books = await res.json();
+
+    return { books, totalCount };
+}
+export async function get_book(bookID: number): Promise<Book> {
+    const res = await fetch(`${apiBasename}/books/${bookID}`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const book = await res.json();
+    return book;
+}
