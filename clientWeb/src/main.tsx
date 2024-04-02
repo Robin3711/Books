@@ -8,6 +8,7 @@ import Root from './routes/root'
 import { Authors } from './routes/authors'
 import Books from './routes/books'
 import { Author } from './routes/author'
+import { Book } from './routes/book'
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,23 @@ const router = createBrowserRouter([
         element: (
           <Books />
         ),
+        children: [
+          {
+            index: true,
+            element: (
+              <>
+                &nbsp;
+                "veuillez sélectionner un livre"
+              </>
+            ),
+          },
+          {
+            path: ":bookID",
+            element: (
+              <Book/>
+            ),
+          }
+        ],
       },
     ],
   },
