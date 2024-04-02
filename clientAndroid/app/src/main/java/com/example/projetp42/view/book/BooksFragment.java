@@ -3,11 +3,14 @@ package com.example.projetp42.view.book;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +26,8 @@ import com.example.projetp42.databinding.FragmentHomeBinding;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.viewmodel.BooksViewModel;
 
+import java.util.ArrayList;
+
 public class BooksFragment extends Fragment implements ItemClickListener{
 
     private FragmentHomeBinding binding;
@@ -32,6 +37,8 @@ public class BooksFragment extends Fragment implements ItemClickListener{
     private EditText authorEditText;
     private EditText tagEditText;
     private Button filterButton;
+
+    private Spinner orderSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
 
@@ -65,13 +72,17 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         titleEditText = binding.filterTitleEditText;
         authorEditText = binding.filterAuthorEditText;
         tagEditText = binding.filterTagEditText;
+        orderSpinner = binding.orderSpinner;
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.order_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orderSpinner.setAdapter(adapter);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BookRepository.BookData bookData = new BookRepository.BookData(titleEditText.getText().toString(),authorEditText.getText().toString(),tagEditText.getText().toString());
                 BookRepository bookRepository = new BookRepository();
-                bookRepository.findBooks(getContext(),bookViewModel,bookData,"title");
+                bookRepository.findBooks(getContext(),bookViewModel,bookData,orderSpinner.getSelectedItem().toString());
             }
         });
     }

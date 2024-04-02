@@ -14,4 +14,10 @@
     <string name="auteur">auteur</string>
     <string name="tag">tag</string>
     <string name="filtrer">filtrer</string>
+
+    <string-array name="order_array">
+        <item>title</item>
+        <item>rating</item>
+        <item>publication_year</item>
+    </string-array>
 </resources>
