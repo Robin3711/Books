@@ -131,7 +131,7 @@ public class BookRepository {
 
     private Book JsonToBook(JSONObject json) throws JSONException {
     return new Book(json.getInt("id"),
-            json.getInt("authorID"),
+            json.getInt("authorId"),
             json.getInt("publication_year"),
             json.getString("title"),
             new ArrayList<>(),

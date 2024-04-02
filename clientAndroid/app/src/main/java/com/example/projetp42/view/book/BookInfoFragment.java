@@ -1,9 +1,12 @@
 package com.example.projetp42.view.book;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,37 +25,45 @@ public class BookInfoFragment extends Fragment {
     TextView title;
     TextView author;
     TextView publication_year;
+    FloatingActionButton fab;
     private int id;
     private BookViewModel bookViewModel;
-    public BookInfoFragment() {}
+
+    public BookInfoFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        title = getActivity().findViewById(R.id.info_title);
-        author = getActivity().findViewById(R.id.info_author);
-        publication_year = getActivity().findViewById(R.id.info_publication_year);
+        //fab = getActivity().findViewById(R.id.add_book_button);
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         id = prefs.getInt("id", -1);
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BookRepository bookRepository = new BookRepository();
+    @SuppressLint("SetTextI18n")
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_book_info, container, false);
+        title = root.findViewById(R.id.info_title);
+        author = root.findViewById(R.id.info_author);
+        publication_year = root.findViewById(R.id.info_publication_year);
+
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
-        try {
-            BookRepository.BookData bookData = new BookRepository.BookData(null,null,null);
-            bookRepository.findBookById(this.getContext(),bookViewModel,id);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        BookRepository bookRepository = new BookRepository();
+        bookRepository.findBookById(this.getContext(), bookViewModel, id);
         bookViewModel.getBook().observe(getViewLifecycleOwner(), book -> {
-            title.setText(book.getTitle());
-            author.setText(book.getAuthorID());
-            publication_year.setText(book.getPublication_year());
+            try {
+
+                title.setText(bookViewModel.getBook().getValue().getTitle());
+                author.setText(Integer.toString(bookViewModel.getBook().getValue().getAuthorID()));
+                publication_year.setText(Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));
+                publication_year.setText(bookViewModel.getBook().getValue().getPublication_year());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
-        return inflater.inflate(R.layout.fragment_book_info, container, false);
+
+        return root;
     }
 }
+

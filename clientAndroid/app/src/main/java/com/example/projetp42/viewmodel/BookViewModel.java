@@ -22,6 +22,10 @@ public class BookViewModel extends AndroidViewModel {
     }
 
     public LiveData<Book> getBook() {
+        if(book == null){
+            MutableLiveData<Book> book = new MutableLiveData<>();
+            book.setValue(new Book(0,"book is null..."));
+        }
         return book;
     }
     public void loadBook(Book book){
