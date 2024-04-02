@@ -139,7 +139,7 @@ export async function get_books(params: getAuthorsParams): Promise<{ books: Book
     return { books, totalCount };
 }
 export async function get_book(bookID: number): Promise<Book> {
-    const res = await fetch(`${apiBasename}/books/${bookID}`);
+    const res = await fetch(`${apiBasename}/books/${bookID}?include=author`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);

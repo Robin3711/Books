@@ -57,10 +57,16 @@ export async function get_all(req: Request, res: Response) {
 
 
 export async function get_one(req: Request, res: Response) {
+  const { include } = req.query;
+  const assoc: Prisma.BookInclude = {};
+  if (include === 'author') {
+    assoc.author = { select: { id: true, firstname: true, lastname: true } };
+  }
   const book = await prisma.book.findUnique({
     where: {
       id: Number(req.params.book_id)
-    }
+    },
+    include: assoc,
   });
   if (!book) {
     throw new HttpError('Book not found', 404);

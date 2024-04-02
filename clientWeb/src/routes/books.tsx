@@ -47,8 +47,7 @@ export default function Books() {
         <div id="container">
             <div id="sidebar">
                 <form onSubmit={handleFilter}>
-                    <input type="text" name="lastname" defaultValue={""} />
-                    <input type="text" name="firstname" defaultValue={""} />
+                    <input type="text" name="title_value" defaultValue={""} />
                     <button type="submit">Filtrer</button>
                 </form>
                 <Pagination page={currentPage} pageSize={pageSize} total={totalBooks} onPageChange={setCurrentPage} />

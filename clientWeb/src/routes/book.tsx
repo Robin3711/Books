@@ -62,10 +62,9 @@ function BookAuthor({ bookID } : bookAuthorProps){
         try {
             setIsLoading(true);
             const res = await get_book(id);
-            //const res_author = await get_author(res.authorID);
             setIsLoading(false);
             setbook(res);
-            //setAuthor(res_author);
+            setAuthor(res.author);
             setErrorMessage("");
         }
         catch(error : any){

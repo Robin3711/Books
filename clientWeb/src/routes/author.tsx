@@ -51,18 +51,7 @@ export function Author() {
     }
 
 // <-- handler functions -->
-    async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        const form = e.currentTarget;
-        const firstname = form.firstname.value;
-        const lastname = form.lastname.value;
-        if (authorID !== undefined)
-        {
-            await updateAuthor(parseInt(authorID), { firstname, lastname });
-            loadAuthor(parseInt(authorID));
-        }
-    }       
-
+    
     async function updateFirstname(value: string) {
         if (authorID !== undefined) {
             await updateAuthor(parseInt(authorID), { firstname : value});
@@ -89,16 +78,6 @@ export function Author() {
     </>
     );
 }
-
-/*
-<form onSubmit={handleUpdate}>
-                <label htmlFor="firstname">Firstname</label> &nbsp;
-                <input type="text" name="firstname" defaultValue={author?.firstname.toString()} /> <br />
-                <label htmlFor="lastname">Lastname</label> &nbsp;
-                <input type="text" name="lastname" defaultValue={author?.lastname.toString()} /> <br /> <br />
-                <button>Update</button>
-            </form>
-*/
 
 interface AuthorBooksProps {
     authorId: string | undefined
