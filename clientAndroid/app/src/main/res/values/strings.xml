@@ -16,6 +16,8 @@
     <string name="filtrer">filtrer</string>
     <string name="publication_year" />
     <string name="add_book" />
+    <string name="firstname">firstname</string>
+    <string name="lastname" />
 
     <string-array name="order_array">
         <item>title</item>

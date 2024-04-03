@@ -66,7 +66,7 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
         binding.fabAddAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Navigation.findNavController(view).navigate(R.id.);
+                Navigation.findNavController(view).navigate(R.id.action_authorFragment_to_addAuthorFragment);
             }
         });
 

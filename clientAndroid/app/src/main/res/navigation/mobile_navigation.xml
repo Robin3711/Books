@@ -38,5 +38,14 @@
         android:id="@+id/authorFragment"
         android:name="com.example.projetp42.view.author.AuthorFragment"
         android:label="Auteurs"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_authorFragment_to_addAuthorFragment"
+            app:destination="@id/addAuthorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAuthorFragment"
+        android:name="com.example.projetp42.view.author.addAuthorFragment"
+        android:label="fragment_add_author"
+        tools:layout="@layout/fragment_add_author" />
 </navigation>
