@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/authorFragment"
-        android:name="com.example.projetp42.view.author.AuthorFragment"
+        android:name="com.example.projetp42.view.author.AuthorsFragment"
         android:label="Auteurs"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_authors" />
 </navigation>

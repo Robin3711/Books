@@ -13,22 +13,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
-import com.example.projetp42.databinding.FragmentDashboardBinding;
+import com.example.projetp42.databinding.FragmentAuthorsBinding;
 import com.example.projetp42.db.AuthorRepository;
-import com.example.projetp42.model.Author;
 import com.example.projetp42.view.book.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 
-import java.util.ArrayList;
+public class AuthorsFragment extends Fragment implements ItemClickListener {
 
-public class AuthorFragment extends Fragment implements ItemClickListener {
-
-    private FragmentDashboardBinding binding;
+    private FragmentAuthorsBinding binding;
     private static final String TAG = "AuthorFragment"; // Log tag for debugging
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentAuthorsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         AuthorsViewModel authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
