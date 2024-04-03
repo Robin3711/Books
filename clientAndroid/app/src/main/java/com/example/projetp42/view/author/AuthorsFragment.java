@@ -1,5 +1,7 @@
 package com.example.projetp42.view.author;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,5 +80,12 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
 
     @Override
     public void onClick(View view, int id) {
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("id", id);
+        editor.apply();
+        editor.commit();
+        Navigation.findNavController(view).navigate(R.id.action_authorFragment_to_authorInfoFragment);
+
     }
 }

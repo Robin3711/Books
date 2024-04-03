@@ -3,11 +3,16 @@ package com.example.projetp42.db;
 import android.content.Context;
 
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Author;
+import com.example.projetp42.model.Book;
+import com.example.projetp42.viewmodel.author.AuthorViewModel;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
+import com.example.projetp42.viewmodel.book.BookViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -47,5 +52,29 @@ public class AuthorRepository {
             e.printStackTrace();
         }
         return authors;
+    }
+    public void findAuthorById(Context context, AuthorViewModel authorViewModel, int id) {
+        String url = BASE_URL + "books/" + id+"?include=author";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
+                response -> {
+                    try {
+                        Author author = jsonToAuthor(response);
+                        authorViewModel.loadAuthor(author);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Author author = new Author(-1, error.getMessage(), "Error");
+                    authorViewModel.loadAuthor(author);
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+    private Author jsonToAuthor(JSONObject json) throws JSONException {
+        return new Author(json.getInt("id"),
+                json.getString("firstname"),
+                json.getString("lastname"));
     }
 }

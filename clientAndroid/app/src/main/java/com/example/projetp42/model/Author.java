@@ -13,6 +13,11 @@ public class Author {
         this.lastname = lastname;
         this.books = books;
     }
+    public Author(int id, String firstname, String lastname){
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
 
     public int getId() {
         return id;

@@ -1,66 +1,60 @@
 package com.example.projetp42.view.author;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.projetp42.R;
+import com.example.projetp42.db.AuthorRepository;
+import com.example.projetp42.db.BookRepository;
+import com.example.projetp42.viewmodel.author.AuthorViewModel;
+import com.example.projetp42.viewmodel.book.BookViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AuthorInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AuthorInfoFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    TextView firstname;
+    TextView lastname;
+    private int id;
+    private AuthorViewModel authorViewModel;
 
     public AuthorInfoFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AuthorInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AuthorInfoFragment newInstance(String param1, String param2) {
-        AuthorInfoFragment fragment = new AuthorInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        //fab = getActivity().findViewById(R.id.add_book_button);
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        id = prefs.getInt("id", -1);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_author_info, container, false);
+    }
+    @SuppressLint("SetTextI18n")
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_author_info, container, false);
+        firstname = root.findViewById(R.id.firstname);
+        lastname = root.findViewById(R.id.lastname);
+
+        authorViewModel = new ViewModelProvider(this).get(AuthorViewModel.class);
+        AuthorRepository authorRepository = new AuthorRepository();
+        authorRepository.findAuthorById(this.getContext(), authorViewModel, id);
+        authorViewModel.getAuthor().observe(getViewLifecycleOwner(), book -> {
+            try {
+                firstname.setText(authorViewModel.getAuthor().getValue().getFirstname());
+                lastname.setText(authorViewModel.getAuthor().getValue().getLastname());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        return root;
     }
 }

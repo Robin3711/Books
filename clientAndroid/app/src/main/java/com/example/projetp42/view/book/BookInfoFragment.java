@@ -23,7 +23,6 @@ public class BookInfoFragment extends Fragment {
     TextView title;
     TextView author;
     TextView publication_year;
-    FloatingActionButton fab;
     private int id;
     private BookViewModel bookViewModel;
 

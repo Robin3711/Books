@@ -42,10 +42,18 @@
         <action
             android:id="@+id/action_authorFragment_to_addAuthorFragment"
             app:destination="@id/addAuthorFragment" />
+        <action
+            android:id="@+id/action_authorFragment_to_authorInfoFragment"
+            app:destination="@id/authorInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAuthorFragment"
         android:name="com.example.projetp42.view.author.addAuthorFragment"
         android:label="fragment_add_author"
         tools:layout="@layout/fragment_add_author" />
+    <fragment
+        android:id="@+id/authorInfoFragment"
+        android:name="com.example.projetp42.view.author.AuthorInfoFragment"
+        android:label="fragment_author_info"
+        tools:layout="@layout/fragment_author_info" />
 </navigation>
