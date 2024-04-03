@@ -70,8 +70,10 @@ export function Author() {
         <div>
             {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{author?.firstname} {author?.lastname}</h1>}
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-            <p>modifier l'auteur</p>
+            <h3>Modifier l'auteur</h3>
             <EditableText value={author?.firstname.toString() ?? ""} onUpdate={updateFirstname} />
+            <br/>
+            <br/>
             <EditableText value={author?.lastname.toString() ?? ""} onUpdate={updateLastname} />
         </div>
         <AuthorBooks authorId={authorID} />
