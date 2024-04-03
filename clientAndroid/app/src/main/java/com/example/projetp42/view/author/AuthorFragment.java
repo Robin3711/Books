@@ -51,9 +51,9 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
             authorRepository.findAuthors(this.getContext(), authorsViewModel);
             Log.d(TAG, "Authors loaded successfully.");
             //Log.d(TAG, "Authors: " + authorsViewModel.getAuthors().getValue().get(0).getFirstname());
-            ArrayList<Author> authors = new ArrayList<>();
+            /*ArrayList<Author> authors = new ArrayList<>();
             authors.add(new Author(1,"John","Doe",null));
-            authorsViewModel.loadAuthors(authors);
+            authorsViewModel.loadAuthors(authors);*/
         } catch (Exception e) {
             Log.e(TAG, "Error loading authors: " + e.getMessage());
             e.printStackTrace();

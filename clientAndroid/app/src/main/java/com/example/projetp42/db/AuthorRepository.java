@@ -30,9 +30,22 @@ public class AuthorRepository {
                     authors.add(new Author(0,"error", error.getMessage(),null));
                     authorsViewModel.loadAuthors(authors);
         });
+        VolleyRequestQueue.getInstance(context).add(request);
     }
 
     public ArrayList<Author> jsonToAuthors(JSONArray json) {
-        return null;
+        ArrayList<Author> authors = new ArrayList<>();
+        try {
+            for (int i = 0; i < json.length(); i++) {
+                Author author = new Author(0, null, null, null);
+                author.setId(json.getJSONObject(i).getInt("id"));
+                author.setFirstname(json.getJSONObject(i).getString("firstname"));
+                author.setLastname(json.getJSONObject(i).getString("lastname"));
+                authors.add(author);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return authors;
     }
 }
