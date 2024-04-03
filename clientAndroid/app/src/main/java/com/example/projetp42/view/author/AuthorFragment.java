@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.model.Author;
 import com.example.projetp42.view.book.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,15 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
             e.printStackTrace();
         }
 
+        // fab
+
+        binding.fabAddAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Navigation.findNavController(view).navigate(R.id.);
+            }
+        });
+
         return root;
     }
 
@@ -70,6 +81,5 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
 
     @Override
     public void onClick(View view, int id) {
-
     }
 }
