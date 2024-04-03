@@ -50,6 +50,13 @@ export function Book() {
         }
     }
         
+    async function removeTag(tagName: string) {
+        if (bookID !== undefined) {
+            await update_book(parseInt(bookID), { tags: book?.tags?.filter(tag => tag.name !== tagName) });
+            loadBook(parseInt(bookID));
+        }
+    }
+
 
     return (<>
         
@@ -58,7 +65,15 @@ export function Book() {
                     <h1>&nbsp;{book?.title}</h1>
                     <hr/>
                     <h2>{book?.publication_year}</h2>
-                    <NavLink to={"/authors/"+author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
+                <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
+                <ul>
+                    {book?.tags?.map((tag, index) => {
+                        return <li key={index}>{tag.name} <button onClick={() => removeTag(String(tag.name))}>Remove</button></li>
+                    })}
+                </ul>
+                <form>
+                    <button></button>
+                </form>
                 </div>
                 <div>
                     

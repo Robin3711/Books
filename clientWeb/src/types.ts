@@ -39,4 +39,5 @@ interface BookCreationData {
 interface BookUpdateData {
     title?: String;
     publication_year?: number;
+    tags?: Tag[];
 }
