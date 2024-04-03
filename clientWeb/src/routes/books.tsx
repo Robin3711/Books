@@ -46,10 +46,12 @@ export default function Books() {
     return (    
         <div id="container">
             <div id="sidebar">
+                <h3>Filters</h3>
                 <form onSubmit={handleFilter}>
                     <input type="text" name="title_value" defaultValue={""} />
                     <button type="submit">Filtrer</button>
                 </form>
+                <hr/>
                 <Pagination page={currentPage} pageSize={pageSize} total={totalBooks} onPageChange={setCurrentPage} />
                 {!isLoading ? ( <ul>
                     {books.map((book) => (

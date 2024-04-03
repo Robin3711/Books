@@ -7,7 +7,7 @@
         android:title="@string/title_Livres" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/authorFragment"
         android:icon="@android:drawable/ic_menu_view"
         android:title="@string/title_Auteurs" />
 

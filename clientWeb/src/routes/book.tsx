@@ -84,36 +84,38 @@ export function Book() {
     }
 
     return (<>
-
-        {isLoading ? <p>Chargement...</p> : <>
-            <div>
-                <h1>&nbsp;{book?.title}</h1>
-                <hr />
-                <h2>{book?.publication_year}</h2>
+        
+            {isLoading ? <p>Chargement...</p> : <>
+                <div>
+                    <h1>&nbsp;{book?.title}</h1>
+                    <hr/>
+                    <h4>Date de publication : {book?.publication_year}</h4>
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
                 <ul>
                     {book?.tags?.map((tag, index) => {
                         return <li key={index}>{tag.name} <button onClick={() => removeTag(tag.id)}>Remove</button></li>
                     })}
                 </ul>
-                <form onSubmit={handleAddTag}>
-                    <select name="tags">
-                        <option value={0}>-Choose a tag-</option>
-                        {tags.map((tag, index) => (
-                            <option value={tag?.id} key={index}>{tag?.name}</option>
-                        ))}
-                    </select>
-                    <button>Add tag</button>
+                <form>
+                    <input list="tags" name="tags" id="tag" onChange={getTags} />
+                    <datalist id="tags">
+                    {tags.map((tag, index) => (
+                        <option value={tag?.name.toString()} key={index} />
+                    ))}
+                    </datalist>
+                    <button onClick={handleAddTag}>AJOUTER</button>
                 </form>
-            </div>
-            <div>
-                {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-                <p>modifier le livre</p>
-                <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />
-                <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />
-            </div>
-
-        </>}
-    </>
+                </div>
+                <div>
+                    {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+                    <p>modifier le livre</p>
+                    <label>Titre : </label><EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle}/>
+                    <br/>
+                    <br/>
+                    <label>Date de publication : </label><EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
+                </div>
+                
+            </>}
+        </>
     );
 }

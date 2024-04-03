@@ -99,17 +99,19 @@ export function Authors() {
     return (
         <div id="container">
             <div id="sidebar">
-                <form onSubmit={handleFilter}>
-                    <input type="text" name="lastname" defaultValue={""} />
-                    <input type="text" name="firstname" defaultValue={""} />
-                    <button type="submit">Filtrer</button>
-                </form>
-                <Pagination page={currentPage} pageSize={pageSize} total={totalAuthors} onPageChange={setCurrentPage} />
-                <form onSubmit={handleAdd}>
-                    <input type="text" name="firstname" defaultValue={"prénom"} />
-                    <input type="text" name="lastname" defaultValue={"nom de famille"} />
+            <form onSubmit={handleAdd}>
+                    <input type="text" name="firstname" placeholder={"prénom"} />
+                    <input type="text" name="lastname" placeholder={"nom de famille"} />
                     <button type="submit">Ajouter</button>
-                </form>
+            </form>
+            <hr/>
+            <form onSubmit={handleFilter}>
+                <input type="text" name="lastname" defaultValue={""} />
+                <input type="text" name="firstname" defaultValue={""} />
+                <button type="submit">Filtrer</button>
+            </form>                
+                <hr/>
+                <Pagination page={currentPage} pageSize={pageSize} total={totalAuthors} onPageChange={setCurrentPage} />
                 {!isLoading ? (<ul>
                     {authors.map((author) => (
                         <li key={author.id}>

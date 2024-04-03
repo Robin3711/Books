@@ -99,13 +99,13 @@ export async function remove_book(bookID:number) {
         throw new Error(msg);
     }
 }
-export async function add_book(authorCreationData: AuthorCreationData) { 
-    const res = await fetch(`${apiBasename}/authors/`, {
+export async function add_book(authorID: string , bookCreationData: BookCreationData) { 
+    const res = await fetch(`${apiBasename}/authors/${authorID}/books`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(authorCreationData),
+        body: JSON.stringify(bookCreationData),
     });
     if (!res.ok) {
         const msg = await res.text();

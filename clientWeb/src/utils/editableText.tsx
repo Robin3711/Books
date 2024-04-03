@@ -28,13 +28,14 @@ export function EditableText(props: { value: string, onUpdate: (value: string) =
             {editing ? (
 
                 <form onSubmit={handleUpdate}>
-                    <input name="value" defaultValue={value} />
+                    <input name="value" defaultValue={value} /> 
                     <button type="submit" disabled={updating}>Edit</button>
                 </form>
 
             ) : (
                 <>
                     <span>{value}</span>
+                    {" "}
                     <button onClick={() => setEditing(true)}>Edit</button>
                 </>
             )}
