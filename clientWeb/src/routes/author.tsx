@@ -1,6 +1,6 @@
 import { useNavigate, useParams, NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { get_author, get_book_from_author, remove_book, update_author } from "../api";
+import { FormEvent, useState, useEffect } from "react";
+import { get_author, get_book_from_author, remove_book, update_author , add_book} from "../api";
 import { EditableText } from '../utils/editableText';
 
 
@@ -122,6 +122,23 @@ function AuthorBooks({ authorId }: AuthorBooksProps) {
         try {
 
             await remove_book(bookID);
+            loadBooks(parseInt(authorId?? "-1"));
+        }
+        catch (error: any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+    async function handleAdd(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const titre = form.titre.value;
+        const publication_year = Number(form.publication_year.value);
+        try {
+
+            await add_book(authorId ?? "", { title:titre, publication_year });
+            loadBooks(parseInt(authorId?? "-1"));
         }
         catch (error: any) {
             setErrorMessage(error.message);
@@ -133,7 +150,14 @@ function AuthorBooks({ authorId }: AuthorBooksProps) {
         <div>
             <h2>Books</h2>
             {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-            {!isLoading ? (
+            {!isLoading ? (<>
+                <form onSubmit={handleAdd}>
+                    <input type="text" name="titre" placeholder={"titre"} />
+                    <br />
+                    <input type="number" name="publication_year" placeholder={"Année de publication"} />
+                    <br/>
+                    <button type="submit">Ajouter</button>
+                </form>
                 <ul>
                     {books.map((book) => (
                         <li>
@@ -141,7 +165,10 @@ function AuthorBooks({ authorId }: AuthorBooksProps) {
                             <button className="small danger" onClick={() => handleRemove(book.id)}>X</button>
                         </li>
                     ))}
-                </ul>) : (<p>Chargement...</p>)}
+                </ul>
+
+            </>) : (<p>Chargement...</p>)}
+
         </div>
     </>;
 }

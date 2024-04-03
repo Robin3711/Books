@@ -82,7 +82,7 @@ export function Book() {
                 <div>
                     <h1>&nbsp;{book?.title}</h1>
                     <hr/>
-                    <h2>{book?.publication_year}</h2>
+                    <h4>Date de publication : {book?.publication_year}</h4>
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
                 <ul>
                     {book?.tags?.map((tag, index) => {
@@ -96,15 +96,16 @@ export function Book() {
                         <option value={tag?.name.toString()} key={index} />
                     ))}
                     </datalist>
-                    <button on onClick={handleAddTag}>AJOUTER</button>
+                    <button onClick={handleAddTag}>AJOUTER</button>
                 </form>
                 </div>
                 <div>
-                    
                     {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
                     <p>modifier le livre</p>
-                    <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />  
-                    <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
+                    <label>Titre : </label><EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle}/>
+                    <br/>
+                    <br/>
+                    <label>Date de publication : </label><EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
                 </div>
                 
             </>}

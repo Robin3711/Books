@@ -103,13 +103,13 @@ export function Authors() {
                     <input type="text" name="firstname" placeholder={"prénom"} />
                     <input type="text" name="lastname" placeholder={"nom de famille"} />
                     <button type="submit">Ajouter</button>
-                </form>
-                <hr/>
-                <form onSubmit={handleFilter}>
-                    <input type="text" name="lastname" defaultValue={""} />
-                    <input type="text" name="firstname" defaultValue={""} />
-                    <button type="submit">Filtrer</button>
-                </form>                
+            </form>
+            <hr/>
+            <form onSubmit={handleFilter}>
+                <input type="text" name="lastname" defaultValue={""} />
+                <input type="text" name="firstname" defaultValue={""} />
+                <button type="submit">Filtrer</button>
+            </form>                
                 <hr/>
                 <Pagination page={currentPage} pageSize={pageSize} total={totalAuthors} onPageChange={setCurrentPage} />
                 {!isLoading ? (<ul>
