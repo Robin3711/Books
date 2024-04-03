@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.projetp42.databinding.FragmentDashboardBinding;
-import com.example.projetp42.viewmodel.AuthorViewModel;
+import com.example.projetp42.viewmodel.author.AuthorViewModel;
 
 public class AuthorFragment extends Fragment {
 

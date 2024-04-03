@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_bookInfoFragment"
             app:destination="@id/bookInfoFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_addBookFragment"
+            app:destination="@id/addBookFragment" />
     </fragment>
 
     <fragment
@@ -25,4 +28,13 @@
         android:name="com.example.projetp42.view.book.BookInfoFragment"
         android:label="fragment_book_info"
         tools:layout="@layout/fragment_book_info" />
+    <fragment
+        android:id="@+id/addBookFragment"
+        android:name="com.example.projetp42.view.book.AddBookFragment"
+        android:label="fragment_add_book"
+        tools:layout="@layout/fragment_add_book" >
+        <action
+            android:id="@+id/action_addBookFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

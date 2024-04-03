@@ -1,4 +1,4 @@
-package com.example.projetp42.viewmodel;
+package com.example.projetp42.viewmodel.book;
 
 import android.app.Application;
 import android.widget.Toast;

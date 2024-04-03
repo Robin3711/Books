@@ -3,7 +3,6 @@ package com.example.projetp42.view.book;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,9 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentBooksBinding;
 import com.example.projetp42.db.BookRepository;
-import com.example.projetp42.viewmodel.BooksViewModel;
-
-import java.util.ArrayList;
+import com.example.projetp42.viewmodel.book.BooksViewModel;
 
 public class BooksFragment extends Fragment implements ItemClickListener{
 
@@ -83,6 +79,14 @@ public class BooksFragment extends Fragment implements ItemClickListener{
                 BookRepository.BookData bookData = new BookRepository.BookData(titleEditText.getText().toString(),authorEditText.getText().toString(),tagEditText.getText().toString());
                 BookRepository bookRepository = new BookRepository();
                 bookRepository.findBooks(getContext(),booksViewModel,bookData,orderSpinner.getSelectedItem().toString());
+            }
+        });
+
+        // FAB and book creation
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_addBookFragment);
             }
         });
     }

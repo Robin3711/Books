@@ -13,7 +13,7 @@ public class Book {
     public List<Rating> ratings;
 
     public String author;
-    public Book(int id, String author, int publication_year, String title, List<Tag> tags, List<Comment> comments, List<Rating> ratings){
+    public Book(int id, /*author id*/ String author, int publication_year, String title, List<Tag> tags, List<Comment> comments, List<Rating> ratings){
         this.id = id;
         this.author = author;
         this.authorID = 0;

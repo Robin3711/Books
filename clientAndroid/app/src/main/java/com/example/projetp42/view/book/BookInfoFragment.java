@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.projetp42.R;
 import com.example.projetp42.db.BookRepository;
-import com.example.projetp42.viewmodel.BookViewModel;
+import com.example.projetp42.viewmodel.book.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class BookInfoFragment extends Fragment {

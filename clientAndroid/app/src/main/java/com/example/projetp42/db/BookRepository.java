@@ -3,21 +3,18 @@ package com.example.projetp42.db;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Book;
-import com.example.projetp42.viewmodel.BooksViewModel;
-import com.example.projetp42.viewmodel.BookViewModel;
+import com.example.projetp42.viewmodel.book.BooksViewModel;
+import com.example.projetp42.viewmodel.book.BookViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class BookRepository {
 
@@ -116,6 +113,51 @@ public class BookRepository {
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
+
+    public void addBook(Context context, Book book, AddBookCallback callback) {
+        String url = BASE_URL + "authors/"+12+"/books";
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("title", book.title);
+            json.put("publication_year", book.publication_year);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (callback != null) {
+                callback.onFailure("Error creating JSON object");
+            }
+            return;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json,
+                response -> {
+                    try {
+                        int id = response.getInt("id");
+                        book.id = id;
+                        if (callback != null) {
+                            callback.onSuccess(id);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        if (callback != null) {
+                            callback.onFailure("Error parsing server response");
+                        }
+                    }
+                },
+                error -> {
+                    if (callback != null) {
+                        callback.onFailure("Error adding book: " + error.getMessage());
+                    }
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
+    public interface AddBookCallback {
+        void onSuccess(int bookId);
+        void onFailure(String errorMessage);
+    }
+
 
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
