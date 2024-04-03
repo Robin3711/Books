@@ -70,6 +70,5 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
 
     @Override
     public void onClick(View view, int id) {
-
     }
 }
