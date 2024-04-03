@@ -2,6 +2,7 @@ package com.example.projetp42.db;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -129,7 +130,7 @@ public class BookRepository {
     }
 
     public void addBook(Context context, Book book, AddBookCallback callback) {
-        String url = BASE_URL + "authors/"+12+"/books";
+        String url = BASE_URL + "authors/"+book.authorID+"/books";
 
         JSONObject json = new JSONObject();
         try {
@@ -189,7 +190,7 @@ public class BookRepository {
 
     private Book JsonToBook(JSONObject json) throws JSONException {
     return new Book(json.getInt("id"),
-            //json.getInt("authorId"),
+            json.getInt("authorId"),
             json.getJSONObject("author").getString("firstname") + " " + json.getJSONObject("author").getString("lastname"),
             json.getInt("publication_year"),
             json.getString("title"),

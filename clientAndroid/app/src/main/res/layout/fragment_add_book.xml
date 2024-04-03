@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/title"
         android:inputType="text"
-        android:autofillHints="" />
+        android:autofillHints="text" />
 
     <EditText
         android:id="@+id/publication_year"
@@ -20,14 +20,15 @@
         android:layout_height="wrap_content"
         android:hint="@string/publication_year"
         android:inputType="text"
-        android:autofillHints="" />
+        android:autofillHints="text" />
 
-    <Spinner
+    <EditText
+        android:id="@+id/author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/author"
         android:hint="@string/author"
-        android:autofillHints="" />
+        android:inputType="text"
+        android:autofillHints="text" />
 
 <Button
         android:id="@+id/add_book"
