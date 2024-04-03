@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/fragment_books">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/fragment_books"
         android:name="com.example.projetp42.view.book.BooksFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_books" >
@@ -23,20 +23,20 @@
     <fragment
         android:id="@+id/bookInfoFragment"
         android:name="com.example.projetp42.view.book.BookInfoFragment"
-        android:label="fragment_book_info"
+        android:label="Information sur un livre"
         tools:layout="@layout/fragment_book_info" />
     <fragment
         android:id="@+id/addBookFragment"
         android:name="com.example.projetp42.view.book.AddBookFragment"
-        android:label="fragment_add_book"
+        android:label="Ajout de livre"
         tools:layout="@layout/fragment_add_book" >
         <action
             android:id="@+id/action_addBookFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            app:destination="@id/fragment_books" />
     </fragment>
     <fragment
         android:id="@+id/authorFragment"
         android:name="com.example.projetp42.view.author.AuthorFragment"
-        android:label="fragment_dashboard"
+        android:label="Auteurs"
         tools:layout="@layout/fragment_dashboard" />
 </navigation>
