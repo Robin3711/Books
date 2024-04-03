@@ -62,6 +62,29 @@ export async function get_one(req: Request, res: Response) {
   if (include === 'author') {
     assoc.author = { select: { id: true, firstname: true, lastname: true } };
   }
+  if (include === 'tags') {
+    assoc.tags = { select: { id: true, name: true } };
+  }
+  if (include === 'comments')
+  {
+    assoc.comments = {
+      select: { id: true, text: true, author: true, createdAt : true }};
+  }
+  if (include === 'ratings')
+  {
+    assoc.ratings = {
+      select: { id: true, rating: true, author: true }};
+  }
+  if (include === 'all')
+  {
+    assoc.author = { select: { id: true, firstname: true, lastname: true } };
+    assoc.tags = { select: { id: true, name: true } };
+    assoc.comments = {
+      select: { id: true, text: true, author: true, createdAt : true }};
+    assoc.ratings = {
+      select: { id: true, rating: true, author: true }};
+  }
+
   const book = await prisma.book.findUnique({
     where: {
       id: Number(req.params.book_id)
