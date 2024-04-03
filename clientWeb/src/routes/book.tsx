@@ -1,6 +1,6 @@
 import { useNavigate, useParams , NavLink} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { get_book , get_author , remove_book, update_book} from "../api";
+import { get_book , get_author , remove_book, update_book,get_tags } from "../api";
 import { EditableText } from "../utils/editableText";
 
 
@@ -9,6 +9,7 @@ export function Book() {
     const [author, setAuthor] = useState<Author>();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const { bookID } = useParams();
+    const [tags, setTags] = useState<Tag[]>([]);
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -57,6 +58,23 @@ export function Book() {
         }
     }
 
+    async function getTags() {
+        try {
+            const tags = await get_tags();
+            setTags(tags);
+        } catch (error : any) {
+            setErrorMessage(error.message);
+        }
+    }
+
+
+    async function handleAddTag() {
+        const tag = document.getElementById("tag") as HTMLInputElement;
+        if (bookID !== undefined) {
+            //await update_book(parseInt(bookID), { tags: [...book?.tags ?? []}] });
+            loadBook(parseInt(bookID));
+        }
+    }
 
     return (<>
         
@@ -72,7 +90,13 @@ export function Book() {
                     })}
                 </ul>
                 <form>
-                    <button></button>
+                    <input list="tags" name="tags" id="tag" onChange={getTags} />
+                    <datalist id="tags">
+                    {tags.map((tag, index) => (
+                        <option value={tag?.name.toString()} key={index} />
+                    ))}
+                    </datalist>
+                    <button on onClick={handleAddTag}>AJOUTER</button>
                 </form>
                 </div>
                 <div>

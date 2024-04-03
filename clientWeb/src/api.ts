@@ -163,3 +163,13 @@ export async function update_book(bookID: number, bookUpdateData: BookUpdateData
     const book = await res.json();
     return book;
 }
+
+export async function get_tags(): Promise<Tag[]> {
+    const res = await fetch(`${apiBasename}/tags`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const tags = await res.json();
+    return tags;
+}
