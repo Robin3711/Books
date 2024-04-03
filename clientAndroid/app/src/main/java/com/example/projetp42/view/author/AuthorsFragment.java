@@ -9,18 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentDashboardBinding;
+import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
+import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 
-public class AuthorFragment extends Fragment {
+public class AuthorsFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        AuthorViewModel authorViewModel =
-                new ViewModelProvider(this).get(AuthorViewModel.class);
+    private AuthorsViewModel authorsViewModel;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        AuthorViewModel authorViewModel = new ViewModelProvider(this).get(AuthorViewModel.class);
+        View root = binding.getRoot();
+        AuthorRepository authorRepository = new AuthorRepository();
+        RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

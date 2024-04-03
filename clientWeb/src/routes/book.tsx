@@ -1,6 +1,6 @@
-import { useNavigate, useParams , NavLink} from "react-router-dom";
-import { useState, useEffect } from "react";
-import { get_book , get_author , remove_book, update_book,get_tags } from "../api";
+import { useNavigate, useParams, NavLink } from "react-router-dom";
+import { useState, useEffect, FormEvent } from "react";
+import { get_book, get_author, remove_book, update_book, get_tags, remove_tag, add_tag } from "../api";
 import { EditableText } from "../utils/editableText";
 
 
@@ -22,6 +22,10 @@ export function Book() {
         }
     }, [bookID]);
 
+    useEffect(() => {
+        loadTags();
+    }, []);
+
     async function loadBook(id: number) {
         try {
             setIsLoading(true);
@@ -29,12 +33,21 @@ export function Book() {
             setIsLoading(false);
             setbook(bookData);
             setAuthor(bookData.author);
-        } catch (error : any) {
+        } catch (error: any) {
             setErrorMessage(error.message);
             return;
-            
+
         }
         setErrorMessage("");
+    }
+
+    async function loadTags() {
+        try {
+            const tags = await get_tags();
+            setTags(tags);
+        } catch (error: any) {
+            setErrorMessage(error.message);
+        }
     }
 
     async function updateTitle(value: string) {
@@ -50,64 +63,57 @@ export function Book() {
             loadBook(parseInt(bookID));
         }
     }
-        
-    async function removeTag(tagName: string) {
+
+    async function removeTag(tagID: number) {
         if (bookID !== undefined) {
-            await update_book(parseInt(bookID), { tags: book?.tags?.filter(tag => tag.name !== tagName) });
+                await remove_tag(parseInt(bookID), tagID);
+                loadBook(parseInt(bookID));
+            }
+        if (bookID !== undefined) {
+
             loadBook(parseInt(bookID));
         }
     }
 
-    async function getTags() {
-        try {
-            const tags = await get_tags();
-            setTags(tags);
-        } catch (error : any) {
-            setErrorMessage(error.message);
-        }
-    }
-
-
-    async function handleAddTag() {
-        const tag = document.getElementById("tag") as HTMLInputElement;
-        if (bookID !== undefined) {
-            //await update_book(parseInt(bookID), { tags: [...book?.tags ?? []}] });
+    async function handleAddTag(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (bookID !== undefined && e.currentTarget.tags.value !== "0") {
+            await add_tag(parseInt(bookID), e.currentTarget.tags.value);
             loadBook(parseInt(bookID));
         }
     }
 
     return (<>
-        
-            {isLoading ? <p>Chargement...</p> : <>
-                <div>
-                    <h1>&nbsp;{book?.title}</h1>
-                    <hr/>
-                    <h2>{book?.publication_year}</h2>
+
+        {isLoading ? <p>Chargement...</p> : <>
+            <div>
+                <h1>&nbsp;{book?.title}</h1>
+                <hr />
+                <h2>{book?.publication_year}</h2>
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
                 <ul>
                     {book?.tags?.map((tag, index) => {
-                        return <li key={index}>{tag.name} <button onClick={() => removeTag(String(tag.name))}>Remove</button></li>
+                        return <li key={index}>{tag.name} <button onClick={() => removeTag(tag.id)}>Remove</button></li>
                     })}
                 </ul>
-                <form>
-                    <input list="tags" name="tags" id="tag" onChange={getTags} />
-                    <datalist id="tags">
-                    {tags.map((tag, index) => (
-                        <option value={tag?.name.toString()} key={index} />
-                    ))}
-                    </datalist>
-                    <button on onClick={handleAddTag}>AJOUTER</button>
+                <form onSubmit={handleAddTag}>
+                    <select name="tags">
+                        <option value={0}>-Choose a tag-</option>
+                        {tags.map((tag, index) => (
+                            <option value={tag?.id} key={index}>{tag?.name}</option>
+                        ))}
+                    </select>
+                    <button>Add tag</button>
                 </form>
-                </div>
-                <div>
-                    
-                    {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-                    <p>modifier le livre</p>
-                    <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />  
-                    <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
-                </div>
-                
-            </>}
-        </>
+            </div>
+            <div>
+                {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+                <p>modifier le livre</p>
+                <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />
+                <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />
+            </div>
+
+        </>}
+    </>
     );
 }

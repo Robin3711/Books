@@ -7,5 +7,5 @@ export const BookCreationData = object({
 
 export const BookUpdateData = object({
   title: optional(size(string(), 1, 50)),
-  publication_year: optional(integer())
+  publication_year: optional(integer()),
 });

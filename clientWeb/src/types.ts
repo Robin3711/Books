@@ -1,13 +1,13 @@
 interface Author {
     id: number;
-    firstname: String;
-    lastname: String;
+    firstname: string;
+    lastname: string;
     books?: Book[];
 }
 
 interface Book {
     id: number;
-    title: String;
+    title: string;
     publication_year: number;
     authorID: number;
     author: Author;
@@ -16,28 +16,28 @@ interface Book {
 
 interface Tag {
     id: number;
-    name: String;
+    name: string;
     books?: Book[];
 }
 
 interface AuthorCreationData {
-    firstname: String;
-    lastname: String;
+    firstname: string;
+    lastname: string;
 }
 
 interface AuthorUpdateData {
-    firstname?: String;
-    lastname?: String;
+    firstname?: string;
+    lastname?: string;
 }
 
 interface BookCreationData {
-    title: String;
+    title: string;
     publication_year: number;
     authorID: number;
 }
 
 interface BookUpdateData {
-    title?: String;
+    title?: string;
     publication_year?: number;
     tags?: Tag[];
 }

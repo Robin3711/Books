@@ -149,7 +149,7 @@ export async function get_book(bookID: number): Promise<Book> {
 }
 
 export async function update_book(bookID: number, bookUpdateData: BookUpdateData) {
-    const res = await fetch(`${apiBasename}/books/${bookID}`, {
+    const res = await fetch(`${apiBasename}/books/tags/${bookID}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -162,6 +162,26 @@ export async function update_book(bookID: number, bookUpdateData: BookUpdateData
     }
     const book = await res.json();
     return book;
+}
+
+export async function remove_tag(bookID: number,tagID: number) {
+    const res = await fetch(`${apiBasename}/books/${bookID}/tags/${tagID}`, {
+        method: "DELETE",
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+}
+
+export async function add_tag(bookID: number,tagID: number) {
+    const res = await fetch(`${apiBasename}/books/${bookID}/tags/${tagID}`, {
+        method: "POST",
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
 }
 
 export async function get_tags(): Promise<Tag[]> {
