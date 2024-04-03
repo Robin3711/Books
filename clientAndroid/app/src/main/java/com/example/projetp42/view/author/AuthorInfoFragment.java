@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AuthorInfoFragment extends Fragment {
     TextView firstname;
@@ -54,7 +56,12 @@ public class AuthorInfoFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-
+        // suppression
+        FloatingActionButton fab = root.findViewById(R.id.info_author_delete_button);
+        fab.setOnClickListener(view -> {
+            authorRepository.deleteAuthor(this.getContext(), id);
+            Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_authorFragment);
+        });
         return root;
     }
 }
