@@ -26,13 +26,13 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
     private AuthorsViewModel authorsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        AuthorViewModel authorViewModel = new ViewModelProvider(this).get(AuthorViewModel.class);
+        authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
         View root = binding.getRoot();
         AuthorRepository authorRepository = new AuthorRepository();
         RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        authorViewModel.getText().observe(getViewLifecycleOwner(), author -> {
+        authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             AuthorAdapter authorAdapter = new AuthorAdapter(author);
             authorAdapter.setClickListener(this);
