@@ -24,7 +24,11 @@
         android:id="@+id/bookInfoFragment"
         android:name="com.example.projetp42.view.book.BookInfoFragment"
         android:label="Information sur un livre"
-        tools:layout="@layout/fragment_book_info" />
+        tools:layout="@layout/fragment_book_info" >
+        <action
+            android:id="@+id/action_bookInfoFragment_to_fragment_books"
+            app:destination="@id/fragment_books" />
+    </fragment>
     <fragment
         android:id="@+id/addBookFragment"
         android:name="com.example.projetp42.view.book.AddBookFragment"

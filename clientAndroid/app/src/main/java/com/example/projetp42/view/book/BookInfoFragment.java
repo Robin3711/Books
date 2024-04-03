@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,13 @@ public class BookInfoFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        });
+
+        // suppression
+        FloatingActionButton fab = root.findViewById(R.id.info_book_delete_button);
+        fab.setOnClickListener(view -> {
+            bookRepository.deleteBook(this.getContext(), id);
+            Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_fragment_books);
         });
 
         return root;

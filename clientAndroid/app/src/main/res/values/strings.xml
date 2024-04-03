@@ -21,7 +21,6 @@
 
     <string-array name="order_array">
         <item>title</item>
-        <item>rating</item>
         <item>publication_year</item>
     </string-array>
 </resources>

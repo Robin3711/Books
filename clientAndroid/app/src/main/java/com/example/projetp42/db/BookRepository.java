@@ -82,6 +82,20 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
 
+    public void deleteBook(Context context, int id) {
+        String url = BASE_URL + "books/" + id;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                response -> {
+                    Log.d("DELETE", "Book deleted");
+                },
+                error -> {
+                    Log.d("DELETE", "Error deleting book: " + error.getMessage());
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
     public static class BookData {
         private String title;
         private String author;
@@ -157,6 +171,8 @@ public class BookRepository {
         void onSuccess(int bookId);
         void onFailure(String errorMessage);
     }
+
+
 
 
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
