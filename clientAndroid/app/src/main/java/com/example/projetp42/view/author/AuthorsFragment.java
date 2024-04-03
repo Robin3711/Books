@@ -9,15 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentDashboardBinding;
 import com.example.projetp42.db.AuthorRepository;
+import com.example.projetp42.view.book.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 
-public class AuthorsFragment extends Fragment {
+public class AuthorsFragment extends Fragment implements ItemClickListener {
 
     private FragmentDashboardBinding binding;
 
@@ -30,10 +32,12 @@ public class AuthorsFragment extends Fragment {
         RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textDashboard;
-        authorViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        authorViewModel.getText().observe(getViewLifecycleOwner(), author -> {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            AuthorAdapter authorAdapter = new AuthorAdapter(author);
+            authorAdapter.setClickListener(this);
+            recyclerView.setAdapter(authorAdapter);
+        });
         return root;
     }
 
@@ -41,5 +45,10 @@ public class AuthorsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onClick(View view, int id) {
+
     }
 }
