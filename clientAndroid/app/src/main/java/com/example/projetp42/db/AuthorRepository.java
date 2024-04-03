@@ -56,7 +56,7 @@ public class AuthorRepository {
         return authors;
     }
     public void findAuthorById(Context context, AuthorViewModel authorViewModel, int id) {
-        String url = BASE_URL + "books/" + id+"?include=author";
+        String url = BASE_URL + "authors/" + id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
                 response -> {
