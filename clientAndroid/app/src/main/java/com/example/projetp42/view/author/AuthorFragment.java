@@ -39,10 +39,10 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
         View root = binding.getRoot();
         RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
         authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             AuthorAdapter authorAdapter = new AuthorAdapter(author);
             authorAdapter.setClickListener(this);
             recyclerView.setAdapter(authorAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         });
         return root;
     }

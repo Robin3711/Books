@@ -52,10 +52,10 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         }
 
         booksViewModel.getBooks().observe(getViewLifecycleOwner(), book -> {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                BookAdapter bookAdapter = new BookAdapter(book);
-                bookAdapter.setClickListener(this);
-                recyclerView.setAdapter(bookAdapter);
+            BookAdapter bookAdapter = new BookAdapter(book);
+            recyclerView.setAdapter(bookAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            bookAdapter.setClickListener(this);
         });
 
         return root;
