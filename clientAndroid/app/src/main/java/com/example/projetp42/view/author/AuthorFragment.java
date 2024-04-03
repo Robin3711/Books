@@ -1,6 +1,7 @@
 package com.example.projetp42.view.author;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +24,24 @@ import java.util.ArrayList;
 public class AuthorFragment extends Fragment implements ItemClickListener {
 
     private FragmentDashboardBinding binding;
+    private static final String TAG = "AuthorFragment"; // Log tag for debugging
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        Log.d(TAG, "onCreateView");
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         AuthorsViewModel authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
 
         authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
-            if(author != null) {
+            if (author != null) {
                 RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
                 AuthorAdapter authorAdapter = new AuthorAdapter(author);
                 authorAdapter.setClickListener(this);
                 recyclerView.setAdapter(authorAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+                Log.d(TAG, "author != null.");
             }
         });
 
@@ -45,11 +49,13 @@ public class AuthorFragment extends Fragment implements ItemClickListener {
 
         try {
             authorRepository.findAuthors(this.getContext(), authorsViewModel);
-            /*ArrayList<Author> authors = new ArrayList<>();
+            Log.d(TAG, "Authors loaded successfully.");
+            //Log.d(TAG, "Authors: " + authorsViewModel.getAuthors().getValue().get(0).getFirstname());
+            ArrayList<Author> authors = new ArrayList<>();
             authors.add(new Author(1,"John","Doe",null));
-            authorsViewModel.loadAuthors(authors);*/
-        }
-        catch (Exception e){
+            authorsViewModel.loadAuthors(authors);
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading authors: " + e.getMessage());
             e.printStackTrace();
         }
 
