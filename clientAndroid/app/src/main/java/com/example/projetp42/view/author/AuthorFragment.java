@@ -14,36 +14,45 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentDashboardBinding;
 import com.example.projetp42.db.AuthorRepository;
+import com.example.projetp42.model.Author;
 import com.example.projetp42.view.book.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
+
+import java.util.ArrayList;
 
 public class AuthorFragment extends Fragment implements ItemClickListener {
 
     private FragmentDashboardBinding binding;
 
-    private AuthorsViewModel authorsViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
+
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        AuthorsViewModel authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
+
+        authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
+            if(author != null) {
+                RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
+                AuthorAdapter authorAdapter = new AuthorAdapter(author);
+                authorAdapter.setClickListener(this);
+                recyclerView.setAdapter(authorAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+            }
+        });
+
         AuthorRepository authorRepository = new AuthorRepository();
 
         try {
             authorRepository.findAuthors(this.getContext(), authorsViewModel);
+            /*ArrayList<Author> authors = new ArrayList<>();
+            authors.add(new Author(1,"John","Doe",null));
+            authorsViewModel.loadAuthors(authors);*/
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
-        authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
-            AuthorAdapter authorAdapter = new AuthorAdapter(author);
-            authorAdapter.setClickListener(this);
-            recyclerView.setAdapter(authorAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        });
         return root;
     }
 
