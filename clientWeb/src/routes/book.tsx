@@ -6,6 +6,7 @@ import { EditableText } from "../utils/editableText";
 
 export function Book() {
     const [book, setbook] = useState<Book | null>(null);
+    const [author, setAuthor] = useState<Author>();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const { bookID } = useParams();
 
@@ -26,6 +27,7 @@ export function Book() {
             const bookData = await get_book(id);
             setIsLoading(false);
             setbook(bookData);
+            setAuthor(bookData.author);
         } catch (error : any) {
             setErrorMessage(error.message);
             return;
@@ -50,56 +52,23 @@ export function Book() {
         
 
     return (<>
-        <div>
-            {isLoading ? <p>Chargement...</p> : <h1>&nbsp;{book?.title}</h1>}
-            {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-            <p>modifier le livre</p>
-            <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />  
-            <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
-        </div>
-        <BookAuthor bookID={bookID} />
+        
+            {isLoading ? <p>Chargement...</p> : <>
+                <div>
+                    <h1>&nbsp;{book?.title}</h1>
+                    <hr/>
+                    <h2>{book?.publication_year}</h2>
+                    <NavLink to={"/authors/"+author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
+                </div>
+                <div>
+                    
+                    {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+                    <p>modifier le livre</p>
+                    <EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />  
+                    <EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
+                </div>
+                
+            </>}
         </>
     );
-}
-interface bookAuthorProps{
-    bookID : string | undefined
-}
-function BookAuthor({ bookID } : bookAuthorProps){
-    const [book, setbook] = useState<Book>();
-    const [author, setAuthor] = useState<Author>();
-    const [errorMessage, setErrorMessage] = useState<string>("");
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        if (bookID) {
-            const id = parseInt(bookID);
-            if (!isNaN(id)) {
-                loadbook(id);
-            }
-        }
-    }, [bookID]);
-    async function loadbook(id: number) {
-        try {
-            setIsLoading(true);
-            const res = await get_book(id);
-            setIsLoading(false);
-            setbook(res);
-            setAuthor(res.author);
-            setErrorMessage("");
-        }
-        catch(error : any){
-            setErrorMessage(error.message);
-            return;
-        }
-        
-    }
-    return<>
-        <div>
-            {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-            {!isLoading ? (<>
-                <h2>{book?.publication_year}</h2>
-                <label>Author:{author?.firstname} {author?.lastname}</label>
-                </>
-            ) : (<p>Chargement...</p>)}
-        </div>
-    </>;
 }
