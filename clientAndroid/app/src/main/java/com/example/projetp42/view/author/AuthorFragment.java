@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,10 +15,9 @@ import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentDashboardBinding;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.view.book.ItemClickListener;
-import com.example.projetp42.viewmodel.author.AuthorViewModel;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 
-public class AuthorsFragment extends Fragment implements ItemClickListener {
+public class AuthorFragment extends Fragment implements ItemClickListener {
 
     private FragmentDashboardBinding binding;
 
@@ -27,11 +25,19 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
-        View root = binding.getRoot();
         AuthorRepository authorRepository = new AuthorRepository();
-        RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
+
+        try {
+            authorRepository.findAuthors(this.getContext(), authorsViewModel);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+        RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
         authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             AuthorAdapter authorAdapter = new AuthorAdapter(author);
