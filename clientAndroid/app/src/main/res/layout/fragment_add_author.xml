@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.author.addAuthorFragment">
+    tools:context=".view.author.addAuthorFragment"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/editTextAddFirstname"
@@ -22,7 +23,9 @@
         android:hint="@string/lastname"
         android:inputType="text" />
 
-
-
+    <Button
+        android:id="@+id/addAuthorButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

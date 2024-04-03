@@ -1,7 +1,9 @@
 package com.example.projetp42.db;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Author;
@@ -38,7 +40,7 @@ public class AuthorRepository {
         VolleyRequestQueue.getInstance(context).add(request);
     }
 
-    public ArrayList<Author> jsonToAuthors(JSONArray json) {
+    public ArrayList<Author> jsonToAuthors( JSONArray json) {
         ArrayList<Author> authors = new ArrayList<>();
         try {
             for (int i = 0; i < json.length(); i++) {
@@ -77,4 +79,62 @@ public class AuthorRepository {
                 json.getString("firstname"),
                 json.getString("lastname"));
     }
+
+    public void addAuthor(Context context, Author author, AddAuthorCallback callback) {
+        String url = BASE_URL + "authors";
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("firstname", author.firstname);
+            json.put("lastname", author.lastname);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (callback != null) {
+                callback.onFailure("Error creating JSON object");
+            }
+            return;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json,
+                response -> {
+                    try {
+                        int authorId = response.getInt("id");
+                        if (callback != null) {
+                            callback.onSuccess(authorId);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        if (callback != null) {
+                            callback.onFailure("Error parsing server response");
+                        }
+                    }
+                },
+                error -> {
+                    if (callback != null) {
+                        callback.onFailure("Error adding author: " + error.getMessage());
+                    }
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
+    public interface AddAuthorCallback {
+        void onSuccess(int authorId);
+        void onFailure(String errorMessage);
+    }
+
+    public void deleteAuthor(Context context, int id) {
+        String url = BASE_URL + "authors/" + id;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                response -> {
+                    Log.d("DELETE", "Author deleted");
+                },
+                error -> {
+                    Log.d("DELETE", "Error deleting Author: " + error.getMessage());
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
 }
