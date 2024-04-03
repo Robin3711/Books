@@ -96,4 +96,18 @@ public class AuthorRepository {
         void onFailure(String errorMessage);
     }
 
+    public void deleteAuthor(Context context, int id) {
+        String url = BASE_URL + "authors/" + id;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                response -> {
+                    Log.d("DELETE", "Author deleted");
+                },
+                error -> {
+                    Log.d("DELETE", "Error deleting Author: " + error.getMessage());
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
 }
