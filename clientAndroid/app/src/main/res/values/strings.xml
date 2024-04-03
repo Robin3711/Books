@@ -17,7 +17,7 @@
     <string name="publication_year" />
     <string name="add_book" />
     <string name="firstname">firstname</string>
-    <string name="lastname" />
+    <string name="lastname">lastname</string>
 
     <string-array name="order_array">
         <item>title</item>
