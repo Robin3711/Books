@@ -98,7 +98,7 @@ public class BookRepository {
     }
 
     public void findBookById(Context context, BookViewModel bookViewModel, int id) {
-        String url = BASE_URL + "books/" + id;
+        String url = BASE_URL + "books/" + id+"?include=author";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
                 response -> {
@@ -131,7 +131,8 @@ public class BookRepository {
 
     private Book JsonToBook(JSONObject json) throws JSONException {
     return new Book(json.getInt("id"),
-            json.getInt("authorId"),
+            //json.getInt("authorId"),
+            json.getJSONObject("author").getString("firstname") + " " + json.getJSONObject("author").getString("lastname"),
             json.getInt("publication_year"),
             json.getString("title"),
             new ArrayList<>(),

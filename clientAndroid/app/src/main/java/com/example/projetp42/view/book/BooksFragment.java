@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
-import com.example.projetp42.databinding.FragmentHomeBinding;
+import com.example.projetp42.databinding.FragmentBooksBinding;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.viewmodel.BooksViewModel;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class BooksFragment extends Fragment implements ItemClickListener{
 
-    private FragmentHomeBinding binding;
+    private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
 
     private EditText titleEditText;
@@ -42,7 +42,7 @@ public class BooksFragment extends Fragment implements ItemClickListener{
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         BookRepository bookRepository = new BookRepository();

@@ -11,9 +11,12 @@ public class Book {
     public List<Tag> tags;
     public List<Comment> comments;
     public List<Rating> ratings;
-    public Book(int id, int authorID, int publication_year, String title, List<Tag> tags, List<Comment> comments, List<Rating> ratings){
+
+    public String author;
+    public Book(int id, String author, int publication_year, String title, List<Tag> tags, List<Comment> comments, List<Rating> ratings){
         this.id = id;
-        this.authorID = authorID;
+        this.author = author;
+        this.authorID = 0;
         this.publication_year = publication_year;
         this.title = title;
         this.tags = tags;

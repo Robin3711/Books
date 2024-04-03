@@ -55,7 +55,8 @@ public class BookInfoFragment extends Fragment {
             try {
 
                 title.setText(bookViewModel.getBook().getValue().getTitle());
-                author.setText(Integer.toString(bookViewModel.getBook().getValue().getAuthorID()));
+                //author.setText(Integer.toString(bookViewModel.getBook().getValue().getAuthorID()));
+                author.setText(bookViewModel.getBook().getValue().author);
                 publication_year.setText(Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));
                 publication_year.setText(bookViewModel.getBook().getValue().getPublication_year());
             } catch (Exception e) {
