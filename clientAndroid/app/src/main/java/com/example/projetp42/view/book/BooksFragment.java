@@ -29,6 +29,11 @@ public class BooksFragment extends Fragment implements ItemClickListener{
     private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
 
+    private static final String PREF_TITLE = "title";
+    private static final String PREF_AUTHOR = "author";
+    private static final String PREF_TAG = "tag";
+    private static final String PREF_ORDER = "order";
+
     private EditText titleEditText;
     private EditText authorEditText;
     private EditText tagEditText;
@@ -43,9 +48,16 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         BookRepository bookRepository = new BookRepository();
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
+
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String savedTitle = prefs.getString(PREF_TITLE, null);
+        String savedAuthor = prefs.getString(PREF_AUTHOR, null);
+        String savedTag = prefs.getString(PREF_TAG, null);
+        String savedOrder = prefs.getString(PREF_ORDER, "publication_year");
+
         try {
-            BookRepository.BookData bookData = new BookRepository.BookData(null,null,null);
-            bookRepository.findBooks(this.getContext(), booksViewModel,bookData,"publication_year");
+            BookRepository.BookData bookData = new BookRepository.BookData(savedTitle,savedAuthor,savedTag);
+            bookRepository.findBooks(this.getContext(), booksViewModel,bookData,savedOrder);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -76,6 +88,15 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(PREF_TITLE, titleEditText.getText().toString());
+                editor.putString(PREF_AUTHOR, authorEditText.getText().toString());
+                editor.putString(PREF_TAG, tagEditText.getText().toString());
+                editor.putString(PREF_ORDER, orderSpinner.getSelectedItem().toString());
+                editor.apply();
+
                 BookRepository.BookData bookData = new BookRepository.BookData(titleEditText.getText().toString(),authorEditText.getText().toString(),tagEditText.getText().toString());
                 BookRepository bookRepository = new BookRepository();
                 bookRepository.findBooks(getContext(),booksViewModel,bookData,orderSpinner.getSelectedItem().toString());
