@@ -98,6 +98,6 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
         editor.putInt("id", id);
         editor.apply();
         editor.commit();
-        Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_bookInfoFragment);
+        Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_bookInfoFragment);
     }
 }

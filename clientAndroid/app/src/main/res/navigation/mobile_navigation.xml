@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_bookInfoFragment_to_fragment_books"
             app:destination="@id/fragment_books" />
+        <action
+            android:id="@+id/action_bookInfoFragment_to_authorInfoFragment"
+            app:destination="@id/authorInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/addBookFragment"
@@ -67,5 +70,8 @@
         <action
             android:id="@+id/action_authorInfoFragment_to_authorFragment"
             app:destination="@id/authorFragment" />
+        <action
+            android:id="@+id/action_authorInfoFragment_to_bookInfoFragment"
+            app:destination="@id/bookInfoFragment" />
     </fragment>
 </navigation>

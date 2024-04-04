@@ -65,6 +65,7 @@ public class BookInfoFragment extends Fragment {
                 title.setText(bookViewModel.getBook().getValue().getTitle());
                 //author.setText(Integer.toString(bookViewModel.getBook().getValue().getAuthorID()));
                 author.setText(bookViewModel.getBook().getValue().author);
+                author.setTag(bookViewModel.getBook().getValue().authorID);
                 publication_year.setText(Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));//
 
                 ArrayList<String> tagsList = new ArrayList<String>();
@@ -90,6 +91,18 @@ public class BookInfoFragment extends Fragment {
         fab.setOnClickListener(view -> {
             bookRepository.deleteBook(this.getContext(), id);
             Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_fragment_books);
+        });
+        author.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String authorID = (String) author.getTag();
+                SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("id", Integer.parseInt(authorID));
+                editor.apply();
+                editor.commit();
+                Navigation.findNavController(v).navigate(R.id.action_bookInfoFragment_to_authorInfoFragment);
+            }
         });
 
         return root;
