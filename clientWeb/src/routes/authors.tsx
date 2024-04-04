@@ -78,13 +78,13 @@ export function Authors() {
         const form = e.currentTarget;
         const firstname = form.firstname.value;
         const lastname = form.lastname.value;
-        await addAuthor({ firstname, lastname });
-        // naviguate to the new author ?
+        /*const auth = */await addAuthor({ firstname, lastname });
+        //navigate("/authors/" + auth.id);
     }
 
     async function handleRemove(authorID: number) {
-            await removeAuthor(authorID);
-            navigate("/authors");
+        await removeAuthor(authorID);
+        navigate("/authors");   // ne pas naviguer si une erreur
     }
 
     async function handleFilter(e: FormEvent<HTMLFormElement>) {
@@ -106,8 +106,8 @@ export function Authors() {
             </form>
             <hr/>
             <form onSubmit={handleFilter}>
-                <input type="text" name="lastname" defaultValue={""} />
-                <input type="text" name="firstname" defaultValue={""} />
+                    <input type="text" name="firstname" defaultValue={""} placeholder={"prénom"} />
+                    <input type="text" name="lastname" defaultValue={""} placeholder={"nom de famille"} />
                 <button type="submit">Filtrer</button>
             </form>                
                 <hr/>
