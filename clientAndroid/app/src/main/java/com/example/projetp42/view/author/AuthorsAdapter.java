@@ -13,26 +13,26 @@ import com.example.projetp42.view.book.ItemClickListener;
 
 import java.util.List;
 
-public class AuthorAdapter extends RecyclerView.Adapter<AuthorViewHolder> {
+public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsViewHolder> {
 
     private final List<Author> authors;
     private ItemClickListener clickListener;
 
-    public AuthorAdapter(List<Author> authors) {
+    public AuthorsAdapter(List<Author> authors) {
         this.authors = authors;
     }
 
     @NonNull
     @Override
-    public AuthorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AuthorsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.author_view_holder, parent, false);
 
-        return new AuthorViewHolder(view, clickListener);
+        return new AuthorsViewHolder(view, clickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AuthorViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AuthorsViewHolder holder, int position) {
         Author author = authors.get(position);
         if (author != null) {
             String name = author.getFirstname() + " " + author.getLastname();

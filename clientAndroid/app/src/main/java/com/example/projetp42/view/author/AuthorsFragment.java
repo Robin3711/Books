@@ -20,7 +20,6 @@ import com.example.projetp42.databinding.FragmentAuthorsBinding;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.view.book.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AuthorsFragment extends Fragment implements ItemClickListener {
 
@@ -37,7 +36,7 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
         authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
                 RecyclerView recyclerView = root.findViewById(R.id.AuthorsRecyclerView);
-                AuthorAdapter authorAdapter = new AuthorAdapter(author);
+                AuthorsAdapter authorAdapter = new AuthorsAdapter(author);
                 authorAdapter.setClickListener(this);
                 recyclerView.setAdapter(authorAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
