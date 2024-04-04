@@ -121,8 +121,19 @@ export function Book() {
                     <br/>
                     <br/>
                     <label>Date de publication : </label><EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
-                </div>                
+                </div>   
+                <Comment bookID={bookID ?? "-1"}/>             
             </>}
         </>
     );
+    
+    
+}
+interface commentProps{
+    bookID : string
+}
+function Comment({bookID} : commentProps){
+    return <div>
+        
+    </div>
 }
