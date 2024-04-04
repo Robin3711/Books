@@ -62,7 +62,7 @@ public class BookInfoFragment extends Fragment {
         author = root.findViewById(R.id.info_author);
         publication_year = root.findViewById(R.id.info_publication_year);
         tags = root.findViewById(R.id.info_tags);
-      //  comments = root.findViewById(R.id.info_comments);
+        comments = root.findViewById(R.id.info_comments);
         avgRating = root.findViewById(R.id.info_avg_rating);
 
         ratingViewModel = new ViewModelProvider(this).get(RatingViewModel.class);
@@ -95,13 +95,13 @@ public class BookInfoFragment extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tagsList);
                 tags.setAdapter(adapter);
 
-/*                ArrayList<String> commentsList = new ArrayList<String>();
+                ArrayList<String> commentsList = new ArrayList<String>();
                 for(int i = 0; i < bookViewModel.getBook().getValue().comments.size(); i++) {
                     commentsList.add(bookViewModel.getBook().getValue().comments.get(i).author + " : " + bookViewModel.getBook().getValue().comments.get(i).content);
                 }
 
                 ArrayAdapter<String> adapterComments = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, commentsList);
-                comments.setAdapter(adapterComments);*/
+                comments.setAdapter(adapterComments);
 
                 if(tags.getCount() == 0) {
                     tags.setTag(0, "No tags");

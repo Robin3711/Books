@@ -262,10 +262,10 @@ public class BookRepository {
             String content = commentJson.getString("text");
             //int bookId = commentJson.getInt("bookId");
             String author = commentJson.getString("author");
-            Date createdAt = new Date(commentJson.getLong("createdAt"));
+            //Date createdAt = new Date(commentJson.getLong("createdAt"));
             //Date updatedAt = new Date(commentJson.getLong("updatedAt"));
 
-            comments.add(new Comment(id,author,0, content, createdAt, null));
+            comments.add(new Comment(id,author,0, content, null, null));
             Log.d("COMMENT", "Comment added: " + content);
         }
         return comments;
