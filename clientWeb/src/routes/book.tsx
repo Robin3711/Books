@@ -52,21 +52,27 @@ export function Book() {
 
     async function updateTitle(value: string) {
         if (bookID !== undefined) {
+            setIsLoading(true);
             await update_book(parseInt(bookID), { title: value });
+            setIsLoading(false);
             loadBook(parseInt(bookID));
         }
     }
 
     async function updatePublicationDate(value: string) {
         if (bookID !== undefined) {
+            setIsLoading(true);
             await update_book(parseInt(bookID), { publication_year: Number(value) });
+            setIsLoading(false);
             loadBook(parseInt(bookID));
         }
     }
 
     async function removeTag(tagID: number) {
         if (bookID !== undefined) {
-                await remove_tag(parseInt(bookID), tagID);
+            setIsLoading(true);
+            await remove_tag(parseInt(bookID), tagID);
+            setIsLoading(false);
                 loadBook(parseInt(bookID));
             }
         if (bookID !== undefined) {
@@ -78,7 +84,9 @@ export function Book() {
     async function handleAddTag(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (bookID !== undefined && e.currentTarget.tags.value !== "0") {
+            setIsLoading(true);
             await add_tag(parseInt(bookID), e.currentTarget.tags.value);
+            setIsLoading(false);
             loadBook(parseInt(bookID));
         }
     }
@@ -96,14 +104,14 @@ export function Book() {
                         return <li key={index}>{tag.name} <button onClick={() => removeTag(tag.id)}>Remove</button></li>
                     })}
                 </ul>
-                <form>
-                    <input list="tags" name="tags" id="tag" onChange={getTags} />
-                    <datalist id="tags">
-                    {tags.map((tag, index) => (
-                        <option value={tag?.name.toString()} key={index} />
-                    ))}
-                    </datalist>
-                    <button onClick={handleAddTag}>AJOUTER</button>
+                <form onSubmit={handleAddTag}>
+                    <select name="tags">
+                        <option value={0}>-Choose a tag-</option>
+                        {tags.map((tag, index) => (
+                            <option value={tag?.id} key={index}>{tag?.name}</option>
+                        ))}
+                    </select>
+                    <button>Add tag</button>
                 </form>
                 </div>
                 <div>
@@ -113,8 +121,7 @@ export function Book() {
                     <br/>
                     <br/>
                     <label>Date de publication : </label><EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
-                </div>
-                
+                </div>                
             </>}
         </>
     );
