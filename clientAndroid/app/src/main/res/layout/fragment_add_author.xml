@@ -10,23 +10,26 @@
         android:id="@+id/editTextAddFirstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:autofillHints="text"
         android:hint="@string/firstname"
         android:inputType="text"
-         />
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/editTextAddLastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:autofillHints="text"
         android:hint="@string/lastname"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/addAuthorButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/BoutonAjout"/>
+        android:layout_height="69dp"
+        android:text="@string/BoutonAjout" />
 
 </LinearLayout>
