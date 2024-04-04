@@ -165,7 +165,7 @@ export async function update_book(bookID: number, bookUpdateData: BookUpdateData
 }
 
 export async function remove_tag(bookID: number,tagID: number) {
-    const res = await fetch(`${apiBasename}/books/${bookID}/${tagID}`, {
+    const res = await fetch(`${apiBasename}/books/${bookID}/tags/${tagID}`, {
         method: "DELETE",
     });
     if (!res.ok) {
@@ -237,4 +237,15 @@ export async function get_comment(bookID: number): Promise<BookComment[]> {
     }
     const comment = await res.json();
     return comment;
+}
+
+
+export async function get_avg_rating_of_book(bookID : number): Promise<number> {
+    const res = await fetch(`${apiBasename}/books/${bookID}/ratings/avg`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const avg_rating = await res.json();
+    return avg_rating;
 }

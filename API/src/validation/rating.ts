@@ -1,10 +1,12 @@
-import { object, string, optional, size, number } from 'superstruct';
+import { object, string, optional, size, number, max, min, integer} from 'superstruct';
+
+
 
 export const RatingCreationData = object({
-    rating: number(),
-    author: size(string(), 1, 50),
+    rating: min(max(integer(), 5), 0),
+    author: size(string(),1, 50),
 });
 
 export const RatingUpdateData = object({
-    rating : number(),
+    rating : integer(),
 });

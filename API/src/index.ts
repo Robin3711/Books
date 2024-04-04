@@ -52,6 +52,7 @@ app.get('/books/:book_id/ratings', rating.get_all_of_book);
 app.post('/books/:book_id/ratings', rating.create_one);
 app.patch('/ratings/:rating_id', rating.update_one);
 app.delete('/ratings/:rating_id', rating.delete_one);
+app.get('/books/:book_id/ratings/avg', rating.get_avg_rating_of_book);
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof StructError) {
