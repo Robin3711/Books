@@ -53,3 +53,15 @@ export async function delete_one(req: Request, res: Response) {
     });
     res.status(204).send();
 }
+
+export async function get_avg_rating_of_book(req: Request, res: Response) {
+    const rating = await prisma.rating.aggregate({
+        where: {
+            bookId: Number(req.params.book_id)
+        },
+        _avg: {
+            rating: true
+        }
+    });
+    res.status(200).json(rating._avg.rating);
+}

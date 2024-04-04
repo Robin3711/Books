@@ -203,3 +203,13 @@ export async function get_tags_of_book(bookID: number): Promise<Tag[]> {
     const tags = await res.json();
     return tags;
 }
+
+export async function get_avg_rating_of_book(bookID : number): Promise<number> {
+    const res = await fetch(`${apiBasename}/books/${bookID}/ratings/avg`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const avg_rating = await res.json();
+    return avg_rating;
+}

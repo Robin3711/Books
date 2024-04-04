@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
+import com.example.projetp42.model.Tag;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -110,7 +111,7 @@ public class BookRepository {
     }
 
     public void findBookById(Context context, BookViewModel bookViewModel, int id) {
-        String url = BASE_URL + "books/" + id+"?include=author";
+        String url = BASE_URL + "books/" + id+"?include=all";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
                 response -> {
@@ -194,8 +195,21 @@ public class BookRepository {
             json.getJSONObject("author").getString("firstname") + " " + json.getJSONObject("author").getString("lastname"),
             json.getInt("publication_year"),
             json.getString("title"),
-            new ArrayList<>(),
+            JsonToTags(json.getJSONArray("tags")),
             new ArrayList<>(),
             new ArrayList<>());
     }
+
+    private ArrayList<Tag> JsonToTags(JSONArray json) throws JSONException {
+        ArrayList<Tag> tags = new ArrayList<>();
+        for (int i = 0; i < json.length(); i++) {
+            JSONObject tagJson = json.getJSONObject(i);
+            int id = tagJson.getInt("id");
+            String name = tagJson.getString("name");
+
+            tags.add(new Tag(id, name, null));
+        }
+        return tags;
+    }
+
 }
