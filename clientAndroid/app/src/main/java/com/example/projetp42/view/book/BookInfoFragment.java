@@ -83,8 +83,16 @@ public class BookInfoFragment extends Fragment {
 
                 title.setText(bookViewModel.getBook().getValue().getTitle());
                 author.setText(bookViewModel.getBook().getValue().author);
+                if(ratingViewModel.getRating().getValue() == null)
+                {
+                    avgRating.setText("no rating yet");
+                }
+                else {
+                    avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
+                }
+
                 author.setTag(bookViewModel.getBook().getValue().authorID);
-                avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
+
                 publication_year.setText("Année de publication: " +Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));//
 
                 ArrayList<String> tagsList = new ArrayList<String>();
@@ -102,6 +110,11 @@ public class BookInfoFragment extends Fragment {
 
                 ArrayAdapter<String> adapterComments = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, commentsList);
                 comments.setAdapter(adapterComments);
+
+                if(comments.getCount() == 0) {
+                    commentsList.add("No comments");
+                    Log.d(TAG, "No comments");
+                }
 
                 if(tags.getCount() == 0) {
                     tags.setTag(0, "No tags");
