@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Book;
+import com.example.projetp42.viewmodel.RatingViewModel;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
 import com.example.projetp42.model.Tag;
@@ -175,7 +176,21 @@ public class BookRepository {
     }
 
 
-
+    public void getAvgRatingOfBook(int bookId, RatingViewModel ratingViewModel) throws JSONException {
+        String url = BASE_URL + "books/" + bookId + "/ratings/avg";
+        int returnvalue;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
+                response -> {
+                    try {
+                        ratingViewModel.loadRating(Integer.parseInt(response.toString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    ratingViewModel.loadRating(-1);
+                });
+    }
 
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
@@ -188,6 +203,7 @@ public class BookRepository {
         }
         return books;
     }
+
 
     private Book JsonToBook(JSONObject json) throws JSONException {
     return new Book(json.getInt("id"),

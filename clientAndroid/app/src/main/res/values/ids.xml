@@ -5,4 +5,6 @@
     <item name="tags" type="id" />
     <item name="info_tags" type="id" />
     <item name="info_comments" type="id" />
+    <item name="info_avg_rating" type="id" />
+
 </resources>

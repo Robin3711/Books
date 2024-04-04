@@ -20,8 +20,11 @@ import android.widget.TextView;
 
 import com.example.projetp42.R;
 import com.example.projetp42.db.BookRepository;
+import com.example.projetp42.viewmodel.RatingViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,8 @@ public class BookInfoFragment extends Fragment {
     TextView publication_year;
     private int id;
     private BookViewModel bookViewModel;
+
+    TextView avgRating ;
 
     private ListView tags;
 
@@ -54,9 +59,20 @@ public class BookInfoFragment extends Fragment {
         author = root.findViewById(R.id.info_author);
         publication_year = root.findViewById(R.id.info_publication_year);
         tags = root.findViewById(R.id.info_tags);
+        avgRating = root.findViewById(R.id.info_avg_rating);
+
+        RatingViewModel ratingViewModel = new ViewModelProvider(this).get(RatingViewModel.class);
+
 
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
         BookRepository bookRepository = new BookRepository();
+
+        try {
+            bookRepository.getAvgRatingOfBook(id,ratingViewModel);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
         bookRepository.findBookById(this.getContext(), bookViewModel, id);
         Log.d(TAG, "Book ID: " + id);
         bookViewModel.getBook().observe(getViewLifecycleOwner(), book -> {
@@ -71,6 +87,7 @@ public class BookInfoFragment extends Fragment {
                 for(int i = 0; i < bookViewModel.getBook().getValue().tags.size(); i++) {
                     tagsList.add(bookViewModel.getBook().getValue().tags.get(i).name);
                 }
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tagsList);
                 tags.setAdapter(adapter);
 
