@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Comment{
     public int id;
-    public Book book;
+    public int bookId;
     public String content;
     public Date createdAt;
     public Date updatedAt;
     public String author;   // author du commentaire, pas du livre
-    public Comment(int id,String author, Book book, String content,Date createdAt, Date updatedAt){
+    public Comment(int id,String author, int bookId, String content,Date createdAt, Date updatedAt){
         this.id = id;
 
-        this.book = book;
+        this.bookId = bookId;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -27,8 +27,8 @@ public class Comment{
         return author;
     }
 
-    public Book getBook() {
-        return book;
+    public int getBookId() {
+        return bookId;
     }
 
     public String getContent() {

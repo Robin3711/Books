@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.projetp42.model.Book;
+import com.example.projetp42.model.Comment;
 import com.example.projetp42.viewmodel.RatingViewModel;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BookRepository {
 
@@ -214,6 +216,7 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(null).add(jsonObjectRequest);
     }
 
+
     private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
@@ -234,7 +237,8 @@ public class BookRepository {
             json.getInt("publication_year"),
             json.getString("title"),
             JsonToTags(json.getJSONArray("tags")),
-            new ArrayList<>(),
+            JsonToComments(json.getJSONArray("comments")),
+            //new ArrayList<>(),
             new ArrayList<>());
     }
 
@@ -248,6 +252,23 @@ public class BookRepository {
             tags.add(new Tag(id, name, null));
         }
         return tags;
+    }
+
+    private ArrayList<Comment> JsonToComments(JSONArray json) throws JSONException {
+        ArrayList<Comment> comments = new ArrayList<>();
+        for (int i = 0; i < json.length(); i++) {
+            JSONObject commentJson = json.getJSONObject(i);
+            int id = commentJson.getInt("id");
+            String content = commentJson.getString("text");
+            //int bookId = commentJson.getInt("bookId");
+            String author = commentJson.getString("author");
+            Date createdAt = new Date(commentJson.getLong("createdAt"));
+            //Date updatedAt = new Date(commentJson.getLong("updatedAt"));
+
+            comments.add(new Comment(id,author,0, content, createdAt, null));
+            Log.d("COMMENT", "Comment added: " + content);
+        }
+        return comments;
     }
 
 }

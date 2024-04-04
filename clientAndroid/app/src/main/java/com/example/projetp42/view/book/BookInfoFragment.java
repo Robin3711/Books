@@ -40,6 +40,8 @@ public class BookInfoFragment extends Fragment {
 
     private ListView tags;
 
+    private ListView comments;
+
     private static final String TAG = "BookInfoFragment"; // Log tag for debugging
 
     public BookInfoFragment() {
@@ -60,6 +62,7 @@ public class BookInfoFragment extends Fragment {
         author = root.findViewById(R.id.info_author);
         publication_year = root.findViewById(R.id.info_publication_year);
         tags = root.findViewById(R.id.info_tags);
+      //  comments = root.findViewById(R.id.info_comments);
         avgRating = root.findViewById(R.id.info_avg_rating);
 
         ratingViewModel = new ViewModelProvider(this).get(RatingViewModel.class);
@@ -79,7 +82,6 @@ public class BookInfoFragment extends Fragment {
             try {
 
                 title.setText(bookViewModel.getBook().getValue().getTitle());
-                //author.setText(Integer.toString(bookViewModel.getBook().getValue().getAuthorID()));
                 author.setText(bookViewModel.getBook().getValue().author);
                 author.setTag(bookViewModel.getBook().getValue().authorID);
                 avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
@@ -92,6 +94,14 @@ public class BookInfoFragment extends Fragment {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tagsList);
                 tags.setAdapter(adapter);
+
+/*                ArrayList<String> commentsList = new ArrayList<String>();
+                for(int i = 0; i < bookViewModel.getBook().getValue().comments.size(); i++) {
+                    commentsList.add(bookViewModel.getBook().getValue().comments.get(i).author + " : " + bookViewModel.getBook().getValue().comments.get(i).content);
+                }
+
+                ArrayAdapter<String> adapterComments = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, commentsList);
+                comments.setAdapter(adapterComments);*/
 
                 if(tags.getCount() == 0) {
                     tags.setTag(0, "No tags");

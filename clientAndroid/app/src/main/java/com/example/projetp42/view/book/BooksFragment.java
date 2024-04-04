@@ -82,6 +82,10 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         tagEditText = binding.filterTagEditText;
         orderSpinner = binding.orderSpinner;
 
+        titleEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(PREF_TITLE, ""));
+        authorEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(PREF_AUTHOR, ""));
+        tagEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(PREF_TAG, ""));
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.order_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         orderSpinner.setAdapter(adapter);
