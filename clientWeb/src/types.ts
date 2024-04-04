@@ -5,6 +5,13 @@ interface Author {
     books?: Book[];
 }
 
+interface BookComment {
+    id: number,
+    text: string,
+    author: string,
+    book?: Book
+}
+
 interface Book {
     id: number;
     title: string;
@@ -12,6 +19,7 @@ interface Book {
     authorID: number;
     author: Author;
     tags?: Tag[];
+    comments?: BookComment[];
 }
 
 interface Tag {
@@ -39,4 +47,8 @@ interface BookUpdateData {
     title?: string;
     publication_year?: number;
     tags?: Tag[];
+}
+interface BookCommentCreationData{
+    text: string,
+    author: string
 }
