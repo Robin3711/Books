@@ -139,7 +139,7 @@ export async function get_books(params: getAuthorsParams): Promise<{ books: Book
     return { books, totalCount };
 }
 export async function get_book(bookID: number): Promise<Book> {
-    const res = await fetch(`${apiBasename}/books/${bookID}?include=author`);
+    const res = await fetch(`${apiBasename}/books/${bookID}?include=all`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);
@@ -203,6 +203,42 @@ export async function get_tags_of_book(bookID: number): Promise<Tag[]> {
     const tags = await res.json();
     return tags;
 }
+export async function remove_comment(commentID: number) {
+    const res = await fetch(`${apiBasename}/comments/${commentID}`, {
+        method: "DELETE",
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+}
+
+export async function add_comment(bookID: string , BookCommentCreationData: BookCommentCreationData) {
+    const res = await fetch(`${apiBasename}/books/${bookID}/comments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(BookCommentCreationData),
+    });
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const Bookcomment = await res.json();
+    return Bookcomment;
+}
+
+export async function get_comment(bookID: number): Promise<BookComment[]> {
+    const res = await fetch(`${apiBasename}/books/${bookID}/comments`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const comment = await res.json();
+    return comment;
+}
+
 
 export async function get_avg_rating_of_book(bookID : number): Promise<number> {
     const res = await fetch(`${apiBasename}/books/${bookID}/ratings/avg`);

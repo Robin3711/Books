@@ -1,8 +1,8 @@
 import { useNavigate, useParams, NavLink } from "react-router-dom";
 import { useState, useEffect, FormEvent } from "react";
-import { get_book, get_author, remove_book, update_book, get_tags, remove_tag, add_tag, get_tags_of_book } from "../api";
+import { get_book, update_book, get_tags, remove_tag, add_tag , get_comment, remove_comment, add_comment , get_tags_of_book} from "../api";
 import { EditableText } from "../utils/editableText";
-
+import { Pagination } from '../utils/pagination';
 
 export function Book() {
     //Params
@@ -80,11 +80,11 @@ export function Book() {
 
         const [isTagLoading, setIsTagLoading] = useState(true);
         const [booktags, setBookTags] = useState<Tag[]>([]);
-        
+
         useEffect(() => {
             loadTags();
         },[]);
-        
+
 
         async function loadTags() {
             try {
@@ -98,7 +98,7 @@ export function Book() {
                 setErrorMessage(error.message);
             }
         }
-        
+
 
         async function addTag(tagID: number) {
             if (bookID !== undefined) {
@@ -173,6 +173,75 @@ export function Book() {
             </div>
         </>}
         <BookTags />
+        <Comment bookID={bookID ?? "-1"}/>
     </>
     );
+}
+interface commentProps{
+    bookID : string
+}
+function Comment({bookID} : commentProps){
+    const [isLoading, setIsLoading] = useState(true);
+    const [comments, setcomment] = useState<BookComment[] | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const navigate = useNavigate(); // navigation
+    useEffect(() => {
+        if (bookID) {
+            const id = parseInt(bookID);
+            if (!isNaN(id)) {
+                loadComment(id);
+            }
+        }
+    }, [bookID]);
+    async function loadComment(id: number) {
+        try {
+            setIsLoading(true);
+            const commentData = await get_comment(id);
+            setIsLoading(false);
+            setcomment(commentData);
+        } catch (error: any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+    async function handleAdd(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const text = form.text.value;
+        const author = form.author.value;
+        try {
+
+            await add_comment(bookID ?? "", { text, author });
+            loadComment(parseInt(bookID?? "-1"));
+        }
+        catch (error: any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+    async function handleRemove(CommentID: number) {
+        await remove_comment(CommentID);
+        loadComment(parseInt(bookID?? "-1"));
+    }
+    return <div>
+        <hr/>
+        <h3>Commentaire</h3>
+        <form onSubmit={handleAdd}>
+                <input type="text" name="text" placeholder={"text"} />
+                <input type="text" name="author" placeholder={"author"} />
+                <button type="submit">Ajouter</button>
+        </form>
+        {!isLoading ? (<ul>
+            {comments?.map((comment) => (
+                <li key={comment.id}>
+                    <label>Autheur : {comment.author}</label>
+                    <p>{comment.text}</p>
+                    <button className="small danger" onClick={() => handleRemove(comment.id)}>X</button>
+                </li>
+            ))}
+        </ul>) : (<p>Chargement...</p>)}
+        <hr/>
+    </div>
 }
