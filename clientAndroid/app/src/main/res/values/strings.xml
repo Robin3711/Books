@@ -19,6 +19,7 @@
     <string name="firstname">firstname</string>
     <string name="lastname">lastname</string>
     <string name="BoutonAjout">Ajouter</string>
+    <string name="livre_1_auteur">Livres de cette auteur:</string>
 
     <string-array name="order_array">
         <item>title</item>
