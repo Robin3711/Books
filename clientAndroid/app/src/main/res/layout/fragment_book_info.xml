@@ -24,19 +24,22 @@
 
     <TextView
         android:id="@+id/info_author"
-        android:layout_width="83dp"
-        android:layout_height="31dp"
+        android:layout_width="409dp"
+        android:layout_height="39dp"
         android:layout_marginTop="32dp"
         android:text="@string/author"
-        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_title" />
 
     <TextView
         android:id="@+id/info_publication_year"
-        android:layout_width="83dp"
+        android:layout_width="0dp"
         android:layout_height="34dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,8 +48,9 @@
 
     <TextView
         android:id="@+id/info_avg_rating"
-        android:layout_width="82dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

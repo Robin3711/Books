@@ -83,7 +83,7 @@ public class BookInfoFragment extends Fragment {
                 author.setText(bookViewModel.getBook().getValue().author);
                 author.setTag(bookViewModel.getBook().getValue().authorID);
                 avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
-                publication_year.setText(Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));//
+                publication_year.setText("Année de publication: " +Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));//
 
                 ArrayList<String> tagsList = new ArrayList<String>();
                 for(int i = 0; i < bookViewModel.getBook().getValue().tags.size(); i++) {
