@@ -139,7 +139,7 @@ export async function get_books(params: getAuthorsParams): Promise<{ books: Book
     return { books, totalCount };
 }
 export async function get_book(bookID: number): Promise<Book> {
-    const res = await fetch(`${apiBasename}/books/${bookID}?include=all`);
+    const res = await fetch(`${apiBasename}/books/${bookID}?include=author`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);
@@ -165,7 +165,7 @@ export async function update_book(bookID: number, bookUpdateData: BookUpdateData
 }
 
 export async function remove_tag(bookID: number,tagID: number) {
-    const res = await fetch(`${apiBasename}/books/${bookID}/${tagID}`, {
+    const res = await fetch(`${apiBasename}/books/${bookID}/tags/${tagID}`, {
         method: "DELETE",
     });
     if (!res.ok) {
@@ -186,6 +186,16 @@ export async function add_tag(bookID: number,tagID: number) {
 
 export async function get_tags(): Promise<Tag[]> {
     const res = await fetch(`${apiBasename}/tags`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const tags = await res.json();
+    return tags;
+}
+
+export async function get_tags_of_book(bookID: number): Promise<Tag[]> {
+    const res = await fetch(`${apiBasename}/books/${bookID}/tags`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);
