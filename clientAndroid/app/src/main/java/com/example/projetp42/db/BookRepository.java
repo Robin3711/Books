@@ -84,6 +84,26 @@ public class BookRepository {
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
+    public void findBooksByAuthor(Context context, BooksViewModel booksViewModel,int id){
+        String url = BASE_URL + "authors/" + id+"/books";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url,
+                response -> {
+                    try {
+                        ArrayList<Book> books = JsonToBooks(response);
+                        booksViewModel.loadBooks(books);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    ArrayList<Book> books = new ArrayList<>();
+                    books.add(new Book(error.getMessage(), "Error", new ArrayList<>()));
+                    booksViewModel.loadBooks(books);
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonArrayRequest);
+    }
 
     public void deleteBook(Context context, int id) {
         String url = BASE_URL + "books/" + id;
