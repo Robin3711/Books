@@ -112,10 +112,10 @@ public class BookInfoFragment extends Fragment {
         author.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String authorID = (String) author.getTag();
+                Integer authorID = (Integer) author.getTag();
                 SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("id", Integer.parseInt(authorID));
+                editor.putInt("id", authorID);
                 editor.apply();
                 editor.commit();
                 Navigation.findNavController(v).navigate(R.id.action_bookInfoFragment_to_authorInfoFragment);
