@@ -31,7 +31,7 @@ interface AuthorUpdateData {
 }
 
 interface BookCreationData {
-    title: String;
+    title: string;
     publication_year?: number;
 }
 
