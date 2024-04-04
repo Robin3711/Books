@@ -69,6 +69,7 @@ public class BookInfoFragment extends Fragment {
 
         try {
             bookRepository.getAvgRatingOfBook(id,ratingViewModel);
+            avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
