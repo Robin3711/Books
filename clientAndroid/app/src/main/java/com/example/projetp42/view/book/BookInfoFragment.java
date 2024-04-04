@@ -34,6 +34,7 @@ public class BookInfoFragment extends Fragment {
     TextView publication_year;
     private int id;
     private BookViewModel bookViewModel;
+    private  RatingViewModel ratingViewModel;
 
     TextView avgRating ;
 
@@ -61,10 +62,9 @@ public class BookInfoFragment extends Fragment {
         tags = root.findViewById(R.id.info_tags);
         avgRating = root.findViewById(R.id.info_avg_rating);
 
-        RatingViewModel ratingViewModel = new ViewModelProvider(this).get(RatingViewModel.class);
-
-
+        ratingViewModel = new ViewModelProvider(this).get(RatingViewModel.class);
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
+
         BookRepository bookRepository = new BookRepository();
 
         try {
