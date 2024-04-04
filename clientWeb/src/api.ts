@@ -184,10 +184,18 @@ export async function add_tag(bookID: number,tagID: number) {
     }
 }
 
-
-
 export async function get_tags(): Promise<Tag[]> {
     const res = await fetch(`${apiBasename}/tags`);
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+    const tags = await res.json();
+    return tags;
+}
+
+export async function get_tags_of_book(bookID: number): Promise<Tag[]> {
+    const res = await fetch(`${apiBasename}/books/${bookID}/tags`);
     if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg);
@@ -205,7 +213,7 @@ export async function remove_comment(commentID: number) {
     }
 }
 
-export async function add_comment(bookID: string , BookCommentCreationData: BookCommentCreationData) { 
+export async function add_comment(bookID: string , BookCommentCreationData: BookCommentCreationData) {
     const res = await fetch(`${apiBasename}/books/${bookID}/comments`, {
         method: "POST",
         headers: {

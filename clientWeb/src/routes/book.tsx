@@ -1,6 +1,6 @@
 import { useNavigate, useParams, NavLink } from "react-router-dom";
 import { useState, useEffect, FormEvent } from "react";
-import { get_book, update_book, get_tags, remove_tag, add_tag , get_comment, remove_comment, add_comment} from "../api";
+import { get_book, update_book, get_tags, remove_tag, add_tag , get_comment, remove_comment, add_comment , get_tags_of_book} from "../api";
 import { EditableText } from "../utils/editableText";
 import { Pagination } from '../utils/pagination';
 
@@ -9,14 +9,13 @@ export function Book() {
     const { bookID } = useParams();
 
     //States
-    const [book, setbook] = useState<Book | null>(null);    
+    const [book, setbook] = useState<Book | null>(null);
     const [author, setAuthor] = useState<Author>();
     const [tags, setTags] = useState<Tag[]>([]);
 
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const [isLoading, setIsLoading] = useState(true);
-    const [isTagLoading, setIsTagLoading] = useState(true);
 
 
     //useEffects
@@ -51,10 +50,8 @@ export function Book() {
 
     async function loadTags() {
         try {
-            setIsTagLoading(true);
             const tags = await get_tags();
             setTags(tags);
-            setIsTagLoading(false);
         } catch (error: any) {
             setErrorMessage(error.message);
         }
@@ -78,73 +75,106 @@ export function Book() {
         }
     }
 
-    async function addTag(tagID: number) {
-        if (bookID !== undefined) {
-            setIsTagLoading(true);
-            await add_tag(parseInt(bookID), tagID);
-            setIsTagLoading(false);
-            loadBook(parseInt(bookID));
-        }
-    }
 
-    async function removeTag(tagID: number) {
-        if (bookID !== undefined) {
-            setIsTagLoading(true);
-            await remove_tag(parseInt(bookID), tagID);
-            setIsTagLoading(false);
-            loadBook(parseInt(bookID));
+    function BookTags() {
+
+        const [isTagLoading, setIsTagLoading] = useState(true);
+        const [booktags, setBookTags] = useState<Tag[]>([]);
+
+        useEffect(() => {
+            loadTags();
+        },[]);
+
+
+        async function loadTags() {
+            try {
+                if (bookID != undefined) {
+                    setIsTagLoading(true);
+                    const tags = await get_tags_of_book(parseInt(bookID));
+                    setBookTags(tags);
+                    setIsTagLoading(false);
+                }
+            } catch (error: any) {
+                setErrorMessage(error.message);
             }
-    }
-
-    // <-- handler functions -->
-
-    async function handleAddTag(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        if (bookID !== undefined && e.currentTarget.tags.value !== "0") {
-            await addTag(parseInt(e.currentTarget.tags.value));
-            loadBook(parseInt(bookID));
         }
-    }
 
-    async function handleRemoveTag(tagID: number) {
+
+        async function addTag(tagID: number) {
+            if (bookID !== undefined) {
+                setIsTagLoading(true);
+                await add_tag(parseInt(bookID), tagID);
+                setIsTagLoading(false);
+                loadTags();
+            }
+        }
+
+        async function removeTag(tagID: number) {
+            if (bookID !== undefined) {
+                setIsTagLoading(true);
+                await remove_tag(parseInt(bookID), tagID);
+                setIsTagLoading(false);
+                loadTags();
+            }
+        }
+
+
+        // <-- handler functions -->
+
+        async function handleAddTag(e: FormEvent<HTMLFormElement>) {
+            e.preventDefault();
+            if (bookID !== undefined && e.currentTarget.tags.value !== "0") {
+                await addTag(parseInt(e.currentTarget.tags.value));
+            }
+        }
+
+        async function handleRemoveTag(tagID: number) {
             await removeTag(tagID);
-    }
+        }
 
-    //Return
+        return (
+            <>
+                {isTagLoading ? <p>Chargement des Tags ...</p> :
+                    <>
+                        <ul>
+                            {booktags.map((tag, index) => {
+                                return <li key={index}>{tag.name} <button onClick={() => handleRemoveTag(tag.id)}>Remove</button></li>
+                            })}
+                        </ul>
+                        <form onSubmit={handleAddTag}>
+                            <select name="tags">
+                                <option value={0}>-Choose a tag-</option>
+                                {tags.map((tag, index) => (
+                                    <option value={tag?.id} key={index}>{tag?.name}</option>
+                                ))}
+                            </select>
+                            <button>Add tag</button>
+                        </form>
+                    </>}
+            </>
+        );
+    }
 
     return (<>
-            {isLoading ? <p>Chargement...</p> : <>
-                <div>
-                    <h1>&nbsp;{book?.title}</h1>
-                    <hr/>
-                    <h4>Date de publication : {book?.publication_year}</h4>
+        {isLoading ? <p>Chargement ...</p> : <>
+            <div>
+                <h1>&nbsp;{book?.title}</h1>
+                <hr />
+                <h4>Date de publication : {book?.publication_year}</h4>
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
-                <ul>
-                    {book?.tags?.map((tag, index) => {
-                        return <li key={index}>{tag.name} <button onClick={() => handleRemoveTag(tag.id)}>Remove</button></li>
-                    })}
-                </ul>
-                <form onSubmit={handleAddTag}>
-                    <select name="tags">
-                        <option value={0}>-Choose a tag-</option>
-                        {tags.map((tag, index) => (
-                            <option value={tag?.id} key={index}>{tag?.name}</option>
-                        ))}
-                    </select>
-                    <button>Add tag</button>
-                </form>
-                </div>
-                <div>
-                    {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-                    <p>modifier le livre</p>
-                    <label>Titre : </label><EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle}/>
-                    <br/>
-                    <br/>
-                    <label>Date de publication : </label><EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />  
-                </div>   
-                <Comment bookID={bookID ?? "-1"}/>             
-            </>}
-        </>
+            </div>
+            <div>
+                {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
+                <p>modifier le livre</p>
+                <label>Titre : </label><EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />
+                <br />
+                <br />
+                <label>Date de publication : </label><EditableText value={book?.publication_year.toString() ?? ""} onUpdate={updatePublicationDate} />
+            </div>
+        </>}
+        <BookTags />
+        <Comment bookID={bookID ?? "-1"}/>
+    </>
     );
 }
 interface commentProps{
