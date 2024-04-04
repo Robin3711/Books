@@ -69,7 +69,6 @@ public class BookInfoFragment extends Fragment {
 
         try {
             bookRepository.getAvgRatingOfBook(id,ratingViewModel);
-            avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -83,6 +82,7 @@ public class BookInfoFragment extends Fragment {
                 //author.setText(Integer.toString(bookViewModel.getBook().getValue().getAuthorID()));
                 author.setText(bookViewModel.getBook().getValue().author);
                 author.setTag(bookViewModel.getBook().getValue().authorID);
+                avgRating.setText("Average rating: " + ratingViewModel.getRating().getValue());
                 publication_year.setText(Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));//
 
                 ArrayList<String> tagsList = new ArrayList<String>();
