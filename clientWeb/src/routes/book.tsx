@@ -5,14 +5,21 @@ import { EditableText } from "../utils/editableText";
 
 
 export function Book() {
-    const [book, setbook] = useState<Book | null>(null);
-    const [author, setAuthor] = useState<Author>();
-    const [errorMessage, setErrorMessage] = useState<string>("");
+    //Params
     const { bookID } = useParams();
+
+    //States
+    const [book, setbook] = useState<Book | null>(null);    
+    const [author, setAuthor] = useState<Author>();
     const [tags, setTags] = useState<Tag[]>([]);
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [isTagLoading, setIsTagLoading] = useState(true);
+
+
+    //useEffects
     useEffect(() => {
         if (bookID) {
             const id = parseInt(bookID);
@@ -26,6 +33,7 @@ export function Book() {
         loadTags();
     }, []);
 
+    // <-- api functions -->
     async function loadBook(id: number) {
         try {
             setIsLoading(true);
@@ -43,8 +51,10 @@ export function Book() {
 
     async function loadTags() {
         try {
+            setIsTagLoading(true);
             const tags = await get_tags();
             setTags(tags);
+            setIsTagLoading(false);
         } catch (error: any) {
             setErrorMessage(error.message);
         }
@@ -68,28 +78,39 @@ export function Book() {
         }
     }
 
-    async function removeTag(tagID: number) {
+    async function addTag(tagID: number) {
         if (bookID !== undefined) {
-            setIsLoading(true);
-            await remove_tag(parseInt(bookID), tagID);
-            setIsLoading(false);
-                loadBook(parseInt(bookID));
-            }
-        if (bookID !== undefined) {
-
+            setIsTagLoading(true);
+            await add_tag(parseInt(bookID), tagID);
+            setIsTagLoading(false);
             loadBook(parseInt(bookID));
         }
     }
+
+    async function removeTag(tagID: number) {
+        if (bookID !== undefined) {
+            setIsTagLoading(true);
+            await remove_tag(parseInt(bookID), tagID);
+            setIsTagLoading(false);
+            loadBook(parseInt(bookID));
+            }
+    }
+
+    // <-- handler functions -->
 
     async function handleAddTag(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (bookID !== undefined && e.currentTarget.tags.value !== "0") {
-            setIsLoading(true);
-            await add_tag(parseInt(bookID), e.currentTarget.tags.value);
-            setIsLoading(false);
+            await addTag(parseInt(e.currentTarget.tags.value));
             loadBook(parseInt(bookID));
         }
     }
+
+    async function handleRemoveTag(tagID: number) {
+            await removeTag(tagID);
+    }
+
+    //Return
 
     return (<>
         
@@ -101,7 +122,7 @@ export function Book() {
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
                 <ul>
                     {book?.tags?.map((tag, index) => {
-                        return <li key={index}>{tag.name} <button onClick={() => removeTag(tag.id)}>Remove</button></li>
+                        return <li key={index}>{tag.name} <button onClick={() => handleRemoveTag(tag.id)}>Remove</button></li>
                     })}
                 </ul>
                 <form onSubmit={handleAddTag}>
