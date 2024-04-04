@@ -10,31 +10,37 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:autofillHints="text"
         android:hint="@string/title"
         android:inputType="text"
-        android:autofillHints="text" />
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/publication_year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:autofillHints="text"
         android:hint="@string/publication_year"
         android:inputType="text"
-        android:autofillHints="text" />
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:autofillHints="text"
         android:hint="@string/author"
         android:inputType="text"
-        android:autofillHints="text" />
+        android:textSize="24sp" />
 
-<Button
+    <Button
         android:id="@+id/add_book"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_book" />
+        android:layout_height="73dp"
+        android:text="@string/BoutonAjout" />
 
 
 </LinearLayout>

@@ -23,7 +23,6 @@ public class addAuthorFragment extends Fragment {
         EditText firstname = root.findViewById(R.id.editTextAddFirstname);
         EditText lastname = root.findViewById(R.id.editTextAddLastname);
         Button addAuthor = root.findViewById(R.id.addAuthorButton);
-
         addAuthor.setOnClickListener(v -> {
             Author author = new Author(0, firstname.getText().toString(), lastname.getText().toString(), null);
             AuthorRepository authorRepository = new AuthorRepository();
