@@ -23,23 +23,14 @@
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:autofillHints="text"
         android:hint="@string/publication_year"
-        android:inputType="text"
-        android:textSize="24sp" />
-
-    <EditText
-        android:id="@+id/author"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:autofillHints="text"
-        android:hint="@string/author"
-        android:inputType="text"
+        android:inputType="number"
         android:textSize="24sp" />
 
     <Spinner
+        android:id="@+id/auteurSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/auteurSpinner"/>
+        android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 
     <Button
         android:id="@+id/add_book"

@@ -18,10 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.projetp42.R;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.db.BookRepository;
+import com.example.projetp42.model.Author;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
@@ -63,25 +65,42 @@ public class AddBookFragment extends Fragment {
         }
 
             authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
-                ArrayList<String> authorNames = new ArrayList<>();
+                /*ArrayList<Author> authorNames = new ArrayList<>();
                 for(int i = 0; i < authorsViewModel.getAuthors().getValue().size(); i++){
-                    authorNames.add(authorsViewModel.getAuthors().getValue().get(i).firstname + " " + authorsViewModel.getAuthors().getValue().get(i).lastname);
-                }
-                spinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, authorNames));
+                    authorNames.add(authorsViewModel.getAuthors().getValue().get(i));
+                    //authorNames.add(authorsViewModel.getAuthors().getValue().get(i).firstname + " " + authorsViewModel.getAuthors().getValue().get(i).lastname);
+                }*/
+                ArrayAdapter<Author> adapter = new ArrayAdapter<Author>(getContext(), android.R.layout.simple_spinner_dropdown_item, author) {
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setText(getItem(position).firstname); // Affiche seulement le prénom de l'auteur
+                        return textView;
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        TextView textView = (TextView) super.getDropDownView(position, convertView, parent);
+                        textView.setText(getItem(position).firstname); // Affiche seulement le prénom de l'auteur dans la liste déroulante
+                        return textView;
+                    }
+                };
+                spinner.setAdapter(adapter);
             });
 
 
 
 
 
-    EditText author = view.findViewById(R.id.author);
 
     Button addBookButton = (Button) getView().findViewById(R.id.add_book);
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Book book = new Book(0,0,spinner.getSelectedItem().toString(), parseInt(publication_year.getText().toString()), title.getText().toString(), null, null, null);
+                Author author1 =(Author) spinner.getSelectedItem();
+                Book book = new Book(0,author1.id,author1.firstname, parseInt(publication_year.getText().toString()), title.getText().toString(), null, null, null);
                 BookRepository bookRepository = new BookRepository();
                 BookRepository.AddBookCallback addBookCallback = new BookRepository.AddBookCallback() {
                     @Override
