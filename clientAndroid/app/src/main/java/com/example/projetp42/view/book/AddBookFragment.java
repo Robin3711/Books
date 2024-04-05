@@ -147,14 +147,13 @@ public class AddBookFragment extends Fragment {
                 Author author1 =(Author) authorSpinner.getSelectedItem();
                 ArrayList<Tag> tags = new ArrayList<>();
                 tags.add((Tag) tagSpinner.getSelectedItem());
-                Book book = new Book(0,author1.id,author1.firstname, parseInt(publication_year.getText().toString()), title.getText().toString(), tags, null, null);
+                Book book = new Book(0,author1.id,author1.firstname + " "+ author1.lastname, parseInt(publication_year.getText().toString()), title.getText().toString(), tags, null, null);
                 BookRepository bookRepository = new BookRepository();
                 BookRepository.AddBookCallback addBookCallback = new BookRepository.AddBookCallback() {
                     @Override
                     public void onSuccess(int bookId) {
                         NavController navController = Navigation.findNavController(v);
                         navController.popBackStack();
-                        //Navigation.findNavController(view).navigate(R.id.action_addBookFragment_to_navigation_home);
                     }
 
                     @Override

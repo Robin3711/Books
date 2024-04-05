@@ -153,20 +153,12 @@ public class BookRepository {
     }
 
     public void addBook(Context context, Book book, AddBookCallback callback) {
-        String url = BASE_URL + "authors/"+book.authorID+"/books";
+        String url = BASE_URL + "authors/" + book.authorID + "/books";
 
         JSONObject json = new JSONObject();
         try {
             json.put("title", book.title);
             json.put("publication_year", book.publication_year);
-JSONArray tags = new JSONArray();
-            for (Tag tag : book.tags) {
-                JSONObject tagJson = new JSONObject();
-                tagJson.put("id", tag.id);
-                tags.put(tagJson);
-            }
-            json.put("tags", tags);
-
         } catch (JSONException e) {
             e.printStackTrace();
             if (callback != null) {
@@ -183,6 +175,22 @@ JSONArray tags = new JSONArray();
                         if (callback != null) {
                             callback.onSuccess(id);
                         }
+
+                        // Add tags after successfully adding the book
+                        if (book.tags != null) {
+                            for (Tag tag : book.tags) {
+                                String urlTag = BASE_URL + "books/" + book.id + "/tags/" + tag.id;
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, urlTag,
+                                        tagResponse -> {
+                                            Log.d("TAG", "Tag added to book");
+                                        },
+                                        error -> {
+                                            Log.d("TAG", "Error adding tag to book: " + error.getMessage());
+                                        });
+
+                                VolleyRequestQueue.getInstance(context).add(stringRequest);
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                         if (callback != null) {
@@ -198,6 +206,7 @@ JSONArray tags = new JSONArray();
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
+
 
     public interface AddBookCallback {
         void onSuccess(int bookId);
