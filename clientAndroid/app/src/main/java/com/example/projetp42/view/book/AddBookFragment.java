@@ -2,6 +2,8 @@ package com.example.projetp42.view.book;
 
 import static java.lang.Integer.parseInt;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -38,16 +41,19 @@ import java.util.List;
 
 public class AddBookFragment extends Fragment {
 
-
+    public int id;
+    private View root;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        id = prefs.getInt("idAuthorFromAuthorInfo", -1);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_book, container, false);
+        root = inflater.inflate(R.layout.fragment_add_book, container, false);
+        return root;
     }
 
     @Override
@@ -86,6 +92,16 @@ public class AddBookFragment extends Fragment {
                     }
                 };
                 authorSpinner.setAdapter(adapter);
+                int indexToSelect = -1;
+                for (int i = 0; i < author.size() && indexToSelect ==-1 && id != -1; i++) {
+                    if (author.get(i).id == id) {
+                        indexToSelect = i;
+                    }
+                }
+                if (indexToSelect != -1) {
+                    spinner.setSelection(indexToSelect);
+                }
+
             });
 
 
@@ -136,7 +152,9 @@ public class AddBookFragment extends Fragment {
                 BookRepository.AddBookCallback addBookCallback = new BookRepository.AddBookCallback() {
                     @Override
                     public void onSuccess(int bookId) {
-                        Navigation.findNavController(view).navigate(R.id.action_addBookFragment_to_navigation_home);
+                        NavController navController = Navigation.findNavController(v);
+                        navController.popBackStack();
+                        //Navigation.findNavController(view).navigate(R.id.action_addBookFragment_to_navigation_home);
                     }
 
                     @Override
