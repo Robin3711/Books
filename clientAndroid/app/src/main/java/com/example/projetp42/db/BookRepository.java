@@ -159,6 +159,13 @@ public class BookRepository {
         try {
             json.put("title", book.title);
             json.put("publication_year", book.publication_year);
+JSONArray tags = new JSONArray();
+            for (Tag tag : book.tags) {
+                JSONObject tagJson = new JSONObject();
+                tagJson.put("id", tag.id);
+                tags.put(tagJson);
+            }
+            json.put("tags", tags);
 
         } catch (JSONException e) {
             e.printStackTrace();
