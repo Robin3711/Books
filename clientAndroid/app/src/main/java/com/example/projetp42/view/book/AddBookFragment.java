@@ -99,7 +99,7 @@ public class AddBookFragment extends Fragment {
                     }
                 }
                 if (indexToSelect != -1) {
-                    spinner.setSelection(indexToSelect);
+                    authorSpinner.setSelection(indexToSelect);
                 }
 
             });
