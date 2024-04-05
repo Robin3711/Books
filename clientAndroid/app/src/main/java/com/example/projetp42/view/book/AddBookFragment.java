@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.projetp42.R;
+import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
+
+import java.util.ArrayList;
 
 
 public class AddBookFragment extends Fragment {
@@ -44,17 +48,31 @@ public class AddBookFragment extends Fragment {
         EditText title = view.findViewById(R.id.title);
         EditText publication_year = view.findViewById(R.id.publication_year);
 
-        /*Spinner spinner = view.findViewById(R.id.author); //on voulait recuperer la list des auteurs
+        Spinner spinner = view.findViewById(R.id.auteurSpinner);
 
         AuthorsViewModel authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
-        authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            for (int i = 0; i < authors.size(); i++) {
-                adapter.add(authors.get(i).firstname + " " + authors.get(i).lastname);
-            }
-            spinner.setAdapter(adapter);
-        }); */
+
+        AuthorRepository authorRepository = new AuthorRepository();
+
+        try {
+            authorRepository.findAuthors(this.getContext(), authorsViewModel);
+            Log.d("AuthorsFragment", "Authors loaded successfully.");
+        } catch (Exception e) {
+            Log.e("AuthorsFragment", "Error loading authors: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+            authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
+                ArrayList<String> authorNames = new ArrayList<>();
+                for(int i = 0; i < authorsViewModel.getAuthors().getValue().size(); i++){
+                    authorNames.add(authorsViewModel.getAuthors().getValue().get(i).firstname + " " + authorsViewModel.getAuthors().getValue().get(i).lastname);
+                }
+                spinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, authorNames));
+            });
+
+
+
+
 
     EditText author = view.findViewById(R.id.author);
 
@@ -63,7 +81,7 @@ public class AddBookFragment extends Fragment {
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Book book = new Book(0,parseInt(author.getText().toString()),"author", parseInt(publication_year.getText().toString()), title.getText().toString(), null, null, null);
+                Book book = new Book(0,0,spinner.getSelectedItem().toString(), parseInt(publication_year.getText().toString()), title.getText().toString(), null, null, null);
                 BookRepository bookRepository = new BookRepository();
                 BookRepository.AddBookCallback addBookCallback = new BookRepository.AddBookCallback() {
                     @Override
