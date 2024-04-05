@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -23,12 +24,16 @@ import android.widget.TextView;
 import com.example.projetp42.R;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.db.BookRepository;
+import com.example.projetp42.db.TagRepository;
 import com.example.projetp42.model.Author;
 import com.example.projetp42.model.Book;
+import com.example.projetp42.model.Tag;
+import com.example.projetp42.viewmodel.TagsViewModel;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddBookFragment extends Fragment {
@@ -50,10 +55,9 @@ public class AddBookFragment extends Fragment {
         EditText title = view.findViewById(R.id.title);
         EditText publication_year = view.findViewById(R.id.publication_year);
 
-        Spinner spinner = view.findViewById(R.id.auteurSpinner);
+        Spinner authorSpinner = view.findViewById(R.id.auteurSpinner);
 
         AuthorsViewModel authorsViewModel = new ViewModelProvider(this).get(AuthorsViewModel.class);
-
         AuthorRepository authorRepository = new AuthorRepository();
 
         try {
@@ -65,33 +69,58 @@ public class AddBookFragment extends Fragment {
         }
 
             authorsViewModel.getAuthors().observe(getViewLifecycleOwner(), author -> {
-                /*ArrayList<Author> authorNames = new ArrayList<>();
-                for(int i = 0; i < authorsViewModel.getAuthors().getValue().size(); i++){
-                    authorNames.add(authorsViewModel.getAuthors().getValue().get(i));
-                    //authorNames.add(authorsViewModel.getAuthors().getValue().get(i).firstname + " " + authorsViewModel.getAuthors().getValue().get(i).lastname);
-                }*/
                 ArrayAdapter<Author> adapter = new ArrayAdapter<Author>(getContext(), android.R.layout.simple_spinner_dropdown_item, author) {
                     @NonNull
                     @Override
                     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                         TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setText(getItem(position).firstname); // Affiche seulement le prénom de l'auteur
+                        textView.setText(getItem(position).firstname + " " + getItem(position).lastname);
                         return textView;
                     }
 
                     @Override
                     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                         TextView textView = (TextView) super.getDropDownView(position, convertView, parent);
-                        textView.setText(getItem(position).firstname); // Affiche seulement le prénom de l'auteur dans la liste déroulante
+                        textView.setText(getItem(position).firstname + " " + getItem(position).lastname);
                         return textView;
                     }
                 };
-                spinner.setAdapter(adapter);
+                authorSpinner.setAdapter(adapter);
             });
 
 
+        Spinner tagSpinner = view.findViewById(R.id.tagSpinner);
 
+        TagsViewModel tagsViewModel = new ViewModelProvider(this).get(TagsViewModel.class);
+        TagRepository tagRepository = new TagRepository();
 
+        try {
+            tagRepository.getAllTags(this.getContext(), tagsViewModel);
+            Log.d("TagsFragment", "Tags loaded successfully.");
+        } catch (Exception e) {
+            Log.e("TagsFragment", "Error loading tags: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        tagsViewModel.getTags().observe(getViewLifecycleOwner(), tags -> {
+            ArrayAdapter<Tag> adapter = new ArrayAdapter<Tag>(getContext(), android.R.layout.simple_spinner_dropdown_item, tags) {
+                @NonNull
+                @Override
+                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    TextView textView = (TextView) super.getView(position, convertView, parent);
+                    textView.setText(getItem(position).name);
+                    return textView;
+                }
+
+                @Override
+                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    TextView textView = (TextView) super.getDropDownView(position, convertView, parent);
+                    textView.setText(getItem(position).name);
+                    return textView;
+                }
+            };
+            tagSpinner.setAdapter(adapter);
+        });
 
 
     Button addBookButton = (Button) getView().findViewById(R.id.add_book);
@@ -99,8 +128,10 @@ public class AddBookFragment extends Fragment {
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Author author1 =(Author) spinner.getSelectedItem();
-                Book book = new Book(0,author1.id,author1.firstname, parseInt(publication_year.getText().toString()), title.getText().toString(), null, null, null);
+                Author author1 =(Author) authorSpinner.getSelectedItem();
+                ArrayList<Tag> tags = new ArrayList<>();
+                tags.add((Tag) tagSpinner.getSelectedItem());
+                Book book = new Book(0,author1.id,author1.firstname, parseInt(publication_year.getText().toString()), title.getText().toString(), tags, null, null);
                 BookRepository bookRepository = new BookRepository();
                 BookRepository.AddBookCallback addBookCallback = new BookRepository.AddBookCallback() {
                     @Override

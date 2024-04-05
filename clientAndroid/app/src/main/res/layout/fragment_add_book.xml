@@ -32,6 +32,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 
+    <Spinner
+        android:id="@+id/tagSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin" />
+
     <Button
         android:id="@+id/add_book"
         android:layout_width="match_parent"
