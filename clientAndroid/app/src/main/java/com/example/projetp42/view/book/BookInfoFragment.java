@@ -32,17 +32,12 @@ public class BookInfoFragment extends Fragment {
     TextView title;
     TextView author;
     TextView publication_year;
+    TextView avgRating ;
+    private ListView tags;
+    private ListView comments;
     private int id;
     private BookViewModel bookViewModel;
     private  RatingViewModel ratingViewModel;
-
-    TextView avgRating ;
-
-    private ListView tags;
-
-    private ListView comments;
-
-    private static final String TAG = "BookInfoFragment"; // Log tag for debugging
 
     public BookInfoFragment() {
     }
@@ -56,8 +51,9 @@ public class BookInfoFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         View root = inflater.inflate(R.layout.fragment_book_info, container, false);
+
         title = root.findViewById(R.id.info_title);
         author = root.findViewById(R.id.info_author);
         publication_year = root.findViewById(R.id.info_publication_year);
@@ -77,12 +73,14 @@ public class BookInfoFragment extends Fragment {
         }
 
         bookRepository.findBookById(this.getContext(), bookViewModel, id);
-        Log.d(TAG, "Book ID: " + id);
+
         bookViewModel.getBook().observe(getViewLifecycleOwner(), book -> {
             try {
 
                 title.setText(bookViewModel.getBook().getValue().getTitle());
                 author.setText(bookViewModel.getBook().getValue().author);
+                publication_year.setText("Année de publication: " +Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));
+
                 if(ratingViewModel.getRating().getValue() == null)
                 {
                     avgRating.setText("no rating yet");
@@ -92,8 +90,6 @@ public class BookInfoFragment extends Fragment {
                 }
 
                 author.setTag(bookViewModel.getBook().getValue().authorID);
-
-                publication_year.setText("Année de publication: " +Integer.toString(bookViewModel.getBook().getValue().getPublication_year()));//
 
                 ArrayList<String> tagsList = new ArrayList<String>();
                 for(int i = 0; i < bookViewModel.getBook().getValue().tags.size(); i++) {
@@ -113,26 +109,23 @@ public class BookInfoFragment extends Fragment {
 
                 if(comments.getCount() == 0) {
                     commentsList.add("No comments");
-                    Log.d(TAG, "No comments");
                 }
 
                 if(tags.getCount() == 0) {
                     tags.setTag(0, "No tags");
-                    Log.d(TAG, "No tags");
                 }
-                Log.d(TAG, "Book loaded successfully.");
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
 
-        // suppression
         FloatingActionButton fab = root.findViewById(R.id.info_book_delete_button);
         fab.setOnClickListener(view -> {
             bookRepository.deleteBook(this.getContext(), id);
             Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_fragment_books);
         });
+
         author.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
