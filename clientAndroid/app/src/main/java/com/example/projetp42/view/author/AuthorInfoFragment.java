@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.projetp42.R;
@@ -67,6 +68,15 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
         fab.setOnClickListener(view -> {
             authorRepository.deleteAuthor(this.getContext(), id);
             Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_authorFragment);
+        });
+        Button button = root.findViewById(R.id.buttonAjoutLivreAuthor);
+        button.setOnClickListener(view -> {
+            SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("idAuthorFromAuthorInfo", id);
+            editor.apply();
+            editor.commit();
+            Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_addBookFragment);
         });
 
         //Recuperation des books
