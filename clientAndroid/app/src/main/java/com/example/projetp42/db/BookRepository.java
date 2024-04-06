@@ -2,7 +2,6 @@ package com.example.projetp42.db;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -22,18 +21,17 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class BookRepository {
 
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    private static final String baseUrl = "http://10.0.2.2:3000/";
 
     public BookRepository() {
 
     }
 
     public void findBooks(Context context, BooksViewModel booksViewModel,BookData bookData, String order) {
-        String url = BASE_URL + "books";
+        String url = baseUrl + "books";
 
         boolean firstParam = true;
 
@@ -70,7 +68,7 @@ public class BookRepository {
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(url,
                 response -> {
                     try {
-                        ArrayList<Book> books = JsonToBooks(response);
+                        ArrayList<Book> books = jsonToBooks(response);
                         if(books.size() == 0){
                             books.add(new Book("No books found for those filters", "Error", new ArrayList<>()));
                         }
@@ -88,12 +86,12 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
     public void findBooksByAuthor(Context context, BooksViewModel booksViewModel,int id){
-        String url = BASE_URL + "authors/" + id+"/books";
+        String url = baseUrl + "authors/" + id+"/books";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url,
                 response -> {
                     try {
-                        ArrayList<Book> books = JsonToBooks(response);
+                        ArrayList<Book> books = jsonToBooks(response);
                         booksViewModel.loadBooks(books);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -109,7 +107,7 @@ public class BookRepository {
     }
 
 
-    private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
+    private ArrayList<Book> jsonToBooks(JSONArray json) throws JSONException {
         ArrayList<Book> books = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
             JSONObject bookJson = json.getJSONObject(i);
@@ -122,7 +120,7 @@ public class BookRepository {
     }
 
     public void deleteBook(Context context, int id) {
-        String url = BASE_URL + "books/" + id;
+        String url = baseUrl + "books/" + id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
                 response -> {
@@ -135,7 +133,7 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
 
-    public static class BookData {
+        public static class BookData {
         private String title;
         private String author;
         private String tag;
@@ -148,12 +146,12 @@ public class BookRepository {
     }
 
     public void findBookById(Context context, BookViewModel bookViewModel, int id) {
-        String url = BASE_URL + "books/" + id+"?include=all";
+        String url = baseUrl + "books/" + id+"?include=all";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
                 response -> {
                     try {
-                        Book book = JsonToBook(response);
+                        Book book = jsonToBook(response);
                         bookViewModel.loadBook(book);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -167,20 +165,20 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
 
-    private Book JsonToBook(JSONObject json) throws JSONException {
+    private Book jsonToBook(JSONObject json) throws JSONException {
         return new Book(json.getInt("id"),
                 json.getInt("authorId"),
                 json.getJSONObject("author").getString("firstname") + " " + json.getJSONObject("author").getString("lastname"),
                 json.getInt("publication_year"),
                 json.getString("title"),
-                JsonToTags(json.getJSONArray("tags")),
-                JsonToComments(json.getJSONArray("comments")),
+                jsonToTags(json.getJSONArray("tags")),
+                jsonToComments(json.getJSONArray("comments")),
                 //new ArrayList<>(),
                 new ArrayList<>());
     }
 
     public void addBook(Context context, Book book, AddBookCallback callback) {
-        String url = BASE_URL + "authors/" + book.authorID + "/books";
+        String url = baseUrl + "authors/" + book.authorID + "/books";
 
         JSONObject json = new JSONObject();
         try {
@@ -206,7 +204,7 @@ public class BookRepository {
                         // Add tags after successfully adding the book
                         if (book.tags != null) {
                             for (Tag tag : book.tags) {
-                                String urlTag = BASE_URL + "books/" + book.id + "/tags/" + tag.id;
+                                String urlTag = baseUrl + "books/" + book.id + "/tags/" + tag.id;
                                 StringRequest stringRequest = new StringRequest(Request.Method.POST, urlTag,
                                         tagResponse -> {
                                             Log.d("TAG", "Tag added to book");
@@ -235,7 +233,7 @@ public class BookRepository {
     }
 
 public void addComment(Context context, Comment comment) {
-        String url = BASE_URL + "books/" + comment.bookId + "/comments";
+        String url = baseUrl + "books/" + comment.bookId + "/comments";
 
         JSONObject json = new JSONObject();
         try {
@@ -258,7 +256,7 @@ public void addComment(Context context, Comment comment) {
     }
 
     public void addRating(Context context, Rating rating) {
-        String url = BASE_URL + "books/" + rating.bookId + "/ratings";
+        String url = baseUrl + "books/" + rating.bookId + "/ratings";
 
         JSONObject json = new JSONObject();
         try {
@@ -288,7 +286,7 @@ public void addComment(Context context, Comment comment) {
 
 
     public void getAvgRatingOfBook(int bookId, RatingViewModel ratingViewModel) throws JSONException {
-        String url = BASE_URL + "books/" + bookId + "/ratings/avg";
+        String url = baseUrl + "books/" + bookId + "/ratings/avg";
         StringRequest jsonObjectRequest = new StringRequest(url,
                 response -> {
                     try {
@@ -312,7 +310,7 @@ public void addComment(Context context, Comment comment) {
 
 
 
-    private ArrayList<Tag> JsonToTags(JSONArray json) throws JSONException {
+    private ArrayList<Tag> jsonToTags(JSONArray json) throws JSONException {
         ArrayList<Tag> tags = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
             JSONObject tagJson = json.getJSONObject(i);
@@ -324,7 +322,7 @@ public void addComment(Context context, Comment comment) {
         return tags;
     }
 
-    private ArrayList<Comment> JsonToComments(JSONArray json) throws JSONException {
+    private ArrayList<Comment> jsonToComments(JSONArray json) throws JSONException {
         ArrayList<Comment> comments = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
             JSONObject commentJson = json.getJSONObject(i);

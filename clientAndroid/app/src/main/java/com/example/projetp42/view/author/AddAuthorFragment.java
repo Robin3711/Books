@@ -15,7 +15,7 @@ import com.example.projetp42.R;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.model.Author;
 
-public class addAuthorFragment extends Fragment {
+public class AddAuthorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

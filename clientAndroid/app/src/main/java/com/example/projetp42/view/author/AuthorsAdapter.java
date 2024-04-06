@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
 import com.example.projetp42.model.Author;
-import com.example.projetp42.view.book.ItemClickListener;
+import com.example.projetp42.view.ItemClickListener;
 
 import java.util.List;
 

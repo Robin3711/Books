@@ -7,12 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
+import com.example.projetp42.view.ItemClickListener;
 
-public class bookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView title;
     Integer id;
     ItemClickListener clickListener;
-    public bookViewHolder(@NonNull View itemView, ItemClickListener clickListener) {
+    public BookViewHolder(@NonNull View itemView, ItemClickListener clickListener) {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.title);
         this.clickListener = clickListener;

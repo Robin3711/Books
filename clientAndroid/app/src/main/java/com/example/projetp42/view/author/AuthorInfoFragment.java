@@ -22,9 +22,8 @@ import com.example.projetp42.R;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.view.book.BookAdapter;
-import com.example.projetp42.view.book.ItemClickListener;
+import com.example.projetp42.view.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
-import com.example.projetp42.viewmodel.book.BookViewModel;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

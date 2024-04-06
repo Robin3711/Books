@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
-import com.example.projetp42.view.book.ItemClickListener;
+import com.example.projetp42.view.ItemClickListener;
 
 public class AuthorsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     TextView name;

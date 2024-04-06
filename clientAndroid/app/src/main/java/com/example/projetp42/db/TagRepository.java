@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 public class TagRepository {
 
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    private static final String baseUrl = "http://10.0.2.2:3000/";
 
     public void getAllTags(Context context, TagsViewModel tagsViewModel) {
-        String url = BASE_URL + "tags";
+        String url = baseUrl + "tags";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
             ArrayList<Tag> tags = new ArrayList<>();
             for (int i = 0; i < response.length(); i++) {

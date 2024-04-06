@@ -19,7 +19,7 @@ import com.example.projetp42.R;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.model.Comment;
 
-public class addCommentFragment extends Fragment {
+public class AddCommentFragment extends Fragment {
 
 
     int bookId;

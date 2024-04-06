@@ -7,10 +7,8 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.projetp42.model.Author;
-import com.example.projetp42.model.Book;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
-import com.example.projetp42.viewmodel.book.BookViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,13 +17,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class AuthorRepository {
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    private static final String baseUrl = "http://10.0.2.2:3000/";
 
     public AuthorRepository() {
     }
 
     public void findAuthors(Context context, AuthorsViewModel authorsViewModel) {
-        String url = BASE_URL + "authors";
+        String url = baseUrl + "authors";
 
         JsonArrayRequest request = new JsonArrayRequest(url,
                 response -> {
@@ -56,7 +54,7 @@ public class AuthorRepository {
         return authors;
     }
     public void findAuthorById(Context context, AuthorViewModel authorViewModel, int id) {
-        String url = BASE_URL + "authors/" + id;
+        String url = baseUrl + "authors/" + id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,
                 response -> {
@@ -81,7 +79,7 @@ public class AuthorRepository {
     }
 
     public void addAuthor(Context context, Author author, AddAuthorCallback callback) {
-        String url = BASE_URL + "authors";
+        String url = baseUrl + "authors";
 
         JSONObject json = new JSONObject();
         try {
@@ -124,7 +122,7 @@ public class AuthorRepository {
     }
 
     public void deleteAuthor(Context context, int id) {
-        String url = BASE_URL + "authors/" + id;
+        String url = baseUrl + "authors/" + id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
                 response -> {
