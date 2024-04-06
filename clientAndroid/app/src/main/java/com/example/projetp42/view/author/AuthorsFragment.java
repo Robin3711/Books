@@ -77,7 +77,7 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
     public void onClick(View view, int id) {
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("id", id);
+        editor.putInt("idAuthor", id);
         editor.apply();
         editor.commit();
         Navigation.findNavController(view).navigate(R.id.action_authorFragment_to_authorInfoFragment);

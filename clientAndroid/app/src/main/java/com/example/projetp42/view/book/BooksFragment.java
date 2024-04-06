@@ -130,7 +130,7 @@ public class BooksFragment extends Fragment implements ItemClickListener {
         // Cliker sur un lien arrive ici et id = book.id
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("id", id);
+        editor.putInt("idBook", id);
         editor.apply();
         editor.commit();
         Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_bookInfoFragment);
