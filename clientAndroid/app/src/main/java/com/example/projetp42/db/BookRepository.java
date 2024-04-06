@@ -108,6 +108,19 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(context).add(jsonArrayRequest);
     }
 
+
+    private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
+        ArrayList<Book> books = new ArrayList<>();
+        for (int i = 0; i < json.length(); i++) {
+            JSONObject bookJson = json.getJSONObject(i);
+            int id = bookJson.getInt("id");
+            String title = bookJson.getString("title");
+
+            books.add(new Book(id, title));
+        }
+        return books;
+    }
+
     public void deleteBook(Context context, int id) {
         String url = BASE_URL + "books/" + id;
 
@@ -152,6 +165,18 @@ public class BookRepository {
                 });
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
+    private Book JsonToBook(JSONObject json) throws JSONException {
+        return new Book(json.getInt("id"),
+                json.getInt("authorId"),
+                json.getJSONObject("author").getString("firstname") + " " + json.getJSONObject("author").getString("lastname"),
+                json.getInt("publication_year"),
+                json.getString("title"),
+                JsonToTags(json.getJSONArray("tags")),
+                JsonToComments(json.getJSONArray("comments")),
+                //new ArrayList<>(),
+                new ArrayList<>());
     }
 
     public void addBook(Context context, Book book, AddBookCallback callback) {
@@ -286,30 +311,6 @@ public void addComment(Context context, Comment comment) {
     }
 
 
-    private ArrayList<Book> JsonToBooks(JSONArray json) throws JSONException {
-        ArrayList<Book> books = new ArrayList<>();
-        for (int i = 0; i < json.length(); i++) {
-            JSONObject bookJson = json.getJSONObject(i);
-            int id = bookJson.getInt("id");
-            String title = bookJson.getString("title");
-
-            books.add(new Book(id, title));
-        }
-        return books;
-    }
-
-
-    private Book JsonToBook(JSONObject json) throws JSONException {
-    return new Book(json.getInt("id"),
-            json.getInt("authorId"),
-            json.getJSONObject("author").getString("firstname") + " " + json.getJSONObject("author").getString("lastname"),
-            json.getInt("publication_year"),
-            json.getString("title"),
-            JsonToTags(json.getJSONArray("tags")),
-            JsonToComments(json.getJSONArray("comments")),
-            //new ArrayList<>(),
-            new ArrayList<>());
-    }
 
     private ArrayList<Tag> JsonToTags(JSONArray json) throws JSONException {
         ArrayList<Tag> tags = new ArrayList<>();

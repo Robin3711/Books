@@ -36,12 +36,10 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
     private BooksViewModel booksViewModel;
 
     public AuthorInfoFragment() {
-        // Required empty public constructor
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //fab = getActivity().findViewById(R.id.add_book_button);
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         id = prefs.getInt("id", -1);
 
@@ -49,12 +47,15 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_author_info, container, false);
+
         firstname = root.findViewById(R.id.firstname);
         lastname = root.findViewById(R.id.lastname);
 
         authorViewModel = new ViewModelProvider(this).get(AuthorViewModel.class);
+
         AuthorRepository authorRepository = new AuthorRepository();
         authorRepository.findAuthorById(this.getContext(), authorViewModel, id);
+
         authorViewModel.getAuthor().observe(getViewLifecycleOwner(), book -> {
             try {
                 firstname.setText(authorViewModel.getAuthor().getValue().getFirstname());
@@ -63,6 +64,7 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
                 e.printStackTrace();
             }
         });
+
         // suppression
         FloatingActionButton fab = root.findViewById(R.id.info_author_delete_button);
         fab.setOnClickListener(view -> {

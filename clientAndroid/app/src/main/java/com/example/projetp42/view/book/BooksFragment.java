@@ -76,6 +76,7 @@ public class BooksFragment extends Fragment implements ItemClickListener{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         filterButton = binding.filterButton;
         titleEditText = binding.filterTitleEditText;
         authorEditText = binding.filterAuthorEditText;
@@ -95,6 +96,7 @@ public class BooksFragment extends Fragment implements ItemClickListener{
 
                 SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
+
                 editor.putString(PREF_TITLE, titleEditText.getText().toString());
                 editor.putString(PREF_AUTHOR, authorEditText.getText().toString());
                 editor.putString(PREF_TAG, tagEditText.getText().toString());

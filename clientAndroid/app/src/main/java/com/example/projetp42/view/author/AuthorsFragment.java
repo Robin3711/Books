@@ -24,7 +24,7 @@ import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 public class AuthorsFragment extends Fragment implements ItemClickListener {
 
     private FragmentAuthorsBinding binding;
-    private static final String TAG = "AuthorFragment"; // Log tag for debugging
+    private static final String TAG = "AuthorFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
@@ -50,10 +50,6 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
         try {
             authorRepository.findAuthors(this.getContext(), authorsViewModel);
             Log.d(TAG, "Authors loaded successfully.");
-            //Log.d(TAG, "Authors: " + authorsViewModel.getAuthors().getValue().get(0).getFirstname());
-            /*ArrayList<Author> authors = new ArrayList<>();
-            authors.add(new Author(1,"John","Doe",null));
-            authorsViewModel.loadAuthors(authors);*/
         } catch (Exception e) {
             Log.e(TAG, "Error loading authors: " + e.getMessage());
             e.printStackTrace();

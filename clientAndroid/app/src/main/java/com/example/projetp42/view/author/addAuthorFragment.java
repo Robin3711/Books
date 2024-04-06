@@ -23,19 +23,18 @@ public class addAuthorFragment extends Fragment {
         EditText firstname = root.findViewById(R.id.editTextAddFirstname);
         EditText lastname = root.findViewById(R.id.editTextAddLastname);
         Button addAuthor = root.findViewById(R.id.addAuthorButton);
+
         addAuthor.setOnClickListener(v -> {
             Author author = new Author(0, firstname.getText().toString(), lastname.getText().toString(), null);
             AuthorRepository authorRepository = new AuthorRepository();
             AuthorRepository.AddAuthorCallback addAuthorCallback = new AuthorRepository.AddAuthorCallback() {
                 @Override
                 public void onSuccess(int authorId) {
-                    // Handle success, for example, navigate to home fragment
                     Navigation.findNavController(root).navigate(R.id.action_addAuthorFragment_to_authorFragment);
                 }
 
                 @Override
                 public void onFailure(String errorMessage) {
-                    // Handle failure, for example, show an error message
                     System.out.println(errorMessage);
                 }
             };
