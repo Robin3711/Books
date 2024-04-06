@@ -28,4 +28,12 @@ On peut :
 
 ##### ce qui marche pas : 
 
-##### remarques et difficultées rencontrées :
+par manque de temps, on ne peut pas : 
+
+- filtrer et trier les auteurs comme on peut le faire avec les livres.
+- ajouter des tags à un livre comme on peut lui ajouter des commentaires et des évaluations. Pour compensez nous avons ajoutez la possibilité de lui choisir un seul tag à la création seulement.
+- modifier les données. il faut supprimer puis recréer un livre ou auteur si on souhaite le modifier.
+- supprimer, ou parcourir les commentaires et évaluations. on peut seulement voir les commentaires du livre selectionner, et la moyenne des évaluations de celui-ci, et non pas leurs globalitées.
+
+la gestion des erreurs n'est pas aussi dévellopée que nous aurions voulu et il faudra souvent consulter les logs et redémarrer l'application en cas d'erreur.
+
