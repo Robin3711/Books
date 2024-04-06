@@ -1,6 +1,6 @@
 import { useNavigate, useParams, NavLink } from "react-router-dom";
 import { useState, useEffect, FormEvent } from "react";
-import { get_book, update_book, get_tags, remove_tag, add_tag , get_comment, remove_comment, add_comment , get_tags_of_book} from "../api";
+import { get_book, update_book, get_tags, remove_tag, add_tag , get_comment, remove_comment, add_comment , get_tags_of_book, get_rating, add_rating, remove_rating, get_avg_rating_of_book} from "../api";
 import { EditableText } from "../utils/editableText";
 import { Pagination } from '../utils/pagination';
 
@@ -12,10 +12,12 @@ export function Book() {
     const [book, setbook] = useState<Book | null>(null);
     const [author, setAuthor] = useState<Author>();
     const [tags, setTags] = useState<Tag[]>([]);
+    const [avgRating, setAvgRating] = useState<number>();
 
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isAvgRatingLoading, setIsAvgRatingLoading] = useState(true);
 
 
     //useEffects
@@ -24,6 +26,7 @@ export function Book() {
             const id = parseInt(bookID);
             if (!isNaN(id)) {
                 loadBook(id);
+                loadAvgRating();
             }
         }
     }, [bookID]);
@@ -56,7 +59,19 @@ export function Book() {
             setErrorMessage(error.message);
         }
     }
-
+    async function loadAvgRating() {
+        try {
+            if (bookID != undefined) {
+                setIsAvgRatingLoading(true);
+                const avgRating = await get_avg_rating_of_book(parseInt(bookID));
+                setAvgRating(avgRating);
+                setIsAvgRatingLoading(false);
+            }
+        } catch (error: any) {
+            setErrorMessage(error.message);
+        }
+        
+    }
     async function updateTitle(value: string) {
         if (bookID !== undefined) {
             setIsLoading(true);
@@ -159,13 +174,15 @@ export function Book() {
         {isLoading ? <p>Chargement ...</p> : <>
             <div>
                 <h1>&nbsp;{book?.title}</h1>
-                <hr />
+                <hr/>
                 <h4>Date de publication : {book?.publication_year}</h4>
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
+                <br/><br/>
+                {isAvgRatingLoading ? <label>Note moyenne: En chargement</label> : <label>Note moyenne: {avgRating}</label>}
             </div>
+            <br/>
             <div>
                 {errorMessage !== "" && <p className="danger">{errorMessage}</p>}
-                <p>modifier le livre</p>
                 <label>Titre : </label><EditableText value={book?.title.toString() ?? ""} onUpdate={updateTitle} />
                 <br />
                 <br />
@@ -173,7 +190,19 @@ export function Book() {
             </div>
         </>}
         <BookTags />
-        <Comment bookID={bookID ?? "-1"}/>
+        <hr/>
+        <div id="container">
+            <div id="Comment">
+            <Comment bookID={bookID ?? "-1"}/>
+            </div>
+            <div id="Rating">
+            <Rating bookID={bookID ?? "-1"} loadAvgRating={loadAvgRating}/>
+            </div>
+        </div>
+        
+        <hr/>
+        
+        <hr/>
     </>
     );
 }
@@ -226,7 +255,6 @@ function Comment({bookID} : commentProps){
         loadComment(parseInt(bookID?? "-1"));
     }
     return <div>
-        <hr/>
         <h3>Commentaire</h3>
         <form onSubmit={handleAdd}>
                 <input type="text" name="text" placeholder={"text"} />
@@ -237,11 +265,83 @@ function Comment({bookID} : commentProps){
             {comments?.map((comment) => (
                 <li key={comment.id}>
                     <label>Autheur : {comment.author}</label>
-                    <p>{comment.text}</p>
                     <button className="small danger" onClick={() => handleRemove(comment.id)}>X</button>
+                    <p>{comment.text}</p>
                 </li>
             ))}
         </ul>) : (<p>Chargement...</p>)}
-        <hr/>
+        
+    </div>
+}
+interface ratingProps{
+    bookID : string
+    loadAvgRating : () => Promise<void>
+}
+function Rating({bookID, loadAvgRating} : ratingProps){
+    const [isLoading, setIsLoading] = useState(true);
+    const [ rating, setRating] = useState<BookRating[] | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const navigate = useNavigate(); // navigation
+    useEffect(() => {
+        if (bookID) {
+            const id = parseInt(bookID);
+            if (!isNaN(id)) {
+                loadRating(id);
+            }
+        }
+    }, [bookID]);
+    async function loadRating(id: number) {
+        try {
+            setIsLoading(true);
+            const ratingData = await get_rating(id);
+            setIsLoading(false);
+            setRating(ratingData);
+        } catch (error: any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+    async function handleAdd(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const rating = parseInt(form.rating.value);
+        const author = form.author.value;
+        try {
+            await add_rating(bookID ?? "", { rating, author });
+            loadRating(parseInt(bookID?? "-1"));
+            loadAvgRating();
+        }
+        catch (error: any) {
+            setErrorMessage(error.message);
+            return;
+        }
+        setErrorMessage("");
+    }
+    async function handleRemove(ratingID: number) {
+        await remove_rating(ratingID);
+        loadRating(parseInt(bookID?? "-1"));
+        loadAvgRating();
+    }
+    return <div>
+        
+        <h3>Rating</h3>
+        <form onSubmit={handleAdd}>
+                <input type="number" name="rating" placeholder={"rating"} />
+                <input type="text" name="author" placeholder={"author"} />
+                <button type="submit">Ajouter</button>
+        </form>
+        {!isLoading ? (<ul>
+            {rating?.map((rating) => (
+                <li key={rating.id}>
+                    <label>Note: {rating.rating}</label>
+                    <br/>
+                    <label>Autheur : {rating.author}</label>
+                    
+                    <button className="small danger" onClick={() => handleRemove(rating.id)}>X</button>
+                </li>
+            ))}
+        </ul>) : (<p>Chargement...</p>)}
+        
     </div>
 }

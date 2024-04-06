@@ -11,6 +11,12 @@ interface BookComment {
     author: string,
     book?: Book
 }
+interface BookRating{
+    id: number,
+    rating: number,
+    author: string,
+    book?: Book
+}
 
 interface Book {
     id: number;
@@ -50,5 +56,9 @@ interface BookUpdateData {
 }
 interface BookCommentCreationData{
     text: string,
+    author: string
+}
+interface BookRatingCreationData{
+    rating: number,
     author: string
 }

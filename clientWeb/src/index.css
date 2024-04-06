@@ -194,6 +194,20 @@ ul {
   flex-direction: column;
 }
 
+#Comment {
+  width: 50%;
+  border-right: solid 1px #333333;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+#Rating {
+  width: 50%;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
 #sidebar form {
   line-height: 2.5;
 }
