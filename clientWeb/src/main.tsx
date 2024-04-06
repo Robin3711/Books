@@ -20,7 +20,9 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          "hello"
+          <>
+            veuillez sélectionner une section ci-dessus
+          </>
         ),
       },
       {

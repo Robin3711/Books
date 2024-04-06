@@ -7,8 +7,8 @@ export default function Root() {
     <header>
       <h2><NavLink to="/">W42</NavLink></h2>
       <ul>
-        <li> <NavLink to="/authors"> Authors</NavLink> </li>
-        <li> <NavLink to="/books"> Books</NavLink> </li>
+        <li> <NavLink to="/authors"> Auteurs</NavLink> </li>
+        <li> <NavLink to="/books"> Livres</NavLink> </li>
       </ul>
     </header>
     <main>

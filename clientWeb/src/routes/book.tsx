@@ -178,7 +178,7 @@ export function Book() {
                 <h4>Date de publication : {book?.publication_year}</h4>
                 <NavLink to={"/authors/" + author?.id.toString()}>Author: {author?.firstname} {author?.lastname}</NavLink>
                 <br/><br/>
-                {isAvgRatingLoading ? <label>Note moyenne: En chargement</label> : <label>Note moyenne: {avgRating}</label>}
+                {isAvgRatingLoading ? <label>Note moyenne: En chargement</label> : <label>Note moyenne: {avgRating !== null ? avgRating : "pas encore d'évaluation"}</label>}
             </div>
             <br/>
             <div>
@@ -327,7 +327,7 @@ function Rating({bookID, loadAvgRating} : ratingProps){
         
         <h3>Rating</h3>
         <form onSubmit={handleAdd}>
-                <input type="number" name="rating" placeholder={"rating"} />
+                <input type="number" name="rating" placeholder={"rating"} min={0} max={5}/>
                 <input type="text" name="author" placeholder={"author"} />
                 <button type="submit">Ajouter</button>
         </form>
