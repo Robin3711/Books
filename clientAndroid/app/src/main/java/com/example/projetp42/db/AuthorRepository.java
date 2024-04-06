@@ -28,8 +28,13 @@ public class AuthorRepository {
 
         JsonArrayRequest request = new JsonArrayRequest(url,
                 response -> {
-                    ArrayList<Author> authors = jsonToAuthors(response);
-                    authorsViewModel.loadAuthors(authors);
+                    try {
+                        ArrayList<Author> authors = jsonToAuthors(response);
+                        authorsViewModel.loadAuthors(authors);
+                    }
+                    catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 },
                 error -> {
                     ArrayList<Author> authors = new ArrayList<Author>();
@@ -43,14 +48,15 @@ public class AuthorRepository {
         ArrayList<Author> authors = new ArrayList<>();
         try {
             for (int i = 0; i < json.length(); i++) {
-                Author author = new Author(0, null, null, null);
-                author.setId(json.getJSONObject(i).getInt("id"));
-                author.setFirstname(json.getJSONObject(i).getString("firstname"));
-                author.setLastname(json.getJSONObject(i).getString("lastname"));
+                Author author = new Author(
+                        json.getJSONObject(i).getInt("id"),
+                        json.getJSONObject(i).getString("firstname"),
+                        json.getJSONObject(i).getString("lastname"),
+                        null);
                 authors.add(author);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return authors;
     }
@@ -67,7 +73,7 @@ public class AuthorRepository {
                     }
                 },
                 error -> {
-                    Author author = new Author(-1, error.getMessage(), "Error");
+                    Author author = new Author(-1, "Error", error.getMessage());
                     authorViewModel.loadAuthor(author);
                 });
 

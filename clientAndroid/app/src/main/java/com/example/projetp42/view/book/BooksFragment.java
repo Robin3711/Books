@@ -39,7 +39,6 @@ public class BooksFragment extends Fragment implements ItemClickListener {
     private EditText authorEditText;
     private EditText tagEditText;
     private Button filterButton;
-
     private Spinner orderSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {

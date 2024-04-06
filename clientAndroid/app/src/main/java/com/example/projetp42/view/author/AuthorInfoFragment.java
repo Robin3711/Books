@@ -25,6 +25,7 @@ import com.example.projetp42.view.book.BookAdapter;
 import com.example.projetp42.view.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AuthorInfoFragment extends Fragment implements ItemClickListener {
@@ -109,6 +110,8 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
         editor.putInt("idBook", id);
         editor.apply();
         editor.commit();
-        Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_bookInfoFragment);
+        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.nav_view);
+        bottomNavigationView.setSelectedItemId(R.id.fragment_books);
+        Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_bookInfoFragment);
     }
 }

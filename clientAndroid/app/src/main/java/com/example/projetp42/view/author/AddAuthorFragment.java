@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.projetp42.R;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.model.Author;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AddAuthorFragment extends Fragment {
     @Override
@@ -30,15 +32,15 @@ public class AddAuthorFragment extends Fragment {
             AuthorRepository.AddAuthorCallback addAuthorCallback = new AuthorRepository.AddAuthorCallback() {
                 @Override
                 public void onSuccess(int authorId) {
+                    Toast.makeText(getContext(), "Author added successfully", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.action_addAuthorFragment_to_authorFragment);
                 }
 
                 @Override
                 public void onFailure(String errorMessage) {
-                    System.out.println(errorMessage);
+                    Toast.makeText(getContext(), "try again pls", Toast.LENGTH_LONG).show();
                 }
             };
-
             authorRepository.addAuthor(getContext(), author, addAuthorCallback);
         });
 

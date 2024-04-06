@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,10 +25,8 @@ import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 public class AuthorsFragment extends Fragment implements ItemClickListener {
 
     private FragmentAuthorsBinding binding;
-    private static final String TAG = "AuthorFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
         binding = FragmentAuthorsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -41,7 +40,6 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
                 recyclerView.setAdapter(authorAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-                Log.d(TAG, "author != null.");
             }
         });
 
@@ -49,13 +47,10 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
 
         try {
             authorRepository.findAuthors(this.getContext(), authorsViewModel);
-            Log.d(TAG, "Authors loaded successfully.");
         } catch (Exception e) {
-            Log.e(TAG, "Error loading authors: " + e.getMessage());
+            Toast.makeText(this.getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-
-        // fab
 
         binding.fabAddAuthor.setOnClickListener(new View.OnClickListener() {
             @Override

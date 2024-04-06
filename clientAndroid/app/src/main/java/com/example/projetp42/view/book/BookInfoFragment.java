@@ -22,6 +22,7 @@ import com.example.projetp42.R;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.viewmodel.RatingViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -157,7 +158,9 @@ public class BookInfoFragment extends Fragment {
                 editor.putInt("idAuthor", authorID);
                 editor.apply();
                 editor.commit();
-                Navigation.findNavController(v).navigate(R.id.action_bookInfoFragment_to_authorInfoFragment);
+                BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.nav_view);
+                bottomNavigationView.setSelectedItemId(R.id.authorFragment);
+                Navigation.findNavController(v).navigate(R.id.action_authorFragment_to_authorInfoFragment);
             }
         });
 

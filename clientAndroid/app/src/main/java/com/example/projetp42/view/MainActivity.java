@@ -1,10 +1,14 @@
 package com.example.projetp42.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.projetp42.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        navView.setOnItemSelectedListener(
+                item -> {
+                    int itemId = item.getItemId();
+                    if (itemId == R.id.authorFragment) {
+                        navController.navigate(R.id.authorFragment);
+                        return true;
+                    } else if (itemId == R.id.fragment_books) {
+                        navController.navigate(R.id.fragment_books);
+                        return true;
+                    }
+                    return false;
+                }
+        );
     }
     @Override
     public boolean onSupportNavigateUp(){
