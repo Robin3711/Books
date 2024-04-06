@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentAuthorsBinding;
 import com.example.projetp42.db.AuthorRepository;
-import com.example.projetp42.view.book.ItemClickListener;
+import com.example.projetp42.view.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorsViewModel;
 
 public class AuthorsFragment extends Fragment implements ItemClickListener {
@@ -77,7 +77,7 @@ public class AuthorsFragment extends Fragment implements ItemClickListener {
     public void onClick(View view, int id) {
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("id", id);
+        editor.putInt("idAuthor", id);
         editor.apply();
         editor.commit();
         Navigation.findNavController(view).navigate(R.id.action_authorFragment_to_authorInfoFragment);

@@ -17,10 +17,9 @@ import android.widget.Toast;
 
 import com.example.projetp42.R;
 import com.example.projetp42.db.BookRepository;
-import com.example.projetp42.model.Comment;
 import com.example.projetp42.model.Rating;
 
-public class addRatingFragment extends Fragment {
+public class AddRatingFragment extends Fragment {
 
 
     int bookId;

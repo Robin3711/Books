@@ -46,7 +46,7 @@ public class BookInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        id = prefs.getInt("id", -1);
+        id = prefs.getInt("idBook", -1);
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
@@ -154,7 +154,7 @@ public class BookInfoFragment extends Fragment {
                 Integer authorID = (Integer) author.getTag();
                 SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("id", authorID);
+                editor.putInt("idAuthor", authorID);
                 editor.apply();
                 editor.commit();
                 Navigation.findNavController(v).navigate(R.id.action_bookInfoFragment_to_authorInfoFragment);

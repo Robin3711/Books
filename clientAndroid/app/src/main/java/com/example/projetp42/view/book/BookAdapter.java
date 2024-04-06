@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetp42.R;
 import com.example.projetp42.model.Book;
+import com.example.projetp42.view.ItemClickListener;
 
 import java.util.List;
 
-public class BookAdapter extends RecyclerView.Adapter<bookViewHolder>{
+public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
 
     public List<Book> books;
     private ItemClickListener clickListener;
@@ -21,15 +22,15 @@ public class BookAdapter extends RecyclerView.Adapter<bookViewHolder>{
     }
     @NonNull
     @Override
-    public bookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.book_view_holder, parent, false);
 
-        return new bookViewHolder(view,clickListener);
+        return new BookViewHolder(view,clickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull bookViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         String title = "Error";
         Integer id = -1;
         try {

@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/addAuthorFragment"
-        android:name="com.example.projetp42.view.author.addAuthorFragment"
+        android:name="com.example.projetp42.view.author.AddAuthorFragment"
         android:label="fragment_add_author"
         tools:layout="@layout/fragment_add_author" >
         <action
@@ -85,12 +85,12 @@
     </fragment>
     <fragment
         android:id="@+id/addCommentFragment"
-        android:name="com.example.projetp42.view.book.addCommentFragment"
+        android:name="com.example.projetp42.view.book.AddCommentFragment"
         android:label="fragment_add_comment"
         tools:layout="@layout/fragment_add_comment" />
     <fragment
         android:id="@+id/addRatingFragment"
-        android:name="com.example.projetp42.view.book.addRatingFragment"
+        android:name="com.example.projetp42.view.book.AddRatingFragment"
         android:label="fragment_add_rating"
         tools:layout="@layout/fragment_add_rating" />
 </navigation>

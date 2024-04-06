@@ -1,4 +1,4 @@
-package com.example.projetp42.view.book;
+package com.example.projetp42.view;
 
 import android.view.View;
 

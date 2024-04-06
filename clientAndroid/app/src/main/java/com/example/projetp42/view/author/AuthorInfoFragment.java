@@ -22,9 +22,8 @@ import com.example.projetp42.R;
 import com.example.projetp42.db.AuthorRepository;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.view.book.BookAdapter;
-import com.example.projetp42.view.book.ItemClickListener;
+import com.example.projetp42.view.ItemClickListener;
 import com.example.projetp42.viewmodel.author.AuthorViewModel;
-import com.example.projetp42.viewmodel.book.BookViewModel;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,7 +40,7 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        id = prefs.getInt("id", -1);
+        id = prefs.getInt("idAuthor", -1);
 
     }
     @SuppressLint("SetTextI18n")
@@ -107,7 +106,7 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
         // Cliker sur un lien arrive ici et id = book.id
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("id", id);
+        editor.putInt("idBook", id);
         editor.apply();
         editor.commit();
         Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_bookInfoFragment);

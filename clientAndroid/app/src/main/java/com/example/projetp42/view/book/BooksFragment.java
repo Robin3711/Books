@@ -22,17 +22,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projetp42.R;
 import com.example.projetp42.databinding.FragmentBooksBinding;
 import com.example.projetp42.db.BookRepository;
+import com.example.projetp42.view.ItemClickListener;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 
-public class BooksFragment extends Fragment implements ItemClickListener{
+public class BooksFragment extends Fragment implements ItemClickListener {
 
     private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
 
-    private static final String PREF_TITLE = "title";
-    private static final String PREF_AUTHOR = "author";
-    private static final String PREF_TAG = "tag";
-    private static final String PREF_ORDER = "order";
+    private static final String prefTitle = "title";
+    private static final String prefAuthor = "author";
+    private static final String prefTag = "tag";
+    private static final String prefOrder = "order";
 
     private EditText titleEditText;
     private EditText authorEditText;
@@ -50,10 +51,10 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         RecyclerView recyclerView = root.findViewById(R.id.LivresRecyclerView);
 
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String savedTitle = prefs.getString(PREF_TITLE, null);
-        String savedAuthor = prefs.getString(PREF_AUTHOR, null);
-        String savedTag = prefs.getString(PREF_TAG, null);
-        String savedOrder = prefs.getString(PREF_ORDER, "publication_year");
+        String savedTitle = prefs.getString(prefTitle, null);
+        String savedAuthor = prefs.getString(prefAuthor, null);
+        String savedTag = prefs.getString(prefTag, null);
+        String savedOrder = prefs.getString(prefOrder, "publication_year");
 
         try {
             BookRepository.BookData bookData = new BookRepository.BookData(savedTitle,savedAuthor,savedTag);
@@ -83,9 +84,9 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         tagEditText = binding.filterTagEditText;
         orderSpinner = binding.orderSpinner;
 
-        titleEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(PREF_TITLE, ""));
-        authorEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(PREF_AUTHOR, ""));
-        tagEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(PREF_TAG, ""));
+        titleEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(prefTitle, ""));
+        authorEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(prefAuthor, ""));
+        tagEditText.setText(getActivity().getPreferences(Context.MODE_PRIVATE).getString(prefTag, ""));
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.order_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -97,10 +98,10 @@ public class BooksFragment extends Fragment implements ItemClickListener{
                 SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
 
-                editor.putString(PREF_TITLE, titleEditText.getText().toString());
-                editor.putString(PREF_AUTHOR, authorEditText.getText().toString());
-                editor.putString(PREF_TAG, tagEditText.getText().toString());
-                editor.putString(PREF_ORDER, orderSpinner.getSelectedItem().toString());
+                editor.putString(prefTitle, titleEditText.getText().toString());
+                editor.putString(prefAuthor, authorEditText.getText().toString());
+                editor.putString(prefTag, tagEditText.getText().toString());
+                editor.putString(prefOrder, orderSpinner.getSelectedItem().toString());
                 editor.apply();
 
                 BookRepository.BookData bookData = new BookRepository.BookData(titleEditText.getText().toString(),authorEditText.getText().toString(),tagEditText.getText().toString());
@@ -129,7 +130,7 @@ public class BooksFragment extends Fragment implements ItemClickListener{
         // Cliker sur un lien arrive ici et id = book.id
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("id", id);
+        editor.putInt("idBook", id);
         editor.apply();
         editor.commit();
         Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_bookInfoFragment);
