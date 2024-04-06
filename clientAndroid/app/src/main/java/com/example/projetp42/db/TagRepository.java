@@ -15,7 +15,8 @@ import java.util.ArrayList;
 
 public class TagRepository {
 
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    //private static final String BASE_URL = "http://10.0.2.2:3000/";
+    private static final String BASE_URL = "http://192.168.1.53:3000/";
 
     public void getAllTags(Context context, TagsViewModel tagsViewModel) {
         String url = BASE_URL + "tags";

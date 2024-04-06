@@ -26,7 +26,8 @@ import java.util.Date;
 
 public class BookRepository {
 
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    //private static final String BASE_URL = "http://10.0.2.2:3000/";
+    private static final String BASE_URL = "http://192.168.1.53:3000/";
 
     public BookRepository() {
 
