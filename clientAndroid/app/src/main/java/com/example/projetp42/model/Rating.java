@@ -4,11 +4,11 @@ public class Rating {
     public int id;
     public int value;
     public String author;
-    public Book book;
-    public Rating(int id, int value, String author, Book book){
+    public int bookId;
+    public Rating(int id, int value, String author, int bookId){
         this.id = id;
         this.value = value;
         this.author = author;
-        this.book = book;
+        this.bookId = bookId;
     }
 }

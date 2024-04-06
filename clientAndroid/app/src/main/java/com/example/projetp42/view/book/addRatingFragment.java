@@ -18,8 +18,9 @@ import android.widget.Toast;
 import com.example.projetp42.R;
 import com.example.projetp42.db.BookRepository;
 import com.example.projetp42.model.Comment;
+import com.example.projetp42.model.Rating;
 
-public class addCommentFragment extends Fragment {
+public class addRatingFragment extends Fragment {
 
 
     int bookId;
@@ -39,17 +40,17 @@ public class addCommentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_add_comment, container, false);
+        View root = inflater.inflate(R.layout.fragment_add_rating, container, false);
 
-        EditText comment = root.findViewById(R.id.comment_text);
-        EditText author = root.findViewById(R.id.comment_author);
-        Button submit = root.findViewById(R.id.comment_button);
+        EditText comment = root.findViewById(R.id.rating_value);
+        EditText author = root.findViewById(R.id.rating_author);
+        Button submit = root.findViewById(R.id.rating_button);
 
         submit.setOnClickListener(v -> {
             BookRepository bookRepository = new BookRepository();
-            Comment newComment = new Comment(0,author.getText().toString(), bookId, comment.getText().toString(), null, null);
-            bookRepository.addComment(this.getContext(), newComment);
-            Toast.makeText(getContext(), "Comment added", Toast.LENGTH_SHORT).show();
+            Rating newRating = new Rating(0, Integer.parseInt(comment.getText().toString()), author.getText().toString(), bookId);
+            bookRepository.addRating(this.getContext(), newRating);
+            Toast.makeText(getContext(), "Rating added", Toast.LENGTH_SHORT).show();
             NavController navController = Navigation.findNavController(v);
             navController.popBackStack();
         });

@@ -24,6 +24,7 @@
     <string name="votre_commentaire">votre commentaire...</string>
     <string name="votre_nom">votre nom</string>
     <string name="poster">commenter</string>
+    <string name="votre_note">votre note\n</string>
 
     <string-array name="order_array">
         <item>title</item>

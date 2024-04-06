@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.projetp42.model.Book;
 import com.example.projetp42.model.Comment;
+import com.example.projetp42.model.Rating;
 import com.example.projetp42.viewmodel.RatingViewModel;
 import com.example.projetp42.viewmodel.book.BooksViewModel;
 import com.example.projetp42.viewmodel.book.BookViewModel;
@@ -225,6 +226,29 @@ public void addComment(Context context, Comment comment) {
                 },
                 error -> {
                     Log.d("COMMENT", "Error adding comment: " + error.getMessage());
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
+    public void addRating(Context context, Rating rating) {
+        String url = BASE_URL + "books/" + rating.bookId + "/ratings";
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("rating", rating.value);
+            json.put("author", rating.author);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json,
+                response -> {
+                    Log.d("RATING", "Rating added");
+                },
+                error -> {
+                    Log.d("RATING", "Error adding rating: " + error.getMessage());
                 });
 
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);

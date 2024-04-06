@@ -131,10 +131,21 @@ public class BookInfoFragment extends Fragment {
         fabComment.setOnClickListener(view -> {
             SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("BookIdForComment", id);
+            editor.putInt("BookId", id);
             editor.apply();
             editor.commit();
             Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_addCommentFragment);
+        });
+
+        FloatingActionButton fabRating = root.findViewById(R.id.info_book_post_rating_button);
+        fabRating.setImageDrawable(getResources().getDrawable(android.R.drawable.alert_dark_frame));
+        fabRating.setOnClickListener(view -> {
+            SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("BookId", id);
+            editor.apply();
+            editor.commit();
+            Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_addRatingFragment);
         });
 
         author.setOnClickListener(new View.OnClickListener() {

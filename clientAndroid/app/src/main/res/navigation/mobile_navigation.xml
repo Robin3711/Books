@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_bookInfoFragment_to_addCommentFragment"
             app:destination="@id/addCommentFragment" />
+        <action
+            android:id="@+id/action_bookInfoFragment_to_addRatingFragment"
+            app:destination="@id/addRatingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addBookFragment"
@@ -85,4 +88,9 @@
         android:name="com.example.projetp42.view.book.addCommentFragment"
         android:label="fragment_add_comment"
         tools:layout="@layout/fragment_add_comment" />
+    <fragment
+        android:id="@+id/addRatingFragment"
+        android:name="com.example.projetp42.view.book.addRatingFragment"
+        android:label="fragment_add_rating"
+        tools:layout="@layout/fragment_add_rating" />
 </navigation>
