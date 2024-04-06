@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class BookRepository {
 
     private static final String baseUrl = "http://10.0.2.2:3000/";
+    //private static final String baseUrl = "http://192.168.1.53:3000/";
 
     public BookRepository() {
 
