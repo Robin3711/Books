@@ -7,7 +7,7 @@
     <string name="title_Auteurs">Auteurs</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title" >titre</string>
+    <string name="title">titre</string>
     <string name="author">id de l\'auteur</string>
     <string name="ajouter_un_livre">ajouter un livre</string>
     <string name="titre">titre</string>
@@ -21,6 +21,9 @@
     <string name="BoutonAjout">Ajouter</string>
     <string name="livre_1_auteur">Livres de cette auteur:</string>
     <string name="livre_de_cet_auteur">livre de cet auteur</string>
+    <string name="votre_commentaire">votre commentaire...</string>
+    <string name="votre_nom">votre nom</string>
+    <string name="poster">commenter</string>
 
     <string-array name="order_array">
         <item>title</item>

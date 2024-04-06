@@ -49,7 +49,7 @@ public class BookInfoFragment extends Fragment {
         id = prefs.getInt("id", -1);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_book_info, container, false);
@@ -124,6 +124,17 @@ public class BookInfoFragment extends Fragment {
         fab.setOnClickListener(view -> {
             bookRepository.deleteBook(this.getContext(), id);
             Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_fragment_books);
+        });
+
+        FloatingActionButton fabComment = root.findViewById(R.id.info_book_post_comment_button);
+        fabComment.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_btn_speak_now));
+        fabComment.setOnClickListener(view -> {
+            SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("BookIdForComment", id);
+            editor.apply();
+            editor.commit();
+            Navigation.findNavController(view).navigate(R.id.action_bookInfoFragment_to_addCommentFragment);
         });
 
         author.setOnClickListener(new View.OnClickListener() {

@@ -207,6 +207,29 @@ public class BookRepository {
         VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
     }
 
+public void addComment(Context context, Comment comment) {
+        String url = BASE_URL + "books/" + comment.bookId + "/comments";
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("text", comment.content);
+            json.put("author", comment.author);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json,
+                response -> {
+                    Log.d("COMMENT", "Comment added");
+                },
+                error -> {
+                    Log.d("COMMENT", "Error adding comment: " + error.getMessage());
+                });
+
+        VolleyRequestQueue.getInstance(context).add(jsonObjectRequest);
+    }
+
 
     public interface AddBookCallback {
         void onSuccess(int bookId);
