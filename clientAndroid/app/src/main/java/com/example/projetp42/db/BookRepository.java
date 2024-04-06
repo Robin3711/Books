@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -266,13 +267,19 @@ public void addComment(Context context, Comment comment) {
         StringRequest jsonObjectRequest = new StringRequest(url,
                 response -> {
                     try {
-                        ratingViewModel.loadRating(Integer.parseInt(response));
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        Float rating = Float.parseFloat(response);
+                        if (rating == -1.0f) {
+                            ratingViewModel.loadRating(-1.0f);
+                        } else {
+                            ratingViewModel.loadRating(Float.parseFloat(df.format(rating)));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 },
                 error -> {
-                    ratingViewModel.loadRating(-1);
+                    ratingViewModel.loadRating(-1.0f);
                 });
 
         VolleyRequestQueue.getInstance(null).add(jsonObjectRequest);

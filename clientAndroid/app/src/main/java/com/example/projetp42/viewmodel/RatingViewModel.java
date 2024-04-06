@@ -7,18 +7,18 @@ import androidx.lifecycle.MutableLiveData;
 
 public class RatingViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<Integer> rating;
+    private final MutableLiveData<Float> rating;
 
     public RatingViewModel(Application context) {
         super(context);
         rating = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Integer> getRating() {
+    public MutableLiveData<Float> getRating() {
         return rating;
     }
 
-    public void loadRating(int rating) {
+    public void loadRating(Float rating) {
         this.rating.setValue(rating);
     }
 }
