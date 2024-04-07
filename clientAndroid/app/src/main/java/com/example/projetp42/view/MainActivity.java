@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        navView.setOnItemSelectedListener(
+        /*navView.setOnItemSelectedListener(
                 item -> {
                     int itemId = item.getItemId();
                     if (itemId == R.id.authorFragment) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return false;
                 }
-        );
+        );*/
     }
     @Override
     public boolean onSupportNavigateUp(){

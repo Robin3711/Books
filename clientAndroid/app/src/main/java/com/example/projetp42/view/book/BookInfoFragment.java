@@ -158,9 +158,11 @@ public class BookInfoFragment extends Fragment {
                 editor.putInt("idAuthor", authorID);
                 editor.apply();
                 editor.commit();
-                BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.nav_view);
+               /* BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.nav_view);
                 bottomNavigationView.setSelectedItemId(R.id.authorFragment);
-                Navigation.findNavController(v).navigate(R.id.action_authorFragment_to_authorInfoFragment);
+                Navigation.findNavController(v).navigate(R.id.action_authorFragment_to_authorInfoFragment);*/
+
+                Navigation.findNavController(v).navigate(R.id.action_bookInfoFragment_to_authorInfoFragment);
             }
         });
 

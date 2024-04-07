@@ -110,8 +110,9 @@ public class AuthorInfoFragment extends Fragment implements ItemClickListener {
         editor.putInt("idBook", id);
         editor.apply();
         editor.commit();
-        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.nav_view);
+      /*  BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setSelectedItemId(R.id.fragment_books);
-        Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_bookInfoFragment);
+        Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_bookInfoFragment);*/
+        Navigation.findNavController(view).navigate(R.id.action_authorInfoFragment_to_bookInfoFragment);
     }
 }
